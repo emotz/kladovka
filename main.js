@@ -110,20 +110,17 @@ function getLoot() {
     }
     return loot;
 }
-var loot = getLoot();
-console.log(loot);
+//var loot = getLoot();
+//console.log(loot);
 
 /**
  * Укладывает предмет в кладовку под указанным идентификатором.
  * @param {String} id - Идентификатор предмета
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {String|false} Возвращает идентификатор предмета уложенного в кладовку
- * или 'false' если если предмет под таким идентификатором уже есть в кладовке
  */
 function placeInKladovka(id, item) {
-    if(db_get_entity_by_id(kladovka, id)===undefined) 
-        return db_add_entity_by_id(kladovka, id, item);
-    return false;
+    return db_add_entity_by_id(kladovka, id, item);
 }
 
 
@@ -134,7 +131,7 @@ function placeInKladovka(id, item) {
  */
 function getFromKladovka(id) {
     var item = db_get_entity_by_id(kladovka, id);
-    if(item.delete || item===undefined)
+    if(item.delete)
         return undefined;
     else 
         return item;
@@ -144,13 +141,37 @@ function getFromKladovka(id) {
 /**
  * Удаляет предмет из кладовки под указанным идентификатором.
  * @param {String} id - Идентификатор предмета для удаления
- * @returns {String|undefined} Возвращает идентификатор удаленного предмета 
- * или 'undefined' если предмета под таким идентификатором не было в кладовке
+ * @returns {String} Возвращает идентификатор удаленного предмета 
  */
 function deleteFromKladovka(id){
     var item=db_get_entity_by_id(kladovka, id);
-    if(item === undefined)
-        return undefined;
     item.delete=true;
     return db_add_entity_by_id(kladovka, id, item);
 }
+
+///////////////////////////////////////////TESTs////////////////////////////////////////////////////////
+function assert(bool){
+    if(bool===true) console.log("Passed");
+    else console.log("Failed");
+}
+function unitTest1(){
+    var item={id:33, dps:100};
+    var newid=placeInKladovka(item.id, item);
+    assert(item.id==newid);
+}
+function unitTest2(){
+    var item={id:33, dps:100};
+    placeInKladovka(item.id, item);
+    var newItem = getFromKladovka(item.id);
+    assert(item.id===newItem.id);
+    assert(item.dps===newItem.dps);
+}
+function unitTest3(){
+    var item={id:33, dps:100};
+    placeInKladovka(item.id, item);
+    assert(getFromKladovka(item.id)===undefined);
+}
+//unitTest1();
+//unitTest2();
+unitTest3();
+

@@ -146,13 +146,15 @@ function deleteFromKladovka(id){
  * Сравнивает 2 предмета
  * @param {Item} item1 - Перваый прудмет
  * @param {Item} item2 - Второй предмет
- * @returns {Item} Возвращает лучший предмет
+ * @returns {Item|undefined} Возвращает лучший предмет или 'undefined' если они равны
  */
 function compareItems(item1, item2){
-    if(item1.score>=item2.score)
+    if(item1.score>item2.score)
         return item1;
     else if(item1.score<item2.score)
         return item2;
+    else
+        return undefined;
 }
 
 ///////////////////////////////////////////TESTs////////////////////////////////////////////////////////
@@ -161,11 +163,13 @@ function assert(bool){
     else console.log("Failed");
 }
 function unitTest1(){
+    //Тестируем что предмет сохраняется в кладовке под нужным id
     var item={id:33, dps:100};
     var newid=placeInKladovka(item.id, item);
     assert(item.id==newid);
 }
 function unitTest2(){
+    //Тестируем изъятие предмета из кладовки
     var item={id:33, dps:100};
     placeInKladovka(item.id, item);
     var newItem = getFromKladovka(item.id);
@@ -173,18 +177,30 @@ function unitTest2(){
     assert(item.dps===newItem.dps);
 }
 function unitTest3(){
+    //Тест на удаление предмета из кладовки
     var item={id:33, dps:100};
     placeInKladovka(item.id, item);
+    deleteFromKladovka(item.id);
     assert(getFromKladovka(item.id)===undefined);
 }
 function unitTest4(){
+    //Тест на сравнение предметов
     var item1={id:2, dps:100, score:300};
     var item2={id:1, dps:100, score:400};
     var bestItem=compareItems(item1, item2);
     assert(bestItem===item2);
 }
+function unitTest5(){
+    //Тест на сравнение равных предметов
+    var item1={id:2, dps:100, score:300};
+    var item2={id:1, dps:100, score:300};
+    var bestItem=compareItems(item1, item2);
+    assert(bestItem===undefined);
+}
+
 //unitTest1();
 //unitTest2();
 //unitTest3();
-unitTest4();
+//unitTest4();
+//unitTest5();
 

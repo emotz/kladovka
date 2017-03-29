@@ -81,37 +81,30 @@ var kladovka = db_initialize();
 var type = ['меч', 'топор', 'булава', 'нагрудник', 'штаны', 'обувь'];
 var itemQuality = ['Плохое', 'Обычное', 'Необычное', 'Редкое', 'Эпическое', 'Легендарное'];
 
-function getArmor() {
-    return 'тряпка';
-}
-function getWeapon(idxType, id) {
+
+function getWeapon(id) {
     var item = {};
     item.id = id;
-    item.type = type[idxType];
+    item.type = type[myRandom(0,2)];
     item.dps = myRandom(50, 1e3);
-    if (item.dps > 100 && item.dps <= 300) item.quality = 1;
-    else if (item.dps > 300 && item.dps <= 600) item.quality = 2;
-    else if (item.dps > 600 && item.dps <= 800) item.quality = 3;
-    else if (item.dps > 800 && item.dps <= 950) item.quality = 4;
-    else if (item.dps>950 && item.dps <= 1000) item.quality = 5;
-    else item.quality = 0;
-
+    if(item.dps<500)
+        item.quality = myRandom(0, 2);
+    else
+        item.quality = myRandom(3, 5);
+    item.score= item.dps+(item.quality*1e3);
+    item.quality=itemQuality[item.quality];
     return item;
 }
 
 function getLoot() {
     var loot = [];
     for (var i = 0; i < 100; i++) {
-        ixType = myRandom(0, 5);
-        if (ixType < 3)
-            loot.push(getWeapon(ixType, i));
-        else
-            loot.push(getArmor());
+       loot.push(getWeapon(i));
     }
     return loot;
 }
-//var loot = getLoot();
-//console.log(loot);
+var loot = getLoot();
+console.log(loot);
 
 /**
  * Укладывает предмет в кладовку под указанным идентификатором.
@@ -149,6 +142,19 @@ function deleteFromKladovka(id){
     return db_add_entity_by_id(kladovka, id, item);
 }
 
+/**
+ * Сравнивает 2 предмета
+ * @param {Item} item1 - Перваый прудмет
+ * @param {Item} item2 - Второй предмет
+ * @returns {Item} Возвращает лучший предмет
+ */
+function compareItems(item1, item2){
+    if(item1.score>=item2.score)
+        return item1;
+    else if(item1.score<item2.score)
+        return item2;
+}
+
 ///////////////////////////////////////////TESTs////////////////////////////////////////////////////////
 function assert(bool){
     if(bool===true) console.log("Passed");
@@ -171,7 +177,14 @@ function unitTest3(){
     placeInKladovka(item.id, item);
     assert(getFromKladovka(item.id)===undefined);
 }
+function unitTest4(){
+    var item1={id:2, dps:100, score:300};
+    var item2={id:1, dps:100, score:400};
+    var bestItem=compareItems(item1, item2);
+    assert(bestItem===item2);
+}
 //unitTest1();
 //unitTest2();
-unitTest3();
+//unitTest3();
+unitTest4();
 

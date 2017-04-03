@@ -37,3 +37,4 @@ it('сравнивает 2 одинаковых предмета', function () {
     assert(bestItem === undefined);
 });
 it('ololo', function(){});
+it('hui', function(){});

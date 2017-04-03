@@ -36,3 +36,4 @@ it('сравнивает 2 одинаковых предмета', function () {
     var bestItem = klad.compareItems(item1, item2);
     assert(bestItem === undefined);
 });
+it('test', function(){});

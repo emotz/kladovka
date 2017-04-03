@@ -10,7 +10,7 @@ function myRandom(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-var kladovka = db.initialize();
+var kladovka = db.db_initialize();
 
 var type = ['меч', 'топор', 'булава', 'нагрудник', 'штаны', 'обувь'];
 var itemQuality = ['Плохое', 'Обычное', 'Необычное', 'Редкое', 'Эпическое', 'Легендарное'];
@@ -47,7 +47,7 @@ var loot = getLoot();
  * @returns {String|false} Возвращает идентификатор предмета уложенного в кладовку
  */
 function placeInKladovka(id, item) {
-    return db.add_entity_by_id(kladovka, id, item);
+    return db.db_add_entity_by_id(kladovka, id, item);
 }
 
 
@@ -57,7 +57,7 @@ function placeInKladovka(id, item) {
  * @returns {Item|undefined} Возвращает предмет или 'undefined' если такого предмета нет в кладовке
  */
 function getFromKladovka(id) {
-    var item = db.get_entity_by_id(kladovka, id);
+    var item = db.db_get_entity_by_id(kladovka, id);
     if(item.delete)
         return undefined;
     else 
@@ -71,9 +71,9 @@ function getFromKladovka(id) {
  * @returns {String} Возвращает идентификатор удаленного предмета 
  */
 function deleteFromKladovka(id){
-    var item=db.get_entity_by_id(kladovka, id);
+    var item=db.db_get_entity_by_id(kladovka, id);
     item.delete=true;
-    return db.add_entity_by_id(kladovka, id, item);
+    return db.db_add_entity_by_id(kladovka, id, item);
 }
 
 /**
@@ -90,7 +90,10 @@ function compareItems(item1, item2){
     else
         return undefined;
 }
-exports.kladovka=kladovka;
-exports.getFromKladovka=getFromKladovka;
-exports.placeInKladovka=placeInKladovka;
-exports.deleteFromKladovka=deleteFromKladovka;
+module.exports={
+    kladovka,
+    getFromKladovka,
+    placeInKladovka,
+    deleteFromKladovka,
+    compareItems,
+};

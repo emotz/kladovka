@@ -7,16 +7,16 @@
 'use strict';
 // Генератор рандомных ID
 function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
 }
 function clone(obj) {
-  return JSON.parse(JSON.stringify(obj));
+    return JSON.parse(JSON.stringify(obj));
 }
 //////////////////////////////////////////////////
 
@@ -39,9 +39,9 @@ function db_initialize() {
  * @returns {String} Идентификатор только что добавленного объекта
  */
 function db_add_entity(db, entity) {
-     let id = guid();
-     db[id] = clone(entity);
-     return id;
+    let id = guid();
+    db[id] = clone(entity);
+    return id;
 }
 
 /**
@@ -70,7 +70,9 @@ function db_get_entity_by_id(db, id) {
     return clone(res);
 }
 
-exports.initialize = db_initialize;
-exports.add_entity = db_add_entity;
-exports.add_entity_by_id = db_add_entity_by_id;
-exports.get_entity_by_id = db_get_entity_by_id;
+module.exports = {
+    db_initialize,
+    db_add_entity,
+    db_add_entity_by_id,
+    db_get_entity_by_id,
+}

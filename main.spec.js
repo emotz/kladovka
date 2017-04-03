@@ -42,6 +42,6 @@ function unitTest5(){
 
 //unitTest1();
 //unitTest2();
-//unitTest3();
+unitTest3();
 //unitTest4();
 //unitTest5();

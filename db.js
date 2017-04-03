@@ -71,8 +71,8 @@ function db_get_entity_by_id(db, id) {
 }
 
 module.exports = {
-    db_initialize,
-    db_add_entity,
-    db_add_entity_by_id,
-    db_get_entity_by_id,
-}
+    initialize:db_initialize,
+    add_entity:db_add_entity,
+    add_entity_by_id:db_add_entity_by_id,
+    get_entity_by_id:db_get_entity_by_id,
+};

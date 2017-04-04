@@ -11,6 +11,7 @@ function myRandom(min, max) {
 }
 
 var kladovka = db.initialize();
+var count=0;
 
 var type = ['меч', 'топор', 'булава', 'нагрудник', 'штаны', 'обувь'];
 var itemQuality = ['Плохое', 'Обычное', 'Необычное', 'Редкое', 'Эпическое', 'Легендарное'];
@@ -37,7 +38,7 @@ function pickUpWeapon() {
  * @returns {String|false} Возвращает идентификатор предмета уложенного в кладовку
  */
 function placeInKladovka(item) {
-    return db.add_entity(kladovka, item);
+    return db.add_entity_by_id(kladovka, ++count, item);
 }
 
 

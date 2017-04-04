@@ -1,35 +1,6 @@
 const db=require('./db.js');
-/**
- * Создает случайное число в указанном диапазоне
- * @param {Number} min - Минимальное значение
- * @param {Number} max - Максимальное значение
- * @returns {Number} Случайное число
- */
-function myRandom(min, max) {
-    max++;
-    return Math.floor(Math.random() * (max - min) + min);
-}
-
 var kladovka = db.initialize();
 var count=0;
-
-var type = ['меч', 'топор', 'булава', 'нагрудник', 'штаны', 'обувь'];
-var itemQuality = ['Плохое', 'Обычное', 'Необычное', 'Редкое', 'Эпическое', 'Легендарное'];
-
-
-function pickUpWeapon() {
-    var item = {};
-    item.type = type[myRandom(0,2)];
-    item.dps = myRandom(50, 1e3);
-    if(item.dps<500)
-        item.quality = myRandom(0, 2);
-    else
-        item.quality = myRandom(3, 5);
-    item.score= item.dps+(item.quality*1e3);
-    item.quality=itemQuality[item.quality];
-    return item;
-}
-
 
 /**
  * Укладывает предмет в кладовку под указанным идентификатором.
@@ -81,6 +52,7 @@ function compareItems(item1, item2){
     else
         return 0;
 }
+
 module.exports={
     kladovka,
     getFromKladovka,

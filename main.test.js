@@ -1,5 +1,6 @@
-const klad = require('./main.js');
 const assert = require('assert');
+const klad = require('./main');
+const weapon = require('./weapon_factory');
 var kladovka = klad.kladovka;
 
 it('сохраняет предмет в кладовке', function () {

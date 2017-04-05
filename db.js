@@ -1,10 +1,12 @@
 /**
  * @file Библиотека, реализующая простую in-memory базу данных. 
- * @author Dmitry Kunekin
+ * @author emotz
  * @version 0.0.0.0.0.0.1a
  */
-
 'use strict';
+
+const utility = require('./utility');
+
 // Генератор рандомных ID
 function guid() {
     function s4() {
@@ -70,9 +72,23 @@ function db_get_entity_by_id(db, id) {
     return clone(res);
 }
 
+
+/**
+ * Создает коллекцию объектов, нужного типа
+ * @param {DB} db - База данных, в которой будут искаться объекты
+ * @param {String} type - Тип искомых объектов
+ * @returns {Object|undefined} Коллекция или `undefined` если предметы нужного типа отсутствуют.
+ */
+function getByType(db, type){
+    return utility.filterObj(db, function(item){
+        return item.type===type;
+    });
+}
+
 module.exports = {
     initialize:db_initialize,
     add_entity:db_add_entity,
     add_entity_by_id:db_add_entity_by_id,
     get_entity_by_id:db_get_entity_by_id,
+    getByType,
 };

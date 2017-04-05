@@ -1,18 +1,33 @@
+/**
+ * Создает случайное число в указанном диапазоне
+ * @param {Number} min - Минимальное значение
+ * @param {Number} max - Максимальное значение
+ * @returns {Number} Случайное число
+ */
+function random(min, max) {
+    return Math.floor(Math.random() * (++max - min) + min);
+}
+
+
+/**
+ * Создает новый объект со всеми свойствами, которые прошли проверку,
+ * задаваемую в передаваемой функции
+ * @param {Object} obj - Объект, свойства которого будут проверяться
+ * @param {Function} fn - Функция проверка каждого свойства.
+ * Вызывается с аргументами (value, poperty, object).
+ * Возвращает true для сохранения свойства, false для его пропуска
+ * @returns {Object} Новый объект
+ */
 function filterObj(obj, fn){
     var res={};
-    for(var i in obj){
-        if(fn(obj[i].type))
-            res[i]=obj[i];
+    for(var key in obj){
+        if(fn(obj[key], key, obj))
+            res[key]=obj[key];
     }
     return res;
 }
 
-item1={id:1, type:'sword'};
-item2={id:2, type:'axe'};
-item3={id:3, type:'sword'};
-var kladovka = {item1, item2, item3};
-
-var swords = filterObj(kladovka, function(type){
-    return type === 'sword';
-});
-console.log(swords);
+module.exports={
+    random,
+    filterObj,
+}

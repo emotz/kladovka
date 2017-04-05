@@ -1,5 +1,5 @@
 /**
- * Создает случайное число в указанном диапазоне, включая границы диапозона
+ * Создает случайное число в указанном диапазоне, включая границы диапазона
  * @param {Number} min - Минимальное значение
  * @param {Number} max - Максимальное значение
  * @returns {Number} Случайное число
@@ -19,8 +19,8 @@ function random(min, max) {
  * @returns {Object} Новый объект
  */
 function filterObj(obj, fn){
-    var res={};
-    for(var key in obj){
+    let res={};
+    for(let key in obj){
         if(fn(obj[key], key, obj))
             res[key]=obj[key];
     }

@@ -1,12 +1,12 @@
 const utility = require('./utility');
-var random=utility.random;
+let random=utility.random;
 
-var type = ['меч', 'топор', 'булава', 'нагрудник', 'штаны', 'обувь'];
-var item_quality = ['Плохое', 'Обычное', 'Необычное', 'Редкое', 'Эпическое', 'Легендарное'];
+let type = ['меч', 'топор', 'булава', 'нагрудник', 'штаны', 'обувь'];
+let item_quality = ['Плохое', 'Обычное', 'Необычное', 'Редкое', 'Эпическое', 'Легендарное'];
 
 
 function pickUpWeapon() {
-    var item = {};
+    let item = {};
     item.type = type[random(0,2)];
     item.attack_speed=1.8;
     item.dmg_min = random(50, 1e3);

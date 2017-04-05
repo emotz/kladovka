@@ -79,16 +79,16 @@ function db_get_entity_by_id(db, id) {
  * @param {String} type - Тип искомых объектов
  * @returns {Object|undefined} Коллекция или `undefined` если предметы нужного типа отсутствуют.
  */
-function getByType(db, type){
-    return utility.filterObj(db, function(item){
-        return item.type===type;
+function getByType(db, type) {
+    return utility.filterObj(db, function (item) {
+        return item.type === type;
     });
 }
 
 module.exports = {
-    initialize:db_initialize,
-    add_entity:db_add_entity,
-    add_entity_by_id:db_add_entity_by_id,
-    get_entity_by_id:db_get_entity_by_id,
+    initialize: db_initialize,
+    add_entity: db_add_entity,
+    add_entity_by_id: db_add_entity_by_id,
+    get_entity_by_id: db_get_entity_by_id,
     getByType,
 };

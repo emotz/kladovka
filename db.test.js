@@ -82,3 +82,17 @@ it('записывает несколько объектов в БД с один
     var get = db.get_entity_by_id(test_db, my_id);
     assert(get.qwer===two.qwer);
 });
+
+it('записывает в новый объект, данные типа "sword"', function () {
+    var test_db = db.initialize();
+    var item1 = { id: 1 , type: 'sword'};
+    var item2 = { id: 2 , type: 'axe'};
+    var item3 = { id: 3 , type: 'sword'};
+    db.add_entity_by_id(test_db, item1.id, item1);
+    db.add_entity_by_id(test_db, item2.id, item2);
+    db.add_entity_by_id(test_db, item3.id, item3);
+    var swords=db.getByType(test_db, 'sword');
+    assert(swords[1].id === item1.id);
+    assert(swords[2] === undefined);
+    assert(swords[3].id === item3.id);
+});

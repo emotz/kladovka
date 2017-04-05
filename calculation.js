@@ -5,3 +5,7 @@ function calcScore(item){
     var score=0;
     return score;
 }
+module.exports={
+    calcDps,
+    calcScore
+};

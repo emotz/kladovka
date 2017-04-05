@@ -1,6 +1,5 @@
 const db=require('./db.js');
 var kladovka = db.initialize();
-var count=0;
 
 /**
  * Укладывает предмет в кладовку под указанным идентификатором.
@@ -9,7 +8,7 @@ var count=0;
  * @returns {String|false} Возвращает идентификатор предмета уложенного в кладовку
  */
 function placeInKladovka(item) {
-    return db.add_entity_by_id(kladovka, ++count, item);
+    return db.add(kladovka, item);
 }
 
 
@@ -19,7 +18,7 @@ function placeInKladovka(item) {
  * @returns {Item|undefined} Возвращает предмет или 'undefined' если такого предмета нет в кладовке
  */
 function getFromKladovka(id) {
-    var item = db.get_entity_by_id(kladovka, id);
+    var item = db.get_by_id(kladovka, id);
     if(item.delete)
         return undefined;
     else 
@@ -33,9 +32,9 @@ function getFromKladovka(id) {
  * @returns {String} Возвращает идентификатор удаленного предмета 
  */
 function deleteFromKladovka(id){
-    var item=db.get_entity_by_id(kladovka, id);
+    var item=db.get_by_id(kladovka, id);
     item.delete=true;
-    return db.add_entity_by_id(kladovka, id, item);
+    return db.add_by_id(kladovka, id, item);
 }
 
 /**

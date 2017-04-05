@@ -28,13 +28,13 @@ it('удаляет предмет из кладовки', function () {
 it('сравнивает 2 различный предмета', function () {
     var item1 = { id: 2, dps: 100, score: 300 };
     var item2 = { id: 1, dps: 100, score: 400 };
-    var best_item = klad.compareItems(item1, item2);
-    assert(best_item === 1);
+    var res = klad.compareItems(item1, item2);
+    assert(res === 1);
 });
 
 it('сравнивает 2 одинаковых предмета', function () {
     var item1 = { id: 2, dps: 100, score: 300 };
     var item2 = { id: 1, dps: 100, score: 300 };
-    var best_item = klad.compareItems(item1, item2);
-    assert(best_item === 0);
+    var res = klad.compareItems(item1, item2);
+    assert(res === 0);
 });

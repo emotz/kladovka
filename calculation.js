@@ -2,10 +2,9 @@ function calcDps(item){
     return ((item.dmg_min+item.dmg_max)/2)*item.aps;
 }
 function calcScore(item){
-    let score=0;
-    return score;
+    return item.dps*10;
 }
 module.exports={
-    calcDps,
-    calcScore
+    dps:calcDps,
+    score:calcScore
 };

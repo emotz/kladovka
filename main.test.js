@@ -6,8 +6,8 @@ let kladovka = klad.kladovka;
 it('сохраняет предмет в кладовке', function () {
     let item = { id: 33, dps: 100 };
     let new_id = klad.placeInKladovka(item);
-    assert(new_id !== undefined && new_id !==null);
-    assert(new_id !=='');
+    assert(new_id !== undefined && new_id !== null);
+    assert(new_id !== '');
 });
 
 it('получает предмет из кладовки', function () {
@@ -37,4 +37,13 @@ it('сравнивает 2 одинаковых предмета', function () {
     let item2 = { id: 1, dps: 100, score: 300 };
     let res = klad.compareItems(item1, item2);
     assert(res === 0);
+});
+
+it('утверждает что предмет не нужен', function () {
+    let item1 = { type: 'sword', dps: 20 };
+    let item2 = { type: 'axe', dps: 10 };
+    let item3 = { type: 'sword', dps: 15 };
+    klad.placeInKladovka(item1);
+    klad.placeInKladovka(item2);
+    assert(klad.isNeeded(item3) === false);
 });

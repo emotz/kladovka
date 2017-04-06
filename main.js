@@ -1,4 +1,5 @@
-const db=require('./db.js');
+const db = require('./db.js');
+const calc = require('./calculation');
 let kladovka = db.initialize();
 
 /**
@@ -19,9 +20,9 @@ function placeInKladovka(item) {
  */
 function getFromKladovka(id) {
     let item = db.get_by_id(kladovka, id);
-    if(item.delete)
+    if (item.delete)
         return undefined;
-    else 
+    else
         return item;
 }
 
@@ -31,9 +32,9 @@ function getFromKladovka(id) {
  * @param {String} id - Идентификатор предмета для удаления
  * @returns {String} Возвращает идентификатор удаленного предмета 
  */
-function deleteFromKladovka(id){
-    let item=db.get_by_id(kladovka, id);
-    item.delete=true;
+function deleteFromKladovka(id) {
+    let item = db.get_by_id(kladovka, id);
+    item.delete = true;
     return db.add_by_id(kladovka, id, item);
 }
 
@@ -43,19 +44,36 @@ function deleteFromKladovka(id){
  * @param {Item} item2 - Второй предмет
  * @returns {Number} Возвращает -1 если первый предмет лучше, 1 если второй. 0 если равны
  */
-function compareItems(item1, item2){
-    if(item1.score>item2.score)
+function compareItems(item1, item2) {
+    if (item1.score > item2.score)
         return -1;
-    else if(item1.score<item2.score)
+    else if (item1.score < item2.score)
         return 1;
     else
         return 0;
 }
 
-module.exports={
+/**
+ * Проверяет нужен ли предмет
+ * @param {Item} item - Проверяемый предмет
+ * @returns {Boolean} Возвращает true, если предмет нужен. False, если нет
+ */
+function isNeeded(item) {
+    let res = db.get_by_type(kladovka, item.type);
+    let score = calc.score(item);
+    for (let id in res) {
+        if (calc.score(res[id]) < score)
+            return true;
+    }
+    if (Object.keys(res).length === 0) return true;
+    return false;
+}
+
+module.exports = {
     kladovka,
     getFromKladovka,
     placeInKladovka,
     deleteFromKladovka,
     compareItems,
+    isNeeded
 };

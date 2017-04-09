@@ -20,7 +20,7 @@ function placeInKladovka(item) {
  */
 function getFromKladovka(id) {
     let item = db.get_by_id(kladovka, id);
-    if (item.delete)
+    if (item.deleted)
         return undefined;
     else
         return item;
@@ -34,7 +34,7 @@ function getFromKladovka(id) {
  */
 function deleteFromKladovka(id) {
     let item = db.get_by_id(kladovka, id);
-    item.delete = true;
+    item.deleted = true;
     return db.add_by_id(kladovka, id, item);
 }
 
@@ -69,11 +69,59 @@ function isNeeded(item) {
     return false;
 }
 
+//let iterator;
+let iterator = sortedByScore();
+
+function reset(){
+    kladovka={};
+    iterator = sortedByScore();
+}
+
+function findWorstInKladovka() {
+    return iterator.next().value;
+}
+
+function* notDeletedIds(){
+    for(let id in kladovka){
+        if(kladovka[id].deleted===true) continue;
+        yield id;
+    }
+}
+
+function* sortedByScore(){
+    function findMins(threshold){
+        let ids=[],
+            min_score=Number.POSITIVE_INFINITY;
+        for(let id of notDeletedIds()){
+            let score=calc.score(kladovka[id]);
+            if(score <= threshold) continue;
+            if(score===min_score){
+                ids.push(id);
+            }else if(score < min_score){
+                ids = [id];
+                min_score=score;
+            }
+        }
+        return {ids, threshold: min_score};
+    }
+
+    let ids=[],
+        threshold = Number.NEGATIVE_INFINITY;
+    while( ({ids, threshold}=findMins(threshold)).ids.length ){
+        for(let id of ids){
+            if(kladovka[id].deleted===true) continue;
+            yield kladovka[id];
+        }
+    }
+}
+
 module.exports = {
     kladovka,
     getFromKladovka,
     placeInKladovka,
     deleteFromKladovka,
     compareItems,
-    isNeeded
+    isNeeded,
+    findWorstInKladovka,
+    reset
 };

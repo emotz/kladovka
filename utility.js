@@ -18,16 +18,16 @@ function random(min, max) {
  * Возвращает true для сохранения свойства, false для его пропуска
  * @returns {Object} Новый объект
  */
-function filterObj(obj, fn){
-    let res={};
-    for(let key in obj){
-        if(fn(obj[key], key, obj))
-            res[key]=obj[key];
+function filterObj(obj, fn) {
+    let res = {};
+    for (let key in obj) {
+        if (fn(obj[key], key, obj))
+            res[key] = obj[key];
     }
     return res;
 }
 
-module.exports={
+module.exports = {
     random,
     filterObj,
 }

@@ -69,7 +69,6 @@ function isNeeded(item) {
     return false;
 }
 
-//let iterator;
 let iterator = sortedByScore();
 
 function reset(){
@@ -77,6 +76,10 @@ function reset(){
     iterator = sortedByScore();
 }
 
+/**
+ * Возвращает худший предмет из кладовки, предхудший, предпредхудший и т.д.
+ * @returns {Item} Худший предмет
+ */
 function findWorstInKladovka() {
     return iterator.next().value;
 }

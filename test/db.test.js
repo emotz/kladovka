@@ -1,4 +1,4 @@
-const db = require("./db.js");
+const db = require("../src/db.js");
 const assert = require("assert");
 
 
@@ -80,18 +80,18 @@ it('записывает несколько объектов в БД с один
     db.add_by_id(test_db, my_id, one);
     db.add_by_id(test_db, my_id, two);
     let get = db.get_by_id(test_db, my_id);
-    assert(get.qwer===two.qwer);
+    assert(get.qwer === two.qwer);
 });
 
 it('записывает в новый объект, данные типа "sword"', function () {
     let test_db = db.initialize();
-    let item1 = { id: 1 , type: 'sword'};
-    let item2 = { id: 2 , type: 'axe'};
-    let item3 = { id: 3 , type: 'sword'};
+    let item1 = { id: 1, type: 'sword' };
+    let item2 = { id: 2, type: 'axe' };
+    let item3 = { id: 3, type: 'sword' };
     db.add_by_id(test_db, item1.id, item1);
     db.add_by_id(test_db, item2.id, item2);
     db.add_by_id(test_db, item3.id, item3);
-    let swords=db.get_by_type(test_db, 'sword');
+    let swords = db.get_by_type(test_db, 'sword');
     assert(swords[1].id === item1.id);
     assert(swords[2] === undefined);
     assert(swords[3].id === item3.id);

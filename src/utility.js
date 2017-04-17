@@ -30,4 +30,4 @@ function filterObj(obj, fn) {
 module.exports = {
     random,
     filterObj,
-}
+};

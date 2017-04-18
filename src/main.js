@@ -1,4 +1,4 @@
-const db = require('./db.js');
+const db = require('./db');
 const calc = require('./calculation');
 const utility = require('./utility');
 let kladovka = db.initialize();
@@ -27,10 +27,12 @@ function getFromKladovka(id) {
         return item;
 }
 
-
+/**
+ * Получает все предметы из кладовки
+ * @returns {Item|undefined} Возвращает коллекцию предметов или 'undefined' если в кладовке нет предметов
+ */
 function getAllFromKladovka() {
-    return utility.filterObj(kladovka, function (item) { return item.deleted===undefined; });
- 
+    return utility.filterObj(kladovka, function (item) { return item.deleted === undefined; });
 }
 
 /**
@@ -51,9 +53,11 @@ function deleteFromKladovka(id) {
  * @returns {Number} Возвращает -1 если первый предмет лучше, 1 если второй. 0 если равны
  */
 function compareItems(item1, item2) {
-    if (item1.score > item2.score)
+    let score1 = calc.score(item1);
+    let score2 = calc.score(item2);
+    if (score1 > score2)
         return -1;
-    else if (item1.score < item2.score)
+    else if (score1 < score2)
         return 1;
     else
         return 0;
@@ -67,19 +71,16 @@ function compareItems(item1, item2) {
 function isNeeded(item) {
     let res = db.get_by_type(kladovka, item.type);
     let score = calc.score(item);
-    for (let id in res) {
-        if (calc.score(res[id]) < score)
+    for (let item of notDeletedIds()) {
+        if (calc.score(item) < score)
             return true;
     }
     if (Object.keys(res).length === 0) return true;
     return false;
 }
 
-let iterator = sortedByScore();
-
 function reset() {
     kladovka = {};
-    iterator = sortedByScore();
 }
 
 /**
@@ -87,9 +88,13 @@ function reset() {
  * @returns {Item} Худший предмет
  */
 function findWorstInKladovka() {
-    return iterator.next().value;
+    return sortedByScore().next().value;
 }
 
+/**
+ * Генератор возвращающий id не удаленных предметов
+ * @returns {Iterable.<id>} id предмета в кладовке
+ */
 function* notDeletedIds() {
     for (let id in kladovka) {
         if (kladovka[id].deleted === true) continue;
@@ -133,5 +138,6 @@ module.exports = {
     compareItems,
     isNeeded,
     findWorstInKladovka,
+    sortedByScore,
     reset
 };

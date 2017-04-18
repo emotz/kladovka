@@ -4,14 +4,7 @@ let klad = require('./src/main');
 
 let app = express();
 app.listen(8080);
-app.use(bodyParser.json())
-
-let item1 = { type: 'sword', dps: 20 };
-let item2 = { type: 'axe', dps: 10 };
-let item3 = { type: 'sword', dps: 15 };
-klad.placeInKladovka(item1);
-klad.placeInKladovka(item2);
-klad.placeInKladovka(item3);
+app.use(bodyParser.json());
 
 app.get('/api/items', function (req, res) {
     let all = klad.getAllFromKladovka();
@@ -25,5 +18,5 @@ app.get('/api/items/:id', function (req, res) {
 
 app.post('/api/items', function (req, res) {
     let id = klad.placeInKladovka(req.body);
-    res.status(201).send(`Предмет добавлен по id: ${id}`);
+    res.status(201).send(`Идентификатор добавленного предмета: ${id}`);
 });

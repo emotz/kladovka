@@ -38,7 +38,7 @@ function db_initialize() {
  * идентификатором и возвращает этот идентификатор. См. секцию Unit Tests для примера использования.
  * @param {DB} db - База данных, в которую будет добавлен объект
  * @param {Object} entity - Этот объект будет сохранен в базу
- * @returns {Promise.<String, Error>} Если обещание сдерженно,
+ * @returns {Promise.<String, Error>} Если обещание сдержанно,
  * то оно вернет id добавленного объекта, иначе ошибку
  */
 /*function db_add(db, entity) {
@@ -65,7 +65,7 @@ function db_add(db, entity) {
  * @param {DB} db - База данных, в которую будет добавлен объект
  * @param {String} id - Идентификатор, под которым объект будет добавлен
  * @param {Object} entity - Этот объект будет сохранен в базу
- * @returns {Promise.<String, Error>} Если обещание сдерженно,
+ * @returns {Promise.<String, Error>} Если обещание сдержанно,
  * то оно вернет id добавленного объекта, иначе ошибку
  */
 function db_add_by_id(db, id, entity) {
@@ -81,16 +81,15 @@ function db_add_by_id(db, id, entity) {
 /**
  * Считывает объект из базы данных под указанным идентификатором. 
  * Полученный объект является копией объекта из базы.
- * См. секцию Unit Tests для примера использования.
  * @param {DB} db - База данных, из которой будет считан объект
  * @param {Promise.<String>} id - Идентификатор объекта для считывания
- * @returns {Promise.<Object, Error>} Если обещание сдерженно,
+ * @returns {Promise.<Object, Error>} Если обещание сдержанно,
  * то оно вернет объект, иначе ошибку
  */
 function db_get_by_id(db, id) {
     let promise = new Promise(function (resolve, reject) {
         let res = db[id];
-        if (res)
+        if (res && res.deleted!=true)
             resolve(res);
         else
             reject(new Error('нет такого предмета в БД'));
@@ -103,7 +102,7 @@ function db_get_by_id(db, id) {
  * Создает коллекцию объектов, нужного типа
  * @param {DB} db - База данных, в которой будут искаться объекты
  * @param {String} type - Тип искомых объектов
- * @returns {Promise.<Object, Error>} Если обещание сдерженно,
+ * @returns {Promise.<Object, Error>} Если обещание сдержанно,
  * то оно вернет коллекцию объектов искомого типа, иначе, в случае отказа от обещания, вернется ошибка
  */
 function db_get_by_type(db, type) {

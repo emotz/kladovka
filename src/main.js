@@ -9,7 +9,7 @@ let kladovka = db.initialize();
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {String|false} Возвращает идентификатор предмета уложенного в кладовку
  */
-function placeInKladovka(item) {
+async function placeInKladovka(item) {
     return db.add(kladovka, item);
 }
 

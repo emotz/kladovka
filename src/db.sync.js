@@ -1,7 +1,7 @@
 /**
- * @file Библиотека, реализующая асинхронную in-memory базу данных. 
+ * @file Библиотека, реализующая простую in-memory базу данных. 
  * @author emotz
- * @version 1.0.0
+ * @version 0.0.0.0.0.0.1a
  */
 'use strict';
 
@@ -38,26 +38,13 @@ function db_initialize() {
  * идентификатором и возвращает этот идентификатор. См. секцию Unit Tests для примера использования.
  * @param {DB} db - База данных, в которую будет добавлен объект
  * @param {Object} entity - Этот объект будет сохранен в базу
- * @returns {Promise.<String, Error>} Если обещание сдерженно,
- * то оно вернет id добавленного объекта, иначе ошибку
+ * @returns {String} Идентификатор только что добавленного объекта
  */
-/*function db_add(db, entity) {
+function db_add(db, entity) {
     let id = guid();
     db[id] = clone(entity);
     return id;
-}*/
-
-function db_add(db, entity) {
-    let id = guid();
-    let promise = new Promise(function (resolve, reject) {
-        if (db[id] = clone(entity))
-            resolve(id);
-        else
-            reject(new Error('не засунул'));
-    });
-    return promise;
 }
-
 
 /**
  * Сохраняет копию объекта в базе данных под указанным идентификатором.
@@ -65,17 +52,10 @@ function db_add(db, entity) {
  * @param {DB} db - База данных, в которую будет добавлен объект
  * @param {String} id - Идентификатор, под которым объект будет добавлен
  * @param {Object} entity - Этот объект будет сохранен в базу
- * @returns {Promise.<String, Error>} Если обещание сдерженно,
- * то оно вернет id добавленного объекта, иначе ошибку
  */
 function db_add_by_id(db, id, entity) {
-    let promise = new Promise(function (resolve, reject) {
-        if (db[id] = clone(entity))
-            resolve(id);
-        else
-            reject(new Error('не засунул'));
-    });
-    return promise;
+    db[id] = clone(entity);
+    return id;
 }
 
 /**
@@ -83,19 +63,13 @@ function db_add_by_id(db, id, entity) {
  * Полученный объект является копией объекта из базы.
  * См. секцию Unit Tests для примера использования.
  * @param {DB} db - База данных, из которой будет считан объект
- * @param {Promise.<String>} id - Идентификатор объекта для считывания
- * @returns {Promise.<Object, Error>} Если обещание сдерженно,
- * то оно вернет объект, иначе ошибку
+ * @param {String} id - Идентификатор объекта для считывания
+ * @returns {Object|undefined} Запрашиваемый объект. Равен `undefined` если указанный идентификатор отсутствует.
  */
 function db_get_by_id(db, id) {
-    let promise = new Promise(function (resolve, reject) {
-        let res = db[id];
-        if (res)
-            resolve(res);
-        else
-            reject(new Error('нет такого предмета в БД'));
-    });
-    return promise;
+    let res;
+    res = db[id];
+    return clone(res);
 }
 
 
@@ -103,19 +77,11 @@ function db_get_by_id(db, id) {
  * Создает коллекцию объектов, нужного типа
  * @param {DB} db - База данных, в которой будут искаться объекты
  * @param {String} type - Тип искомых объектов
- * @returns {Promise.<Object, Error>} Если обещание сдерженно,
- * то оно вернет коллекцию объектов искомого типа, иначе, в случае отказа от обещания, вернется ошибка
+ * @returns {Object|undefined} Коллекция или `undefined` если предметы нужного типа отсутствуют.
  */
 function db_get_by_type(db, type) {
-    let promise = new Promise(function (resolve, reject) {
-        let res = utility.filterObj(db, function (item) {
-            return item.type === type;
-        });
-        if( Object.keys[res].length)
-            resolve();
-        else
-            reject(new Error('нет предметов такого типа'));
-    return promise;
+    return utility.filterObj(db, function (item) {
+        return item.type === type;
     });
 }
 

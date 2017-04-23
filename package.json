@@ -22,6 +22,10 @@
   },
   "homepage": "https://github.com/emotz/kladovka#readme",
   "devDependencies": {
+    "eslint": "^3.19.0",
     "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "mongodb": "^2.2.26"
   }
 }

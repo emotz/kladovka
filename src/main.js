@@ -1,54 +1,46 @@
-const db = require('./db');
+const db = require('./mongo');
 const calc = require('./calculation');
 const utility = require('./utility');
-let kladovka = db.initialize();
 
 /**
- * Укладывает предмет в кладовку под указанным идентификатором.
- * @param {String} id - Идентификатор предмета
+ * Укладывает предмет в кладовку
  * @param {Item} item - Предмет, который будет уложен в кладовку
- * @returns {String|false} Возвращает идентификатор предмета уложенного в кладовку
+ * @returns {Promise.<String, Error>} Идентификатор предмета уложенного в кладовку
  */
 async function placeInKladovka(item) {
-    return db.add(kladovka, item);
+    return db.add(item);
 }
 
 
 /**
  * Получает предмет из кладовки под указанным идентификатором.
  * @param {String} id - Идентификатор получаемого предмета
- * @returns {Item|undefined} Возвращает предмет или 'undefined' если такого предмета нет в кладовке
+ * @returns {Promise.<Item, Error>} Искомый предмет
  */
 function getFromKladovka(id) {
-    let item = db.get_by_id(kladovka, id);
-    if (item.deleted)
-        return undefined;
-    else
-        return item;
+    return db.getById(id);
 }
 
 /**
  * Получает все предметы из кладовки
- * @returns {Item|undefined} Возвращает коллекцию предметов или 'undefined' если в кладовке нет предметов
+ * @returns {Promise.<Item, Error>} Коллекция предметов
  */
 function getAllFromKladovka() {
-    return utility.filterObj(kladovka, function (item) { return item.deleted === undefined; });
+    return db.getAll();
 }
 
 /**
  * Удаляет предмет из кладовки под указанным идентификатором.
  * @param {String} id - Идентификатор предмета для удаления
- * @returns {String} Возвращает идентификатор удаленного предмета 
+ * @returns  {Promise.<String, Error>} Идентификатор удаленного предмета 
  */
 function deleteFromKladovka(id) {
-    let item = db.get_by_id(kladovka, id);
-    item.deleted = true;
-    return db.add_by_id(kladovka, id, item);
+    return db.deleteById(id);
 }
 
 /**
  * Сравнивает 2 предмета
- * @param {Item} item1 - Перваый прудмет
+ * @param {Item} item1 - Первый предмет
  * @param {Item} item2 - Второй предмет
  * @returns {Number} Возвращает -1 если первый предмет лучше, 1 если второй. 0 если равны
  */
@@ -66,12 +58,12 @@ function compareItems(item1, item2) {
 /**
  * Проверяет нужен ли предмет
  * @param {Item} item - Проверяемый предмет
- * @returns {Boolean} Возвращает true, если предмет нужен. False, если нет
+ * @returns {Promise.<Boolean, Error>}  True, если предмет нужен. False, если нет
  */
-function isNeeded(item) {
-    let res = db.get_by_type(kladovka, item.type);
+async function isNeeded(item) {
+    let res = await db.getByType(item.type);
     let score = calc.score(item);
-    for (let item of notDeletedIds()) {
+    for (let item of res) {
         if (calc.score(item) < score)
             return true;
     }
@@ -79,65 +71,32 @@ function isNeeded(item) {
     return false;
 }
 
-function reset() {
-    kladovka = {};
-}
-
 /**
  * Возвращает худший предмет из кладовки, предхудший, предпредхудший и т.д.
- * @returns {Item} Худший предмет
+ * @returns  {Promise.<Item, Error>}  Худший предмет
  */
-function findWorstInKladovka() {
-    return sortedByScore().next().value;
-}
-
-/**
- * Генератор возвращающий id не удаленных предметов
- * @returns {Iterable.<id>} id предмета в кладовке
- */
-function* notDeletedIds() {
-    for (let id in kladovka) {
-        if (kladovka[id].deleted === true) continue;
-        yield id;
-    }
-}
-
-function* sortedByScore() {
-    function findMins(threshold) {
-        let ids = [],
-            min_score = Number.POSITIVE_INFINITY;
-        for (let id of notDeletedIds()) {
-            let score = calc.score(kladovka[id]);
-            if (score <= threshold) continue;
-            if (score === min_score) {
-                ids.push(id);
-            } else if (score < min_score) {
-                ids = [id];
-                min_score = score;
-            }
-        }
-        return { ids, threshold: min_score };
-    }
-
-    let ids = [],
-        threshold = Number.NEGATIVE_INFINITY;
-    while (({ ids, threshold } = findMins(threshold)).ids.length) {
-        for (let id of ids) {
-            if (kladovka[id].deleted === true) continue;
-            yield kladovka[id];
+async function findWorstInKladovka() {
+    let threshold = Math.NEGATIVE_INFINITY,
+        min_score = Math.POSITIVE_INFINITY,
+        allItems = await db.getAll(),
+        res = {};
+    for (let item in allItems) {
+        let score = calc.score(item);
+        if (score <= threshold) continue;
+        if (score < min_score) {
+            res = item;
+            min_score = score;
         }
     }
+    return id;
 }
 
 module.exports = {
-    kladovka,
     getFromKladovka,
     getAllFromKladovka,
     placeInKladovka,
     deleteFromKladovka,
     compareItems,
     isNeeded,
-    findWorstInKladovka,
-    sortedByScore,
-    reset
+    findWorstInKladovka
 };

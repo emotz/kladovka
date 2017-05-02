@@ -39,6 +39,14 @@ function deleteFromKladovka(id) {
 }
 
 /**
+ * Удаляет ВСЕ предметы из кладовки
+ * @returns  {Promise.<Number, Error>} Количество удаленных объектов
+ */
+function deleteAllFromKladovka() {
+    return db.deleteAll();
+}
+
+/**
  * Сравнивает 2 предмета
  * @param {Item} item1 - Первый предмет
  * @param {Item} item2 - Второй предмет
@@ -96,6 +104,7 @@ module.exports = {
     getAllFromKladovka,
     placeInKladovka,
     deleteFromKladovka,
+    deleteAllFromKladovka,
     compareItems,
     isNeeded,
     findWorstInKladovka

@@ -1,4 +1,6 @@
-const mongo = require('mongodb').MongoClient;
+const mongodb = require('mongodb');
+const mongo = mongodb.MongoClient;
+const ObjectID = mongodb.ObjectID;
 const url = 'mongodb://localhost:27017/kladovka';
 const coll = 'items';
 
@@ -24,7 +26,7 @@ async function addItem(item) {
 async function getNotDeletedItemById(id) {
     let db = await mongo.connect(url);
     let collection = db.collection(coll);
-    let item = await collection.findOne({ '_id': id, deleted: undefined });
+    let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
     db.close();
     return item;
 }
@@ -37,10 +39,23 @@ async function getNotDeletedItemById(id) {
 async function deleteItemById(id) {
     let db = await mongo.connect(url);
     let collection = db.collection(coll);
-    let res = await collection.updateOne({ '_id': id }, { $set: { 'deleted': true } });
+    let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: { 'deleted': true } });
     db.close();
     return id;
 }
+
+/**
+ * Удаляет ВСЕ объекты из БД
+ * @returns {Promise.<Number, Error>} Количество удаленных объектов
+ */
+async function deleteAllItems() {
+    let db = await mongo.connect(url);
+    let collection = db.collection(coll);
+    let res = await collection.updateMany({ deleted: undefined }, { $set: { deleted: true } });
+    db.close();
+    return res.modifiedCount;
+}
+deleteAllItems().then(res => console.log(res));
 
 /**
  * Получает массив объектов(не удаленных)
@@ -70,6 +85,7 @@ async function getAllItemsByType(type) {
 module.exports = {
     add: addItem,
     deleteById: deleteItemById,
+    deleteAll: deleteAllItems,
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType

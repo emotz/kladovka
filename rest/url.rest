@@ -12,3 +12,11 @@ content-type: application/json
 ### получить все предметы из кладовки
 
 GET http://localhost:8080/api/items/
+
+### удалить предмет из кладовки
+
+DELETE http://localhost:8080/api/items/59076f92363279042041e7e0
+
+### удалить все предметы из кладовки
+
+DELETE http://localhost:8080/api/items/

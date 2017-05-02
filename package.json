@@ -4,7 +4,8 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "watch": "node rest/rest.js"
   },
   "repository": {
     "type": "git",

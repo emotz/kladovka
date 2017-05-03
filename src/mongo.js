@@ -41,8 +41,10 @@ async function deleteItemById(id) {
     let collection = db.collection(coll);
     let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: { 'deleted': true } });
     db.close();
+    if (res.result.nModified === 0) return null;
     return id;
 }
+
 
 /**
  * Удаляет ВСЕ объекты из БД
@@ -55,7 +57,6 @@ async function deleteAllItems() {
     db.close();
     return res.modifiedCount;
 }
-deleteAllItems().then(res => console.log(res));
 
 /**
  * Получает массив объектов(не удаленных)

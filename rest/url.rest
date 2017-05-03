@@ -9,13 +9,17 @@ content-type: application/json
     "hui": 25
 }
 
+### получить предмет из кладовки
+
+GET http://localhost:8080/api/items/590a2f2868789115a8c9cbd8
+
 ### получить все предметы из кладовки
 
 GET http://localhost:8080/api/items/
 
 ### удалить предмет из кладовки
 
-DELETE http://localhost:8080/api/items/59076f92363279042041e7e0
+DELETE http://localhost:8080/api/items/590a2f2868789115a8c9cbd8
 
 ### удалить все предметы из кладовки
 

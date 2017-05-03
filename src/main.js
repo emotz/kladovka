@@ -1,6 +1,5 @@
 const db = require('./mongo');
 const calc = require('./calculation');
-const utility = require('./utility');
 
 /**
  * Укладывает предмет в кладовку
@@ -84,19 +83,17 @@ async function isNeeded(item) {
  * @returns  {Promise.<Item, Error>}  Худший предмет
  */
 async function findWorstInKladovka() {
-    let threshold = Math.NEGATIVE_INFINITY,
-        min_score = Math.POSITIVE_INFINITY,
+    let min_score = Math.POSITIVE_INFINITY,
         allItems = await db.getAll(),
         res = {};
     for (let item in allItems) {
         let score = calc.score(item);
-        if (score <= threshold) continue;
         if (score < min_score) {
             res = item;
             min_score = score;
         }
     }
-    return id;
+    return res;
 }
 
 module.exports = {

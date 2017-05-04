@@ -11,11 +11,15 @@ const coll = 'items';
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
 async function addItem(item) {
-    let db = await mongo.connect(url);
-    let collection = db.collection(coll);
-    let res = await collection.insertOne(item);
-    db.close();
-    return res.insertedId;
+    try {
+        let db = await mongo.connect(url);
+        let collection = db.collection(coll);
+        let res = await collection.insertOne(item);
+        db.close();
+        return res.insertedId;
+    } catch (e) {
+        return e;
+    }
 }
 
 /**
@@ -24,11 +28,15 @@ async function addItem(item) {
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
 async function getNotDeletedItemById(id) {
-    let db = await mongo.connect(url);
-    let collection = db.collection(coll);
-    let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
-    db.close();
-    return item;
+    try {
+        let db = await mongo.connect(url);
+        let collection = db.collection(coll);
+        let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
+        db.close();
+        return item;
+    } catch (e) {
+        return e;
+    }
 }
 
 /**
@@ -37,12 +45,16 @@ async function getNotDeletedItemById(id) {
  * @returns {Promise.<String, Error>} id удаленного объекта
  */
 async function deleteItemById(id) {
-    let db = await mongo.connect(url);
-    let collection = db.collection(coll);
-    let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: { 'deleted': true } });
-    db.close();
-    if (res.result.nModified === 0) return null;
-    return id;
+    try {
+        let db = await mongo.connect(url);
+        let collection = db.collection(coll);
+        let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: { 'deleted': true } });
+        db.close();
+        if (res.result.nModified === 0) return null;
+        return id;
+    } catch (e) {
+        return e;
+    }
 }
 
 
@@ -51,11 +63,15 @@ async function deleteItemById(id) {
  * @returns {Promise.<Number, Error>} Количество удаленных объектов
  */
 async function deleteAllItems() {
-    let db = await mongo.connect(url);
-    let collection = db.collection(coll);
-    let res = await collection.updateMany({ deleted: undefined }, { $set: { deleted: true } });
-    db.close();
-    return res.modifiedCount;
+    try {
+        let db = await mongo.connect(url);
+        let collection = db.collection(coll);
+        let res = await collection.updateMany({ deleted: undefined }, { $set: { deleted: true } });
+        db.close();
+        return res.modifiedCount;
+    } catch (e) {
+        return e;
+    }
 }
 
 /**
@@ -63,11 +79,15 @@ async function deleteAllItems() {
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getNotDeletedItems() {
-    let db = await mongo.connect(url);
-    let collection = db.collection(coll);
-    let res = await collection.find({ 'deleted': undefined }).toArray();
-    db.close();
-    return res;
+    try {
+        let db = await mongo.connect(url);
+        let collection = db.collection(coll);
+        let res = await collection.find({ 'deleted': undefined }).toArray();
+        db.close();
+        return res;
+    } catch (e) {
+        return e;
+    }
 }
 
 /**
@@ -75,11 +95,15 @@ async function getNotDeletedItems() {
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getAllItemsByType(type) {
-    let db = await mongo.connect(url);
-    let collection = db.collection(coll);
-    let res = await collection.find({ deleted: undefined, type }).toArray();
-    db.close();
-    return res
+    try {
+        let db = await mongo.connect(url);
+        let collection = db.collection(coll);
+        let res = await collection.find({ deleted: undefined, type }).toArray();
+        db.close();
+        return res;
+    } catch (e) {
+        return e;
+    }
 
 }
 
@@ -90,4 +114,4 @@ module.exports = {
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType
-}
+};

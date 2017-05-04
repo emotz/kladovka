@@ -1,116 +1,109 @@
 const assert = require('assert');
 const weapon = require('../src/weapon_factory');
 const klad = require('../src/main');
+const mongo = require('../src/mongo');
 
 describe('Тест для кладовки', function () {
     beforeEach(function () {
-        klad.reset();
+        mongo.clearCollection();
     });
 
-    it('сохраняет предмет в кладовке', function () {
-        let item = { id: 33, dps: 100 };
-        let new_id = klad.placeInKladovka(item);
-        assert(new_id !== undefined && new_id !== null);
-        assert(new_id !== '');
+    it('сохраняет предмет в кладовке', async function () {
+        let item = { type: 'axe', dps: 100 };
+        let id = await klad.placeInKladovka(item);
+        assert(id !== undefined && id !== null);
+        assert(id !== '');
     });
 
-    it('получает предмет из кладовки', function () {
-        let item = { id: 33, dps: 100 };
-        let new_id = klad.placeInKladovka(item);
-        let new_item = klad.getFromKladovka(new_id);
-        assert(item.id === new_item.id);
-        assert(item.dps === new_item.dps);
+    it('получает предмет из кладовки', async function () {
+        let item = { type: 'axe', dps: 100 };
+        let id = await klad.placeInKladovka(item);
+        let getItem = await klad.getFromKladovka(id);
+        assert(getItem.type == item.type);
+        assert(getItem.dps == item.dps);
     });
 
-    it('удаляет предмет из кладовки', function () {
-        let item = { id: 33, dps: 100 };
-        let new_id = klad.placeInKladovka(item);
-        klad.deleteFromKladovka(new_id);
-        assert(klad.getFromKladovka(new_id) === undefined);
+    it('получает все предметы из кладовки', async function () {
+        let item1 = { type: 'axe', dps: 100 };
+        let item2 = { type: 'axe', dps: 200 };
+        let item3 = { type: 'mace', dps: 100 };
+        let item4 = { type: 'sword', dps: 300 };
+        await klad.placeInKladovka(item1);
+        await klad.placeInKladovka(item2);
+        await klad.placeInKladovka(item3);
+        await klad.placeInKladovka(item4);
+        let all = await klad.getAllFromKladovka();
+        assert(all.length == 4);
     });
 
-    it('сравнивает 2 различный предмета', function () {
-        let item1 = { type: 'sword', dps: 20 };
-        let item2 = { type: 'axe', dps: 10 };
-        let res = klad.compareItems(item1, item2);
-        assert(res === -1);
+    it('удаляет конкретный предмет', async function () {
+        let item = { type: 'axe', dps: 100 };
+        let id = await klad.placeInKladovka(item);
+        await klad.deleteFromKladovka(id);
+        let getItem = await klad.getFromKladovka(id);
+        assert(getItem === null);
     });
 
-    it('сравнивает 2 одинаковых предмета', function () {
-        let item1 = { id: 2, dps: 100};
-        let item2 = { id: 1, dps: 100};
-        let res = klad.compareItems(item1, item2);
-        assert(res === 0);
+    it('удаляет все предметы из кладовки', async function () {
+        let item1 = { type: 'axe', dps: 100 };
+        let item2 = { type: 'axe', dps: 200 };
+        let item3 = { type: 'mace', dps: 100 };
+        let item4 = { type: 'sword', dps: 300 };
+        await klad.deleteAllFromKladovka();
+        let all = await klad.getAllFromKladovka();
+        assert(all.length == 0);
     });
 
-    it('утверждает что предмет не нужен', function () {
-        let item1 = { type: 'sword', dps: 20 };
-        let item2 = { type: 'axe', dps: 10 };
-        let item3 = { type: 'sword', dps: 15 };
-        klad.placeInKladovka(item1);
-        klad.placeInKladovka(item2);
-        assert(klad.isNeeded(item3) === false);
+    it('возвращает худший предмет из кладовки', async function () {
+        let item1 = { type: 'axe', dps: 100 };
+        let item2 = { type: 'axe', dps: 200 };
+        let item3 = { type: 'mace', dps: 300 };
+        let item4 = { type: 'sword', dps: 50 };
+        await klad.placeInKladovka(item1);
+        await klad.placeInKladovka(item2);
+        await klad.placeInKladovka(item3);
+        await klad.placeInKladovka(item4);
+        let worst = await klad.findWorstInKladovka();
+        assert(worst.type === item4.type);
+        assert(worst.dps === item4.dps);
     });
 
-    it('получает худший предмет из кладовки', function () {
-        let item1 = { type: 'sword', dps: 20 };
-        let item2 = { type: 'axe', dps: 10 };
-        let item3 = { type: 'sword', dps: 15 };
-        klad.placeInKladovka(item1);
-        klad.placeInKladovka(item2);
-        klad.placeInKladovka(item3);
-        let worst = klad.findWorstInKladovka();
-        assert(worst.type === 'axe');
-        assert(worst.dps === 10);
+    describe('Сравнение предметов', function () {
+
+        it('#первый предмет лучше', function () {
+            let item1 = { type: 'axe', dps: 200 };
+            let item2 = { type: 'axe', dps: 100 };
+            assert(klad.compareItems(item1, item2) === -1);
+        });
+
+        it('#второй предмет лучше', function () {
+            let item1 = { type: 'axe', dps: 100 };
+            let item2 = { type: 'axe', dps: 200 };
+            assert(klad.compareItems(item1, item2) === 1);
+        });
+
+        it('#предметы равны', function () {
+            let item1 = { type: 'axe', dps: 100 };
+            let item2 = { type: 'axe', dps: 100 };
+            assert(klad.compareItems(item1, item2) === 0);
+        });
     });
 
-    it('получает худший предмет, предхудший, предпредхудший', function () {
-        let item1 = { type: 'sword', dps: 20 };
-        let item2 = { type: 'axe', dps: 10 };
-        let item3 = { type: 'sword', dps: 15 };
-        klad.placeInKladovka(item1);
-        klad.placeInKladovka(item2);
-        klad.placeInKladovka(item3);
-        let iter = klad.sortedByScore();
-        let worst1 = iter.next().value;
-        let worst2 = iter.next().value;
-        let worst3 = iter.next().value;
-        assert(worst1.dps === item2.dps);
-        assert(worst2.dps === item3.dps);
-        assert(worst3.dps === item1.dps);
+    describe('Предмет нужен', function () {
+
+        it('#да', async function () {
+            let item1 = { type: 'axe', dps: 100 };
+            let item2 = { type: 'axe', dps: 200 };
+            await klad.placeInKladovka(item1);
+            assert(await klad.isNeeded(item2) === true);
+        });
+
+        it('#нет', async function () {
+            let item1 = { type: 'axe', dps: 200 };
+            let item2 = { type: 'axe', dps: 100 };
+            await klad.placeInKladovka(item1);
+            assert(await klad.isNeeded(item2) === false);
+        });
     });
 
-    it('получает undefined если кладовка была пустая перед поиском плохого предмета', function () {
-        let worst = klad.findWorstInKladovka();
-        assert(worst === undefined);
-    });
-
-    it('получает undefined если кладовка стала пустая между вызовами итератора', function () {
-        let item1 = { type: 'sword', dps: 20 };
-        let item2 = { type: 'axe', dps: 10 };
-        let id1 = klad.placeInKladovka(item1);
-        let id2 = klad.placeInKladovka(item2);
-        let iter = klad.sortedByScore();
-        let worst1 = iter.next().value;
-        assert(worst1.dps === 10);
-        klad.deleteFromKladovka(id1);
-        klad.deleteFromKladovka(id2);
-        let worst2 = iter.next().value;
-        assert(worst2 === undefined);
-    });
-
-    it('утверждает что все хорошо если удалили предмет, находящийся в массиве ids', function () {
-        let item1 = { type: 'sword', dps: 10 };
-        let item2 = { type: 'axe', dps: 10 };
-        let item3 = { type: 'sword', dps: 15 };
-        let id1 = klad.placeInKladovka(item1);
-        let id2 = klad.placeInKladovka(item2);
-        let id3 = klad.placeInKladovka(item3);
-        let iter = klad.sortedByScore();
-        let worst1 = iter.next().value;
-        assert(worst1.dps === 10 && worst1.type === 'sword');
-        klad.deleteFromKladovka(id2);
-        let worst2 = iter.next().value;
-        assert(worst2.dps === 15);
-    });
 });

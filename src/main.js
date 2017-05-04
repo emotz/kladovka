@@ -79,14 +79,16 @@ async function isNeeded(item) {
 }
 
 /**
- * Возвращает худший предмет из кладовки, предхудший, предпредхудший и т.д.
+ * Возвращает худший предмет из кладовки
  * @returns  {Promise.<Item, Error>}  Худший предмет
  */
 async function findWorstInKladovka() {
-    let min_score = Math.POSITIVE_INFINITY,
-        allItems = await db.getAll(),
-        res = {};
-    for (let item in allItems) {
+    let res = {},
+        allItems = [],
+        min_score = 0;
+    allItems = await db.getAll();
+    min_score = calc.score(allItems[0]);
+    for (let item of allItems) {
         let score = calc.score(item);
         if (score < min_score) {
             res = item;

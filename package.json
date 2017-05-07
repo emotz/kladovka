@@ -27,6 +27,7 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
+    "express-async-errors": "^2.0.0",
     "mongodb": "^2.2.26"
   }
 }

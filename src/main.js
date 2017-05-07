@@ -85,9 +85,8 @@ async function isNeeded(item) {
 async function findWorstInKladovka() {
     let res = {},
         allItems = [],
-        min_score = 0;
+        min_score = Number.POSITIVE_INFINITY;
     allItems = await db.getAll();
-    min_score = calc.score(allItems[0]);
     for (let item of allItems) {
         let score = calc.score(item);
         if (score < min_score) {

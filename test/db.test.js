@@ -1,4 +1,4 @@
-const db = require("../src/db.js");
+const db = require("../src/db.sync.js");
 const assert = require("assert");
 
 

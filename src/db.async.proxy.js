@@ -42,7 +42,7 @@ async function deleteAllItems() {
     let count = 0;
     let res = await db.get_all(kladovka);
     for (let id in res) {
-        if (res[id].deleted === undefined) continue;
+        if (res[id].deleted === true) continue;
         res[id].deleted = true;
         count++;
     }

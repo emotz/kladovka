@@ -47,6 +47,10 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 100 };
         let item4 = { type: 'sword', dps: 300 };
+        await klad.placeInKladovka(item1);
+        await klad.placeInKladovka(item2);
+        await klad.placeInKladovka(item3);
+        await klad.placeInKladovka(item4);
         await klad.deleteAllFromKladovka();
         let all = await klad.getAllFromKladovka();
         assert(all.length == 0);

@@ -1,4 +1,4 @@
-const db = require('./mongo');
+const db = require('./db.async.proxy');
 const calc = require('./calculation');
 
 /**
@@ -105,5 +105,6 @@ module.exports = {
     deleteAllFromKladovka,
     compareItems,
     isNeeded,
-    findWorstInKladovka
+    findWorstInKladovka,
+    clearCollection: db.clearCollection
 };

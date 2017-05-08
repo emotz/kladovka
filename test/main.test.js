@@ -1,11 +1,9 @@
 const assert = require('assert');
-const weapon = require('../src/weapon_factory');
 const klad = require('../src/main');
-const mongo = require('../src/mongo');
 
 describe('Тест для кладовки', function () {
     beforeEach(function () {
-        mongo.clearCollection();
+        klad.clearCollection();
     });
 
     it('сохраняет предмет в кладовке', async function () {

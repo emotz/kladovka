@@ -41,23 +41,19 @@ function db_initialize() {
  * @returns {Promise.<String, Error>} Если обещание сдержанно,
  * то оно вернет id добавленного объекта, иначе ошибку
  */
-/*function db_add(db, entity) {
-    let id = guid();
-    db[id] = clone(entity);
-    return id;
-}*/
+
 
 function db_add(db, entity) {
     let id = guid();
     let promise = new Promise(function (resolve, reject) {
-        if (db[id] = clone(entity))
+        db[id] = clone(entity);
+        if(db[id])
             resolve(id);
         else
             reject(new Error('не засунул'));
     });
     return promise;
 }
-
 
 /**
  * Сохраняет копию объекта в базе данных под указанным идентификатором.
@@ -70,52 +66,49 @@ function db_add(db, entity) {
  */
 function db_add_by_id(db, id, entity) {
     let promise = new Promise(function (resolve, reject) {
-        if (db[id] = clone(entity))
+        db[id] = clone(entity);
+        if (db[id])
             resolve(id);
         else
             reject(new Error('не засунул'));
     });
     return promise;
 }
-
 /**
  * Считывает объект из базы данных под указанным идентификатором. 
  * Полученный объект является копией объекта из базы.
  * @param {DB} db - База данных, из которой будет считан объект
  * @param {Promise.<String>} id - Идентификатор объекта для считывания
- * @returns {Promise.<Object, Error>} Если обещание сдержанно,
- * то оно вернет объект, иначе ошибку
+//  * @returns {Promise.<Object || null>} искомый объект, если его нет, то null
  */
 function db_get_by_id(db, id) {
-    let promise = new Promise(function (resolve, reject) {
-        let res = db[id];
-        if (res && res.deleted!=true)
-            resolve(res);
-        else
-            reject(new Error('нет такого предмета в БД'));
-    });
-    return promise;
+    return Promise.resolve(db[id] || null);
 }
 
+/**
+ * Получить все объекты из БД
+ * @param {DB} db - База данных, в которой будут искаться объекты
+ * @returns {Promise.<Object || null>} Если обещание сдержанно,
+ * то оно вернет коллекцию объектов искомого типа, иначе, в случае отказа от обещания, вернется ошибка
+ */
+function db_get_all(db) {
+    return Promise.resolve(db || null);
+}
 
 /**
  * Создает коллекцию объектов, нужного типа
  * @param {DB} db - База данных, в которой будут искаться объекты
  * @param {String} type - Тип искомых объектов
- * @returns {Promise.<Object, Error>} Если обещание сдержанно,
- * то оно вернет коллекцию объектов искомого типа, иначе, в случае отказа от обещания, вернется ошибка
+ * @returns {Promise.<Object || null>} Если если объекты данно типа то вернется их коллекция, иначе null
  */
 function db_get_by_type(db, type) {
     let promise = new Promise(function (resolve, reject) {
         let res = utility.filterObj(db, function (item) {
             return item.type === type;
         });
-        if( Object.keys[res].length)
-            resolve();
-        else
-            reject(new Error('нет предметов такого типа'));
-    return promise;
+        resolve(res || null);
     });
+    return promise;
 }
 
 module.exports = {
@@ -123,5 +116,6 @@ module.exports = {
     add: db_add,
     add_by_id: db_add_by_id,
     get_by_id: db_get_by_id,
+    get_all: db_get_all,
     get_by_type: db_get_by_type,
 };

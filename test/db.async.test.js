@@ -3,7 +3,7 @@ const mongo = require('../src/mongo');
 const db = require('../src/db.async.proxy');
 [mongo, db].forEach(function (database, index) {
 
-    describe('Тест БД '+index, function () {
+    describe('Тест БД ' + index, function () {
         beforeEach(function () {
             database.clearCollection();
         });

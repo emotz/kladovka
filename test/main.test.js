@@ -2,8 +2,8 @@ const assert = require('assert');
 const klad = require('../src/main');
 
 describe('Тест для кладовки', function () {
-    beforeEach(function () {
-        klad.clearCollection();
+    beforeEach(async function () {
+        return klad.clearCollection();
     });
 
     it('сохраняет предмет в кладовке', async function () {

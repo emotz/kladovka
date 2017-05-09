@@ -27,7 +27,17 @@ function filterObj(obj, fn) {
     return res;
 }
 
+
+/**
+ * Клонирует объект
+ * @param {Object} obj - Объект, который будет клонироваться
+ * @returns {Object} Новый объект, клон
+ */
+function clone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
 module.exports = {
     random,
     filterObj,
+    clone
 };

@@ -46,6 +46,7 @@ async function deleteAllItems() {
         res[id].deleted = true;
         count++;
     }
+    kladovka = res;
     return count;
 }
 
@@ -83,7 +84,9 @@ async function getAllItemsByType(type) {
  * @returns {Promise.<Number, Error>} Количесво удаленных объектов
  */
 async function clearCollection() {
+    let all = await db.get_all(kladovka);
     kladovka = {};
+    return Object.keys(all).length;
 }
 
 module.exports = {

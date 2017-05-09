@@ -17,16 +17,12 @@ function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
 }
-function clone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-}
 //////////////////////////////////////////////////
 
 /**
  * Создает новую базу данных. 
  * При считывании и записи объектов в базу происходит их копирование JSON'ификацией.
- * См. секцию Unit Tests для примера использования.
- * @returns {DB} Пустая, только что созданная, база данных
+ * @returns {DB} Пустая, только что созданная, база данных.
  */
 function db_initialize() {
     let db = {};
@@ -35,78 +31,99 @@ function db_initialize() {
 
 /**
  * Сохраняет копию объекта в базе данных под случайно сгенерированным 
- * идентификатором и возвращает этот идентификатор. См. секцию Unit Tests для примера использования.
- * @param {DB} db - База данных, в которую будет добавлен объект
- * @param {Object} entity - Этот объект будет сохранен в базу
- * @returns {Promise.<String, Error>} Если обещание сдержанно,
- * то оно вернет id добавленного объекта, иначе ошибку
+ * идентификатором и возвращает этот идентификатор.
+ * @param {DB} db - База данных, в которую будет добавлен объект.
+ * @param {Object} entity - Этот объект будет сохранен в базу.
+ * @returns {Promise.<String, Error>} Если обещание сдержанно, то оно вернет id добавленного объекта.
+ * Если нет БД, то происходит отказ от отбещания и вернется ошибка.
  */
 
 
 function db_add(db, entity) {
     let id = guid();
     let promise = new Promise(function (resolve, reject) {
-        db[id] = clone(entity);
-        if(db[id])
+        if (db === undefined)
+            reject(new Error('нет базы данных'));
+        else {
+            db[id] = utility.clone(entity);
             resolve(id);
-        else
-            reject(new Error('не засунул'));
+        }
     });
     return promise;
 }
 
 /**
  * Сохраняет копию объекта в базе данных под указанным идентификатором.
- * См. секцию Unit Tests для примера использования.
- * @param {DB} db - База данных, в которую будет добавлен объект
- * @param {String} id - Идентификатор, под которым объект будет добавлен
- * @param {Object} entity - Этот объект будет сохранен в базу
- * @returns {Promise.<String, Error>} Если обещание сдержанно,
- * то оно вернет id добавленного объекта, иначе ошибку
+ * @param {DB} db - База данных, в которую будет добавлен объект.
+ * @param {String} id - Идентификатор, под которым объект будет добавлен.
+ * @param {Object} entity - Этот объект будет сохранен в базу.
+ * @returns {Promise.<String, Error>} Если обещание сдержанно, то оно вернет id добавленного объекта.
+ * Если нет БД, то происходит отказ от отбещания и вернется ошибка.
  */
 function db_add_by_id(db, id, entity) {
     let promise = new Promise(function (resolve, reject) {
-        db[id] = clone(entity);
-        if (db[id])
+        if (db === undefined)
+            reject(new Error('нет базы данных'));
+        else {
+            db[id] = utility.clone(entity);
             resolve(id);
-        else
-            reject(new Error('не засунул'));
+        }
     });
     return promise;
 }
 /**
  * Считывает объект из базы данных под указанным идентификатором. 
  * Полученный объект является копией объекта из базы.
- * @param {DB} db - База данных, из которой будет считан объект
- * @param {Promise.<String>} id - Идентификатор объекта для считывания
-//  * @returns {Promise.<Object || null>} искомый объект, если его нет, то null
+ * @param {DB} db - База данных, из которой будет считан объект.
+ * @param {Promise.<String>} id - Идентификатор объекта для считывания.
+ * @returns {Promise.<Object, Error>} Если обещание сдержанно то оно вернет искомый объект, если его нет в БД, то вернет значение null.
+ * Если нет БД, то происходит отказ от отбещания и вернется ошибка.
  */
 function db_get_by_id(db, id) {
-    return Promise.resolve(db[id] || null);
+    return new Promise(function (resolve, reject) {
+        if (db === undefined)
+            reject(new Error('нет базы данных'));
+        else {
+            if (db[id] === undefined)
+                resolve(null);
+            else
+                resolve(utility.clone(db[id]));
+        }
+    });
 }
 
 /**
- * Получить все объекты из БД
- * @param {DB} db - База данных, в которой будут искаться объекты
- * @returns {Promise.<Object || null>} Если обещание сдержанно,
- * то оно вернет коллекцию объектов искомого типа, иначе, в случае отказа от обещания, вернется ошибка
+ * Получить все объекты из БД.
+ * @param {DB} db - База данных, в каторой будут искаться объекты.
+ * @returns {Promise.<Object, Error>} Если обещание сдержанно, то оно вернет коллекцию объектов.
+ * Если нет БД, то происходит отказ от отбещания и вернется ошибка.
  */
 function db_get_all(db) {
-    return Promise.resolve(db || null);
+    return new Promise(function (resolve, reject) {
+        if (db === undefined)
+            reject(new Error('нет базы данных'));
+        else
+            resolve(utility.clone(db));
+    });
 }
 
 /**
- * Создает коллекцию объектов, нужного типа
- * @param {DB} db - База данных, в которой будут искаться объекты
- * @param {String} type - Тип искомых объектов
- * @returns {Promise.<Object || null>} Если если объекты данно типа то вернется их коллекция, иначе null
+ * Создает коллекцию объектов, нужного типа.
+ * @param {DB} db - База данных, в которой будут искаться объекты.
+ * @param {String} type - Тип искомых объектов.
+ * @returns {Promise.<Object, Error>} Если обещание сдержанно, то оно вернет коллекцию объектов данного типа.
+ * Если нет БД, то происходит отказ от отбещания и вернется ошибка.
  */
 function db_get_by_type(db, type) {
     let promise = new Promise(function (resolve, reject) {
-        let res = utility.filterObj(db, function (item) {
-            return item.type === type;
-        });
-        resolve(res || null);
+        if (db === undefined)
+            reject(new Error('нет базы данных'));
+        else {
+            let res = utility.filterObj(db, function (item) {
+                return item.type === type;
+            });
+            resolve(utility.clone(res));
+        }
     });
     return promise;
 }
@@ -117,5 +134,5 @@ module.exports = {
     add_by_id: db_add_by_id,
     get_by_id: db_get_by_id,
     get_all: db_get_all,
-    get_by_type: db_get_by_type,
+    get_by_type: db_get_by_type
 };

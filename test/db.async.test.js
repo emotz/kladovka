@@ -4,8 +4,8 @@ const db = require('../src/db.async.proxy');
 [mongo, db].forEach(function (database, index) {
 
     describe('Тест БД ' + index, function () {
-        beforeEach(function () {
-            database.clearCollection();
+        beforeEach(async function () {
+            return database.clearCollection();
         });
 
         it('добавляет объект в БД', async function () {
@@ -34,7 +34,7 @@ const db = require('../src/db.async.proxy');
             let obj = { qwer: 123 };
             let id = await database.add(obj);
             let get = await database.getById(id);
-            assert(obj.qwer === get.qwer);
+            assert(get.qwer === 123);
         });
 
         it('получает все объекты из БД ', async function () {

@@ -46,7 +46,7 @@ const db = require('../src/db.async.proxy');
             assert(res.length === 2);
         });
 
-        it('сохраняет данные в БД, и они остаются не изменны, если изменяется состояние исходного объекта', async function () {
+        it('сохраняет данные в БД, и они остаются неизменны, если изменяется состояние исходного объекта', async function () {
             let obj = { qwer: 123 };
             let id = await database.add(obj);
             obj.qwer = 'stroka';
@@ -82,6 +82,24 @@ const db = require('../src/db.async.proxy');
             await database.add(obj3);
             let res = await database.getByType('axe');
             assert(res.length === 2);
+        });
+
+        it('получает записанный объект через getAll', async function () {
+            let obj1 = { qwer: 11, type: 'axe' };
+            await database.add(obj1);
+            let all = await database.getAll();
+            assert(all[0] !== undefined);
+            assert(all[0].qwer === obj1.qwer);
+        });
+
+        it('получает все объекты, меняет один из них, получает их заново и проверяет что они не изменились', async function () {
+            let obj1 = { qwer: 11, type: 'axe' };
+            await database.add(obj1);
+            let returned = await database.getAll();
+            returned[0].type = 'sword';
+            assert(obj1.type === 'axe');
+            let returned2 = await database.getAll();
+            assert(returned2[0].type === 'axe');
         });
     });
 });

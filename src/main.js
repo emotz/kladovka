@@ -6,10 +6,9 @@ const calc = require('./calculation');
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {Promise.<String, Error>} Идентификатор предмета уложенного в кладовку
  */
-async function placeInKladovka(item) {
+function placeInKladovka(item) {
     return db.add(item);
 }
-
 
 /**
  * Получает предмет из кладовки под указанным идентификатором.
@@ -31,7 +30,7 @@ function getAllFromKladovka() {
 /**
  * Удаляет предмет из кладовки под указанным идентификатором.
  * @param {String} id - Идентификатор предмета для удаления
- * @returns  {Promise.<String, Error>} Идентификатор удаленного предмета 
+ * @returns  {Promise.<String, Error>} Идентификатор удалённого предмета
  */
 function deleteFromKladovka(id) {
     return db.deleteById(id);
@@ -39,7 +38,7 @@ function deleteFromKladovka(id) {
 
 /**
  * Удаляет ВСЕ предметы из кладовки
- * @returns  {Promise.<Number, Error>} Количество удаленных объектов
+ * @returns  {Promise.<Number, Error>} Количество удалённых объектов
  */
 function deleteAllFromKladovka() {
     return db.deleteAll();

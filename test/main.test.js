@@ -107,5 +107,4 @@ describe('Тест для кладовки', function () {
             assert(await klad.isNeeded(item2) === false);
         });
     });
-
 });

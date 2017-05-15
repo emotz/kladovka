@@ -1,9 +1,9 @@
 const mongodb = require('mongodb');
 const mongo = mongodb.MongoClient;
 const ObjectID = mongodb.ObjectID;
+
 const url = 'mongodb://localhost:27017/kladovka';
 const coll = 'items';
-
 
 /**
  * Сохраняет объект в БД
@@ -19,8 +19,8 @@ async function addItem(item) {
 }
 
 /**
- * Получает из базы данных объект (не удаленный)
- * @param {String} id - идентефикатор искомого объекта
+ * Получает из базы данных объект (не удалённый)
+ * @param {String} id - идентификатор искомого объекта
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
 async function getNotDeletedItemById(id) {
@@ -29,13 +29,12 @@ async function getNotDeletedItemById(id) {
     let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
     db.close();
     return item;
-
 }
 
 /**
  * Удаляет объект из БД
- * @param {String} id - идентефикатор удаляемого объекта
- * @returns {Promise.<String, Error>} id удаленного объекта
+ * @param {String} id - идентификатор удаляемого объекта
+ * @returns {Promise.<String, Error>} id удалённого объекта
  */
 async function deleteItemById(id) {
     let db = await mongo.connect(url);
@@ -48,7 +47,7 @@ async function deleteItemById(id) {
 
 /**
  * Удаляет ВСЕ объекты из БД
- * @returns {Promise.<Number, Error>} Количество удаленных объектов
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
 async function deleteAllItems() {
     let db = await mongo.connect(url);
@@ -59,7 +58,7 @@ async function deleteAllItems() {
 }
 
 /**
- * Получает массив объектов(не удаленных)
+ * Получает массив объектов(не удалённых)
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getNotDeletedItems() {
@@ -69,8 +68,9 @@ async function getNotDeletedItems() {
     db.close();
     return res;
 }
+
 /**
- * Получает массив объектов(не удаленных) данного типа
+ * Получает массив объектов(не удалённых) данного типа
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getAllItemsByType(type) {
@@ -83,7 +83,7 @@ async function getAllItemsByType(type) {
 
 /**
  * Очищает коллекцию
- * @returns {Promise.<Number, Error>} Количесво удаленных объектов
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
 async function clearCollection() {
     let db = await mongo.connect(url);

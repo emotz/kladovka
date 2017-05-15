@@ -11,8 +11,8 @@ async function addItem(item) {
 }
 
 /**
- * Получает из базы данных объект (не удаленный)
- * @param {String} id - идентефикатор искомого объекта
+ * Получает из базы данных объект (не удалённый)
+ * @param {String} id - идентификатор искомого объекта
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
 async function getNotDeletedItemById(id) {
@@ -23,8 +23,8 @@ async function getNotDeletedItemById(id) {
 
 /**
  * Удаляет объект из БД
- * @param {String} id - идентефикатор удаляемого объекта
- * @returns {Promise.<String, Error>} id удаленного объекта
+ * @param {String} id - идентификатор удаляемого объекта
+ * @returns {Promise.<String, Error>} id удалённого объекта
  */
 async function deleteItemById(id) {
     let res = await db.get_by_id(kladovka, id);
@@ -36,7 +36,7 @@ async function deleteItemById(id) {
 
 /**
  * Удаляет ВСЕ объекты из БД
- * @returns {Promise.<Number, Error>} Количество удаленных объектов
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
 async function deleteAllItems() {
     let count = 0;
@@ -51,37 +51,35 @@ async function deleteAllItems() {
 }
 
 /**
- * Получает массив объектов(не удаленных)
+ * Получает массив объектов (не удалённых)
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getNotDeletedItems() {
     let all = await db.get_all(kladovka);
-    let res = [];
-    for (let id in all) {
-        if (all[id].deleted === true) continue;
-        res.push(all[id]);
-    }
-    return res;
+    return selectNotDeleted(all);
 }
 
 /**
- * Получает массив объектов(не удаленных) данного типа
+ * Получает массив объектов (не удалённых) данного типа
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getAllItemsByType(type) {
     let all = await db.get_by_type(kladovka, type);
+    return selectNotDeleted(all);
+}
+
+function selectNotDeleted(dict) {
     let res = [];
-    for (let id in all) {
-        if (all[id].deleted === true) continue;
-        let item = all[id];
-        res.push(item);
+    for (let id in dict) {
+        if (dict[id].deleted === true) continue;
+        res.push(dict[id]);
     }
     return res;
 }
 
 /**
  * Очищает коллекцию
- * @returns {Promise.<Number, Error>} Количесво удаленных объектов
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
 async function clearCollection() {
     let all = await db.get_all(kladovka);

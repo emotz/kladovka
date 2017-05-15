@@ -1,0 +1,26 @@
+### добавить предмет в кладовку
+
+POST http://localhost:8080/api/items
+content-type: application/json
+
+{
+    "type": "mace",
+    "dps": 333,
+    "hui": 25
+}
+
+### получить предмет из кладовки
+
+GET http://localhost:8080/api/items/590a2f2868789115a8c9cbd8
+
+### получить все предметы из кладовки
+
+GET http://localhost:8080/api/items/
+
+### удалить предмет из кладовки
+
+DELETE http://localhost:8080/api/items/590a2f2868789115a8c9cbd8
+
+### удалить все предметы из кладовки
+
+DELETE http://localhost:8080/api/items/

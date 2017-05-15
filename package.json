@@ -4,7 +4,8 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "watch": "node rest/rest.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,13 @@
   },
   "homepage": "https://github.com/emotz/kladovka#readme",
   "devDependencies": {
+    "eslint": "^3.19.0",
     "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "express-async-errors": "^2.0.0",
+    "mongodb": "^2.2.26"
   }
 }

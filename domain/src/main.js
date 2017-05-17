@@ -1,4 +1,4 @@
-const db = require('./db.async.proxy');
+const db = require('./mongo');
 const calc = require('./calculation');
 
 /**

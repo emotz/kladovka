@@ -1,7 +1,7 @@
 require('express-async-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
-let klad = require('../src/main');
+let klad = require('../../domain/src/main');
 let app = express();
 
 app.use(bodyParser.json());

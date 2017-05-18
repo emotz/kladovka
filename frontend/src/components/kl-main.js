@@ -1,6 +1,6 @@
 import kl_items from './kl-items.vue';
 export default {
-    data: function(){
+    data: function () {
         return {};
     },
     components: {

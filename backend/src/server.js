@@ -1,10 +1,12 @@
 require('express-async-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
+const path =require('path');
 let klad = require('../../domain/src/main');
 let app = express();
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
 app.post('/api/items', async function (req, res) {
     let added_id = await klad.placeInKladovka(req.body);

@@ -1,0 +1,11 @@
+body {
+    background-image: url('bg_diablo.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat
+
+}
+.container-fluid>div>div{
+    background: #221F1C;
+}

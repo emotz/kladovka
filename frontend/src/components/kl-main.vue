@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+      <div class="row">
         <kl-items></kl-items>
     </div>
   </div>

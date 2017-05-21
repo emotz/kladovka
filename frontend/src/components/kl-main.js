@@ -4,6 +4,6 @@ export default {
         return {};
     },
     components: {
-        'kl-items': kl_items
+        'kl-items': kl_items,
     },
 };

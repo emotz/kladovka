@@ -25,6 +25,7 @@ module.exports = {
     resolve: {
         alias: {
             'bootstrap.css$': 'bootstrap/dist/css/bootstrap.min.css',
+            'bootstrap.js$': 'bootstrap/dist/js/bootstrap.min.js',
         },
     },
     plugins: [

@@ -2,12 +2,12 @@ import * as items from '../items.js';
 export default {
     data: function () {
         return {
-            type: '',
-            aps: 0,
+            apsList: items.aps,
+            typeList: items.type,
+            type: items.type[0],
+            aps: items.aps[0],
             minDmg: 2,
             maxDmg: 3,
-            apsList: items.aps,
-            typeList: items.type
         };
     },
     methods: {
@@ -16,16 +16,10 @@ export default {
             this.$http.post('http://localhost:8080/api/items/', item).then(res => {
                 this.$emit('added', item);
             }).catch(err => console.log('oops'));
+        },
+        statControl: function () {
+            if (this.minDmg < 2) this.minDmg = 2;
+            if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
         }
-    },
-    watch: {
-        minDmg: function (val) {
-            if (val < 1) this.minDmg = 1;
-            if (val >= this.maxDmg) this.maxDmg = val + 1;
-        },
-        maxDmg: function (val) {
-            if (val <= this.minDmg)
-                this.minDmg = val - 1;
-        },
     },
 };

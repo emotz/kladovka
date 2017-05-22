@@ -29,10 +29,10 @@
                                     </select>
                                 </li>
                                 <li class="item">
-                                    <input type="number" v-model.number="minDmg">
+                                    <input type="number" v-model.number="minDmg" v-on:change="statControl">
                                 </li>
                                 <li class="item">
-                                    <input type="number" v-model.number="maxDmg">
+                                    <input type="number" v-model.number="maxDmg" v-on:change="statControl">
                                 </li>
                             </ul>
                         </div>

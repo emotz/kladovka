@@ -11,6 +11,7 @@
                             <dd>aps: {{ item.aps }}</dd>
                             <dd>min damage: {{ item.minDmg }}</dd>
                             <dd>max damage: {{ item.maxDmg }}</dd>
+                            <dd>dps: {{ item.dps }}</dd>
                         </dl>
                     </div>
                     <div class="col-lg-2 col-lg-offset-6">

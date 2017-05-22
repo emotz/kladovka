@@ -8,12 +8,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-3 col-md-offset-3">
+                        <div class="col-md-4 col-md-offset-2">
                             <ul class="list-group">
-                                <li>type:</li>
-                                <li>aps:</li>
-                                <li>min damage:</li>
-                                <li>max damage:</li>
+                                <li>Type:</li>
+                                <li>Attacks per second:</li>
+                                <li>Min damage:</li>
+                                <li>Max damage:</li>
                             </ul>
                         </div>
                         <div class="col-md-6">

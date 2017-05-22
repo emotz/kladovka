@@ -1,5 +1,6 @@
 import kl_add_item from './kl-add-item.vue';
 import kl_delete_all from './kl-delete-all.vue';
+import {dps} from '../../../domain/src/calculation.js';
 export default {
     data: function () {
         return {
@@ -12,7 +13,11 @@ export default {
     },
     mounted: function () {
         this.$http.get('http://localhost:8080/api/items/').then(response => {
-            this.items = response.body;
+            for (let i in response.body) {
+                let item = response.body[i];
+                item.dps = dps(item);
+                this.items.push(item);
+            }
         }).catch(err => console.log('oops'));
     },
     methods: {
@@ -22,10 +27,11 @@ export default {
             }).catch(err => console.log('oops'));
         },
         addItem: function (item) {
+            item.dps = dps(item);
             this.items.push(item);
         },
         deleteAll: function (item) {
-            this.items=[];
+            this.items = [];
         }
     }
 };

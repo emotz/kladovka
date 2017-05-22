@@ -1,5 +1,5 @@
 function calcDps(item) {
-    return ((item.dmg_min + item.dmg_max) / 2) * item.aps;
+    return ((item.minDmg + item.maxDmg) / 2) * item.aps;
 }
 
 function calcScore(item) {

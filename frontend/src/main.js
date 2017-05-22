@@ -1,5 +1,5 @@
 import 'bootstrap.css';
-import 'bootstrap.js';
+import 'bootstrap';
 import Vue from 'vue';
 import vueResource from 'vue-resource';
 import app from './components/kl-main.vue';

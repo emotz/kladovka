@@ -8,8 +8,6 @@ let app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
-app.use('/js', express.static(__dirname + '/../../node_modules/jquery/dist')); // redirect JS jQuery
-
 app.post('/api/items', async function (req, res) {
     let added_id = await klad.placeInKladovka(req.body);
     res.header('Location', '/api/items/' + added_id);

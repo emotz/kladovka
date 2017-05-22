@@ -1,5 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
+
 module.exports = {
     entry: './src/main.js',
     output: {
@@ -25,7 +27,6 @@ module.exports = {
     resolve: {
         alias: {
             'bootstrap.css$': 'bootstrap/dist/css/bootstrap.min.css',
-            'bootstrap.js$': 'bootstrap/dist/js/bootstrap.min.js',
         },
     },
     plugins: [
@@ -33,6 +34,10 @@ module.exports = {
             { from: './src/index.html' },
             { from: './src/style.css' },
             { from: './assets' }
-        ])
+        ]),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
     ]
 };

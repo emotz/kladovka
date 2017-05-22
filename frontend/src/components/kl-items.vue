@@ -21,13 +21,14 @@
             <li class="list-group-item">
                  <div class="row">
                     <div class="col-lg-5 col-lg-offset-7">
-                        <button class="btn diablo" id="del" type="button" v-on:click="deleteAll">Delete all</button>
-                        <button class="btn diablo" type="button" data-toggle="modal" data-target="#add_item">Add item</button>
+                        <button id="del" class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">Delete all</button>
+                        <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item">Add item</button>
                      </div>
                 </div>
             </li>
         </ul>
-        <kl-modal v-on:added="added"></kl-modal>       
+        <kl-delete-all v-on:deleteAll="deleteAll"></kl-delete-all>       
+        <kl-add-item v-on:addItem="addItem"></kl-add-item>       
     </div>
 </template>
 

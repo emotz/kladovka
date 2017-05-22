@@ -14,7 +14,7 @@ export default {
         addItem: function () {
             let item = { type: this.type, aps: this.aps, minDmg: this.minDmg, maxDmg: this.maxDmg };
             this.$http.post('http://localhost:8080/api/items/', item).then(res => {
-                this.$emit('added', item);
+                this.$emit('addItem', item);
             }).catch(err => console.log('oops'));
         },
         statControl: function () {

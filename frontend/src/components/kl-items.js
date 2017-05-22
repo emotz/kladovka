@@ -1,4 +1,5 @@
-import kl_modal from './kl-modal.vue';
+import kl_add_item from './kl-add-item.vue';
+import kl_delete_all from './kl-delete-all.vue';
 export default {
     data: function () {
         return {
@@ -6,7 +7,8 @@ export default {
         };
     },
     components: {
-        'kl-modal': kl_modal,
+        'kl-add-item': kl_add_item,
+        'kl-delete-all': kl_delete_all,
     },
     mounted: function () {
         this.$http.get('http://localhost:8080/api/items/').then(response => {
@@ -19,13 +21,11 @@ export default {
                 this.items.splice(index, 1);
             }).catch(err => console.log('oops'));
         },
-        deleteAll: function () {
-            this.$http.delete('http://localhost:8080/api/items/').then(response => {
-                this.items = [];
-            }).catch(err => console.log('oops'));
-        },
-        added: function (item) {
+        addItem: function (item) {
             this.items.push(item);
+        },
+        deleteAll: function (item) {
+            this.items=[];
         }
     }
 };

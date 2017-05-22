@@ -1,5 +1,5 @@
 <template>
-   <div class="modal fade" id="add_item">
+   <div class="modal fade" id="add-item">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,7 +47,7 @@
     </div><!-- /.modal -->
 </template>
 
-<script src="./kl-modal.js"></script>
+<script src="./kl-add-item.js"></script>
 
 <style>
 div.modal.fade {

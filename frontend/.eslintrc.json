@@ -1,3 +1,23 @@
 {
-    "extends": "../.eslintrc.json"
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module"
+    },
+    "rules": {
+        "semi": [
+            "warn",
+            "always"
+        ],
+        "no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "args": "none"
+            }
+        ]
+    }
 }

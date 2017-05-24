@@ -27,6 +27,8 @@ module.exports = {
     resolve: {
         alias: {
             'bootstrap.css$': 'bootstrap/dist/css/bootstrap.min.css',
+            'toastr.css$': 'toastr/build/toastr.min.css',
+            'domain': path.resolve(__dirname, '../domain/src/'),
         },
     },
     plugins: [

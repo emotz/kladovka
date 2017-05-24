@@ -1,5 +1,5 @@
 <template>
-   <div class="modal fade" id="add-item">
+   <div class="modal fade" id="add-item" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn diablo" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="addItem">Add</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="addItem" v-focus="focused" v-on:focus="focused=true" v-on:blur="focused=false">Add</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

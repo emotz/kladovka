@@ -11,7 +11,6 @@
                         <div class="col-md-4 col-md-offset-2">
                             <ul class="list-group">
                                 <li>Type:</li>
-                                <li>Attacks per second:</li>
                                 <li>Min damage:</li>
                                 <li>Max damage:</li>
                             </ul>
@@ -22,11 +21,6 @@
                                 <select v-model="type">
                                     <option v-for="tp in typeList">{{tp}}</option>
                                 </select>
-                                </li>
-                                <li class="item">
-                                    <select v-model.number="aps">
-                                        <option v-for="aps in apsList">{{aps}}</option>
-                                    </select>
                                 </li>
                                 <li class="item">
                                     <input type="number" v-model.number="minDmg" v-on:change="statControl">

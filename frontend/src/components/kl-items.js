@@ -20,13 +20,13 @@ export default {
                 item.dps = dps(item);
                 this.items.push(item);
             }
-        }).catch(err => toastr.error('Internal Server Error'));
+        }).catch(err => toastr.error('Oops, something went wrong'));
     },
     methods: {
         deleteItem: function (id, index) {
             this.$http.delete('/api/items/' + id).then(response => {
                 this.items.splice(index, 1);
-            }).catch(err => toastr.error('Internal Server Error'));
+            }).catch(err => toastr.error('Oops, something went wrong'));
         },
         addItem: function (item) {
             item.dps = dps(item);

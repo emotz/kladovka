@@ -1,4 +1,5 @@
 import * as items from '../items.js';
+import { setAps } from 'domain/calculation';
 import toastr from 'toastr';
 import { focus } from 'vue-focus';
 export default {
@@ -7,21 +8,19 @@ export default {
     data: function () {
         return {
             focused: false,
-            apsList: items.aps,
             typeList: items.type,
             type: items.type[0],
-            aps: items.aps[0],
             minDmg: 2,
             maxDmg: 3,
         };
     },
     methods: {
         addItem: function () {
-            let item = { type: this.type, aps: this.aps, minDmg: this.minDmg, maxDmg: this.maxDmg };
-            this.$http.post('/api/items/', item).then(response => {
+            let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg };
+            this.$http.post('/api/items/', setAps(item)).then(response => {
                 item._id = response.body.added_id;
                 this.$emit('addItem', item);
-            }).catch(err => toastr.error('Internal Server Error'));
+            }).catch(err => toastr.error('Oops, something went wrong'));
         },
         statControl: function () {
             if (this.minDmg < 2) this.minDmg = 2;
@@ -29,14 +28,8 @@ export default {
         }
     },
     watch: {
-        focusProp: function (newVal, oldVal) {
-            if (newVal === true && oldVal === false)
-                this.focused = true;
-        },
-        focused: function (newVal, oldVal) {
-            if (this.focusProp === true && oldVal === false && oldVal !== newVal) {
-                this.focused = true;
-            }
+        focusProp: function (newVal) {
+            this.focused = newVal;
         }
     }
 };

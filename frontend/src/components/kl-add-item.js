@@ -1,5 +1,4 @@
-import * as items from '../items.js';
-import { setAps } from 'domain/calculation';
+import * as Item from 'domain/Item';
 import toastr from 'toastr';
 import { focus } from 'vue-focus';
 export default {
@@ -8,16 +7,17 @@ export default {
     data: function () {
         return {
             focused: false,
-            typeList: items.type,
-            type: items.type[0],
+            typeList: Item.types,
+            type: Item.types[0],
             minDmg: 2,
             maxDmg: 3,
         };
     },
     methods: {
         addItem: function () {
-            let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg };
-            this.$http.post('/api/items/', setAps(item)).then(response => {
+            let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg};
+            item.aps= Item.aps(item);
+            this.$http.post('/api/items/', item).then(response => {
                 item._id = response.body.added_id;
                 this.$emit('addItem', item);
             }).catch(err => toastr.error('Oops, something went wrong'));

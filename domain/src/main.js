@@ -1,5 +1,5 @@
-const db = require('./db.async.proxy');
-const calc = require('./calculation');
+const db = require('./mongo');
+const Item = require('./Item');
 
 /**
  * Укладывает предмет в кладовку
@@ -51,8 +51,8 @@ function deleteAllFromKladovka() {
  * @returns {Number} Возвращает -1 если первый предмет лучше, 1 если второй. 0 если равны
  */
 function compareItems(item1, item2) {
-    let score1 = calc.score(item1);
-    let score2 = calc.score(item2);
+    let score1 = Item.score(item1);
+    let score2 = Item.score(item2);
     if (score1 > score2)
         return -1;
     else if (score1 < score2)
@@ -68,9 +68,9 @@ function compareItems(item1, item2) {
  */
 async function isNeeded(item) {
     let res = await db.getByType(item.type);
-    let score = calc.score(item);
+    let score = Item.score(item);
     for (let item of res) {
-        if (calc.score(item) < score)
+        if (Item.score(item) < score)
             return true;
     }
     if (Object.keys(res).length === 0) return true;
@@ -87,7 +87,7 @@ async function findWorstInKladovka() {
         min_score = Number.POSITIVE_INFINITY;
     allItems = await db.getAll();
     for (let item of allItems) {
-        let score = calc.score(item);
+        let score = Item.score(item);
         if (score < min_score) {
             res = item;
             min_score = score;

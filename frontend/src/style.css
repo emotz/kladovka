@@ -1,0 +1,32 @@
+body {
+    background-image: url('bg_diablo.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat
+}
+.container-fluid>div>div{
+    background: #221F1C;
+}
+.btn  {
+    border: 1px solid #211b14;
+    color: #ad835a;
+    background: #000000;
+}
+.btn:focus {
+    outline: 1px solid orangered;
+    border: 1px solid #332D24;
+    color: #ad835a;
+    background: #000000;
+}
+.btn:hover {
+    border: 1px solid #332D24;
+    color: #F3E6D0;
+    background: #201A11;
+}
+.btn.diablo:active{
+    outline: none;
+    border: 1px solid #332D24;
+    color: #F3E6D0;
+    background: #100D08;
+}

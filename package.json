@@ -4,8 +4,9 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "test": "mocha",
-    "watch": "node rest/rest.js"
+    "test": "mocha domain/test",
+    "watch": "node backend/src/server.js",
+    "build": "cd frontend && webpack"
   },
   "repository": {
     "type": "git",
@@ -23,13 +24,29 @@
   },
   "homepage": "https://github.com/emotz/kladovka#readme",
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "mocha": "^3.2.0"
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.1",
+    "file-loader": "^0.11.1",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "vue-loader": "^12.0.4",
+    "vue-template-compiler": "^2.3.3",
+    "webpack": "^2.5.1"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
+    "bootstrap": "^3.3.7",
     "express": "^4.15.2",
     "express-async-errors": "^2.0.0",
-    "mongodb": "^2.2.26"
+    "jquery": "^3.2.1",
+    "mongodb": "^2.2.26",
+    "toastr": "^2.1.2",
+    "vue": "^2.3.3",
+    "vue-focus": "^2.1.0",
+    "vue-resource": "^1.3.1"
+  },
+  "optionalDependencies": {
+    "eslint": "^3.19.0",
+    "mocha": "^3.2.0"
   }
 }

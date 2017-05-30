@@ -4,6 +4,7 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
+    "e2e": "wdio e2e/wdio.conf.js",
     "test": "mocha domain/test",
     "watch": "node backend/src/server.js",
     "build": "cd frontend && webpack"
@@ -31,6 +32,10 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^12.0.4",
     "vue-template-compiler": "^2.3.3",
+    "wdio-mocha-framework": "^0.5.10",
+    "wdio-selenium-standalone-service": "0.0.8",
+    "wdio-spec-reporter": "^0.1.0",
+    "webdriverio": "^4.8.0",
     "webpack": "^2.5.1"
   },
   "dependencies": {

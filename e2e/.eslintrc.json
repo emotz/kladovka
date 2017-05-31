@@ -2,6 +2,8 @@
     "extends": "../.eslintrc.json",
     "env": {
         "node": true,
-        "mocha": true
-    }
+        "mocha": true,
+        "webdriverio/wdio": true
+    },
+    "plugins": ["webdriverio"]
 }

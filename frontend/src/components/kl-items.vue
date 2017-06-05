@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item down-buttons">
                  <div class="row">
                     <div class="col-xs-12">
                         <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">Delete all</button>

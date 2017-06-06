@@ -7,14 +7,11 @@ class Page {
         browser.url(path || '/');
     }
 
-    get firstChildList(){
-        return  browser.$('div.col-md-4 ul.list-group li.list-group-item:first-child');
-    }
     get lastChildList(){
         return  browser.$('div.col-md-4 ul.list-group li.list-group-item:last-child');
     }
     get deleteAllBtn() {
-        return browser.$('.col-xs-12 button.btn.diablo:first-child');
+        return browser.$('.footer-list button.btn.diablo:first-child');
     }
     get deleteAllModal(){
         return browser.$('#delete-all');
@@ -23,7 +20,7 @@ class Page {
         return browser.$('#delete-all div.modal-footer button.btn.diablo:last-child');
     }
     get addItemBtn() {
-        return browser.$('.col-xs-12 button.btn.diablo:last-child');
+        return browser.$('.footer-list button.btn.diablo:last-child');
     }
     get addItemModal(){
         return browser.$('#add-item');
@@ -45,6 +42,9 @@ class Page {
         this.addItemModal.waitForVisible();
         this.addItemConfirmBtn.click();
         this.addItemModal.waitForVisible(undefined, true);
+    }
+    waitForEmptyList(){
+        this.lastChildList.waitForVisible(undefined, true);
     }
 }
 

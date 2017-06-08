@@ -10,7 +10,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './e2e/test/*.e2e.js'
+        './test/*.e2e.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -68,7 +68,7 @@ exports.config = {
     bail: 0,
     //
     // Saves a screenshot to a given path if a command fails.
-    screenshotPath: './e2e/errorShot/',
+    screenshotPath: './errorShot/',
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.

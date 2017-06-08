@@ -4,10 +4,11 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "e2e": "wdio e2e/wdio.conf.js",
-    "test": "mocha domain/test",
-    "watch": "node backend/src/server.js",
-    "build": "cd frontend && webpack"
+    "test-e2e": "cd e2e && wdio wdio.conf.js",
+    "test-unit": "cd domain && mocha",
+    "watch": "cd backend/src && node server.js",
+    "build": "cd frontend && webpack",
+    "clean": "rimraf frontend/dist"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "css-loader": "^0.28.1",
     "eslint-plugin-webdriverio": "^1.0.1",
     "file-loader": "^0.11.1",
+    "rimraf": "^2.6.1",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "vue-loader": "^12.0.4",

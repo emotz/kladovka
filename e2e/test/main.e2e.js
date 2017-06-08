@@ -27,7 +27,20 @@ describe('e2e test', function () {
         };
         page.waitForAddCustomItem(item);
         page.waitForNotEmptyList();
-        page.waitForDeleteCustomItem(item);
+        page.waitForDeleteLastItem(item);
         page.waitForEmptyList();
+    });
+    it('последний добавленный предмет - последний в списке (привет, stack)', function () {
+        let item = {
+            type: 'sword',
+            minDmg: 20,
+            maxDmg: 30
+        };
+        page.waitForAddItem();
+        page.waitForNotEmptyList();
+        page.waitForAddCustomItem(item);
+        page.waitForNotEmptyList();
+        page.waitForDeleteLastItem(item);
+        page.waitForNotEmptyList();
     });
 });

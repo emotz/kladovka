@@ -52,9 +52,11 @@ class Page {
         this.addItemConfirmBtn.click();
         modal.waitForVisible(undefined, true);
     }
-    waitForDeleteCustomItem(item) {
+    waitForDeleteLastItem(item) {
         let lastItem = this.lastChildOfList;
-        if (lastItem.$('.col-xs-8 dl dd').getText() == `type: ${item.type}`) {
+        if(item===undefined)
+            lastItem.$('.col-xs-4 button').click();
+        else if (lastItem.$('.col-xs-8 dl dd').getText() == `type: ${item.type}`) {
             lastItem.$('.col-xs-4 button').click();
         }
     }

@@ -11,7 +11,7 @@ class Page {
         return browser.$('div.col-md-4 ul.list-group li.list-group-item:last-child');
     }
     get deleteAllBtn() {
-        return browser.$('.footer-list button.btn.diablo:first-child');
+        return browser.$('.manipulate-all button.btn.diablo:first-child');
     }
     get deleteAllModal() {
         return browser.$('#delete-all');
@@ -20,7 +20,7 @@ class Page {
         return browser.$('#delete-all div.modal-footer button.btn.diablo:last-child');
     }
     get addItemBtn() {
-        return browser.$('.footer-list button.btn.diablo:last-child');
+        return browser.$('.manipulate-all button.btn.diablo:last-child');
     }
     get addItemModal() {
         return browser.$('#add-item');
@@ -28,19 +28,19 @@ class Page {
     get addItemConfirmBtn() {
         return browser.$('#add-item div.modal-footer button.btn.diablo:last-child');
     }
-    waitForDeleteAll() {
+    deleteAll() {
         this.deleteAllBtn.click();
         this.deleteAllModal.waitForVisible();
         this.deleteAllConfirmBtn.click();
         this.deleteAllModal.waitForVisible(undefined, true);
     }
-    waitForAddItem() {
+    addItem() {
         this.addItemBtn.click();
         this.addItemModal.waitForVisible();
         this.addItemConfirmBtn.click();
         this.addItemModal.waitForVisible(undefined, true);
     }
-    waitForAddCustomItem(item) {
+    addCustomItem(item) {
         this.addItemBtn.click();
         let modal = this.addItemModal;
         modal.waitForVisible();
@@ -52,12 +52,14 @@ class Page {
         this.addItemConfirmBtn.click();
         modal.waitForVisible(undefined, true);
     }
-    waitForDeleteLastItem(item) {
-        let lastItem = this.lastChildOfList;
-        if (item === undefined)
-            lastItem.$('.col-xs-4 button').click();
-        else if (lastItem.$('.col-xs-8 dl dd').getText() == `type: ${item.type}`) {
-            lastItem.$('.col-xs-4 button').click();
+    deleteLastItem() {
+        this.lastChildOfList.$('.col-xs-4 button').click();
+    }
+    waitForLastItem(item) {
+        if (this.lastChildOfList.$('.col-xs-8 dl dd').getText() == `type: ${item.type}`) {
+            this.lastChildOfList.waitForVisible();
+        } else {
+            throw new Error('Not Last Item');
         }
     }
     waitForEmptyList() {

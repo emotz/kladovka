@@ -7,16 +7,20 @@ describe('e2e test', function () {
     });
 
     afterEach(function () {
-        page.waitForDeleteAll();
+        page.deleteAll();
         page.waitForEmptyList();
     });
 
-    it('удаляет все предметы', function () {
-        page.waitForDeleteAll();
+    it('удаляет все предметы, ннно сперва добавляет парочку', function () {
+        page.addItem();
+        page.waitForNotEmptyList();
+        page.addItem();
+        page.waitForNotEmptyList();
+        page.deleteAll();
         page.waitForEmptyList();
     });
     it('добавляет предмет по умолчанию в пустую кладовку', function () {
-        page.waitForAddItem();
+        page.addItem();
         page.waitForNotEmptyList();
     });
     it('добавляет конкретный предмет в пустую кладовку и сразу же удаляет этот предмет', function () {
@@ -25,9 +29,9 @@ describe('e2e test', function () {
             minDmg: 20,
             maxDmg: 30
         };
-        page.waitForAddCustomItem(item);
+        page.addCustomItem(item);
         page.waitForNotEmptyList();
-        page.waitForDeleteLastItem(item);
+        page.deleteLastItem();
         page.waitForEmptyList();
     });
     it('последний добавленный предмет - последний в списке (привет, stack)', function () {
@@ -36,11 +40,12 @@ describe('e2e test', function () {
             minDmg: 20,
             maxDmg: 30
         };
-        page.waitForAddItem();
+        page.addItem();
         page.waitForNotEmptyList();
-        page.waitForAddCustomItem(item);
+        page.addCustomItem(item);
         page.waitForNotEmptyList();
-        page.waitForDeleteLastItem(item);
+        page.waitForLastItem(item);
+        page.deleteLastItem();
         page.waitForNotEmptyList();
     });
 });

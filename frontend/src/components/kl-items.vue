@@ -20,7 +20,7 @@
                 </div>
             </li>
         </ul>
-        <div class="footer-list">
+        <div class="manipulate-all">
             <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">Delete all</button>
             <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item" v-on:click="focusAddItem=true">Add item</button>
         </div>
@@ -42,10 +42,10 @@ h2 {
     background: #12110F;
     border: 1px solid #2A241C; 
 }
-.col-xs-4, .footer-list {
+.col-xs-4, .manipulate-all {
     text-align: right;
 }
-.footer-list {
+.manipulate-all {
     padding-right: 15px;
     margin-bottom: 20px;
 }

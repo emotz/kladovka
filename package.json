@@ -4,13 +4,13 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "test": "npm run test-unit && npm run test-e2e",
-    "test-e2e": "cd e2e && wdio wdio.conf.js",
-    "test-unit": "cd domain && mocha",
-    "dev": "cd backend/src && node server.js",
     "build": "cd frontend && webpack",
-    "watch": "cd frontend && webpack --watch",
-    "clean": "rimraf frontend/dist"
+    "clean": "rimraf frontend/dist",
+    "dev": "cd backend/src && node server.js",
+    "test": "npm run test-unit && npm run test-e2e",
+    "test-e2e": "cd e2e && wdio",
+    "test-unit": "cd domain && mocha",
+    "watch": "cd frontend && webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -30,17 +30,12 @@
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.1",
-    "eslint-plugin-webdriverio": "^1.0.1",
     "file-loader": "^0.11.1",
     "rimraf": "^2.6.1",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "vue-loader": "^12.0.4",
     "vue-template-compiler": "^2.3.3",
-    "wdio-mocha-framework": "^0.5.10",
-    "wdio-selenium-standalone-service": "0.0.8",
-    "wdio-spec-reporter": "^0.1.0",
-    "webdriverio": "^4.8.0",
     "webpack": "^2.5.1"
   },
   "dependencies": {
@@ -57,6 +52,11 @@
   },
   "optionalDependencies": {
     "eslint": "^3.19.0",
-    "mocha": "^3.2.0"
+    "eslint-plugin-webdriverio": "^1.0.1",
+    "mocha": "^3.2.0",
+    "wdio-mocha-framework": "^0.5.10",
+    "wdio-selenium-standalone-service": "0.0.8",
+    "wdio-spec-reporter": "^0.1.0",
+    "webdriverio": "^4.8.0"
   }
 }

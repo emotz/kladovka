@@ -4,38 +4,50 @@ Optimizer of inventory for games
 
 ## Install required modules
 
-```cmd
+```bat
 npm install
 ```
+
+## Database
+
+Kladovka uses MongoDB database, and to work correctly you need a running database server on address `http://localhost:27017`
 
 ## Build & Run
 
 ### Build distibutable files
 
-```cmd
+```bat
 npm run build
 ```
 
 ### Start server
 
-```cmd
-npm run watch
+```bat
+npm run dev
+```
+
+After this two steps, open `http://localhost:8080` in your browser and delight our application
+
+### Run all tests
+
+```bat
+npm test
 ```
 
 ### Run unit tests
 
-```cmd
-npm test-unit
+```bat
+npm run test-unit
 ```
 
 ### Run e2e tests
 
-```cmd
+```bat
 npm run test-e2e
 ```
 
 ### Clean distibutable files
 
-```cmd
+```bat
 npm run clean
 ```

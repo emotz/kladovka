@@ -54,7 +54,7 @@ class Page {
     }
     waitForDeleteLastItem(item) {
         let lastItem = this.lastChildOfList;
-        if(item===undefined)
+        if (item === undefined)
             lastItem.$('.col-xs-4 button').click();
         else if (lastItem.$('.col-xs-8 dl dd').getText() == `type: ${item.type}`) {
             lastItem.$('.col-xs-4 button').click();

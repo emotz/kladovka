@@ -4,10 +4,12 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
+    "test": "npm run test-unit && npm run test-e2e",
     "test-e2e": "cd e2e && wdio wdio.conf.js",
     "test-unit": "cd domain && mocha",
-    "watch": "cd backend/src && node server.js",
+    "dev": "cd backend/src && node server.js",
     "build": "cd frontend && webpack",
+    "watch": "cd frontend && webpack --watch",
     "clean": "rimraf frontend/dist"
   },
   "repository": {

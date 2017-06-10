@@ -1,6 +1,8 @@
 const db = require('./db.async');
 let kladovka = db.initialize();
 
+
+function openConnection(){}
 /**
  * Сохраняет объект в БД
  * @param {Object} item - Этот объект будет сохранен в базу
@@ -88,6 +90,7 @@ async function clearCollection() {
 }
 
 module.exports = {
+    openConnection,
     add: addItem,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,

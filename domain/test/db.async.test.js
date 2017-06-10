@@ -1,9 +1,14 @@
 const assert = require('assert');
 const mongo = require('../src/mongo');
 const db = require('../src/db.async.proxy');
-[mongo, db].forEach(function (database, index) {
+[mongo,db].forEach(function (database, index) {
 
     describe('Тест БД ' + index, function () {
+
+        before(async function () {
+            return database.openConnection();
+        });
+
         beforeEach(async function () {
             return database.clearCollection();
         });

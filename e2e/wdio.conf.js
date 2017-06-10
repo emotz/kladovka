@@ -1,6 +1,6 @@
 /* eslint-env node*/
 exports.config = {
-    
+
     //
     // ==================
     // Specify Test Files
@@ -121,7 +121,7 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/testrunner/reporters.html
     reporters: ['spec'],
-    
+
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -237,4 +237,4 @@ exports.config = {
      */
     // onComplete: function(exitCode) {
     // }
-}
+};

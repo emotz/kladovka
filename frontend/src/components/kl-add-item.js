@@ -15,8 +15,8 @@ export default {
     },
     methods: {
         addItem: function () {
-            let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg};
-            item.aps= Item.aps(item);
+            let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg };
+            item.aps = Item.aps(item);
             this.$http.post('/api/items/', item).then(response => {
                 item._id = response.body.added_id;
                 this.$emit('addItem', item);

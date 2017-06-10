@@ -19,15 +19,11 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item">
-                 <div class="row">
-                    <div class="col-xs-12">
-                        <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">Delete all</button>
-                        <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item" v-on:click="focusAddItem=true">Add item</button>
-                     </div>
-                </div>
-            </li>
         </ul>
+        <div class="manipulate-all">
+            <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">Delete all</button>
+            <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item" v-on:click="focusAddItem=true">Add item</button>
+        </div>
         <kl-delete-all v-on:deleteAll="deleteAll"></kl-delete-all>       
         <kl-add-item v-on:addItem="addItem" v-bind:focusProp="focusAddItem"></kl-add-item>       
     </div>
@@ -46,13 +42,11 @@ h2 {
     background: #12110F;
     border: 1px solid #2A241C; 
 }
-li:last-child {
-    border-top: none;
-}
-button#del {
-    margin-left: 45px;
-}
-.col-xs-4, .col-xs-12 {
+.col-xs-4, .manipulate-all {
     text-align: right;
+}
+.manipulate-all {
+    padding-right: 15px;
+    margin-bottom: 20px;
 }
 </style>

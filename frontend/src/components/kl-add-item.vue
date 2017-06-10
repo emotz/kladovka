@@ -18,15 +18,15 @@
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="item">
-                                <select v-model="type">
-                                    <option v-for="tp in typeList">{{tp}}</option>
+                                <select v-model="type" class="kl-type-input">
+                                    <option v-for="tp in typeList" v-bind:value="tp">{{tp}}</option>
                                 </select>
                                 </li>
                                 <li class="item">
-                                    <input type="number" v-model.number="minDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-minDmg-input" v-model.number="minDmg" v-on:change="statControl">
                                 </li>
                                 <li class="item">
-                                    <input type="number" v-model.number="maxDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-maxDmg-input" v-model.number="maxDmg" v-on:change="statControl">
                                 </li>
                             </ul>
                         </div>

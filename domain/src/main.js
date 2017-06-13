@@ -1,17 +1,17 @@
-const dataBase = require('./mongo.js');
+const database = require('./mongo');
 const Item = require('./Item');
 
 
-function connect(url){
-    return dataBase.connect(url);
+function connect(url) {
+    return database.connect(url);
 }
 /**
  * Укладывает предмет в кладовку
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {Promise.<String, Error>} Идентификатор предмета уложенного в кладовку
  */
-function placeInKladovka(item, coll, db) {
-    return dataBase.add(item, coll, db);
+function placeInKladovka(db, coll, item) {
+    return database.add(db, coll, item);
 }
 
 /**
@@ -19,16 +19,16 @@ function placeInKladovka(item, coll, db) {
  * @param {String} id - Идентификатор получаемого предмета
  * @returns {Promise.<Item, Error>} Искомый предмет
  */
-function getFromKladovka(id, coll, db) {
-    return dataBase.getById(id, coll, db);
+function getFromKladovka(db, coll, id) {
+    return database.getById(db, coll, id);
 }
 
 /**
  * Получает все предметы из кладовки
  * @returns {Promise.<Item, Error>} Коллекция предметов
  */
-function getAllFromKladovka(coll, db) {
-    return dataBase.getAll(coll, db);
+function getAllFromKladovka(db, coll) {
+    return database.getAll(db, coll);
 }
 
 /**
@@ -36,16 +36,16 @@ function getAllFromKladovka(coll, db) {
  * @param {String} id - Идентификатор предмета для удаления
  * @returns  {Promise.<String, Error>} Идентификатор удалённого предмета
  */
-function deleteFromKladovka(id, coll, db) {
-    return dataBase.deleteById(id, coll, db);
+function deleteFromKladovka(db, coll, id) {
+    return database.deleteById(db, coll, id);
 }
 
 /**
  * Удаляет ВСЕ предметы из кладовки
  * @returns  {Promise.<Number, Error>} Количество удалённых объектов
  */
-function deleteAllFromKladovka(coll, db) {
-    return dataBase.deleteAll(coll, db);
+function deleteAllFromKladovka(db, coll) {
+    return database.deleteAll(db, coll);
 }
 
 /**
@@ -70,8 +70,8 @@ function compareItems(item1, item2) {
  * @param {Item} item - Проверяемый предмет
  * @returns {Promise.<Boolean, Error>}  True, если предмет нужен. False, если нет
  */
-async function isNeeded(item, coll, db) {
-    let res = await dataBase.getByType(item.type, coll, db);
+async function isNeeded(db, coll, item) {
+    let res = await database.getByType(db, coll, item.type);
     let score = Item.score(item);
     for (let item of res) {
         if (Item.score(item) < score)
@@ -85,11 +85,11 @@ async function isNeeded(item, coll, db) {
  * Возвращает худший предмет из кладовки
  * @returns  {Promise.<Item, Error>}  Худший предмет
  */
-async function findWorstInKladovka(coll, db) {
+async function findWorstInKladovka(db, coll) {
     let res = {},
         allItems = [],
         min_score = Number.POSITIVE_INFINITY;
-    allItems = await dataBase.getAll(coll, db);
+    allItems = await database.getAll(db, coll);
     for (let item of allItems) {
         let score = Item.score(item);
         if (score < min_score) {
@@ -110,5 +110,5 @@ module.exports = {
     compareItems,
     isNeeded,
     findWorstInKladovka,
-    clearCollection: dataBase.clearCollection
+    clearCollection: database.clearCollection
 };

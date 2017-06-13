@@ -12,7 +12,7 @@ async function connectToDb(url) {
  * @param {Object} item - Этот объект будет сохранен в базу
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
-async function addItem(item, coll, db) {
+async function addItem(db, coll, item) {
     let collection = db.collection(coll);
     let res = await collection.insertOne(item);
     return res.insertedId;
@@ -23,7 +23,7 @@ async function addItem(item, coll, db) {
  * @param {String} id - идентификатор искомого объекта
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-async function getNotDeletedItemById(id, coll, db) {
+async function getNotDeletedItemById(db, coll, id) {
     let collection = db.collection(coll);
     let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
     return item;
@@ -34,7 +34,7 @@ async function getNotDeletedItemById(id, coll, db) {
  * @param {String} id - идентификатор удаляемого объекта
  * @returns {Promise.<String, Error>} id удалённого объекта
  */
-async function deleteItemById(id, coll, db) {
+async function deleteItemById(db, coll, id) {
     let collection = db.collection(coll);
     let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: { 'deleted': true } });
     if (res.result.nModified === 0) return null;
@@ -45,7 +45,7 @@ async function deleteItemById(id, coll, db) {
  * Удаляет ВСЕ объекты из БД
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
-async function deleteAllItems(coll, db) {
+async function deleteAllItems(db, coll) {
     let collection = db.collection(coll);
     let res = await collection.updateMany({ deleted: undefined }, { $set: { deleted: true } });
     return res.modifiedCount;
@@ -55,7 +55,7 @@ async function deleteAllItems(coll, db) {
  * Получает массив объектов(не удалённых)
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getNotDeletedItems(coll, db) {
+async function getNotDeletedItems(db, coll) {
     let collection = db.collection(coll);
     let res = await collection.find({ 'deleted': undefined }).toArray();
     return res;
@@ -65,7 +65,7 @@ async function getNotDeletedItems(coll, db) {
  * Получает массив объектов(не удалённых) данного типа
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getAllItemsByType(type, coll, db) {
+async function getAllItemsByType(db, coll, type) {
     let collection = db.collection(coll);
     let res = await collection.find({ deleted: undefined, type }).toArray();
     return res;
@@ -75,7 +75,7 @@ async function getAllItemsByType(type, coll, db) {
  * Очищает коллекцию
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
-async function clearCollection(coll, db) {
+async function clearCollection(db, coll) {
     let collection = db.collection(coll);
     let res = await collection.deleteMany({});
     return res.deletedCount;

@@ -25,8 +25,7 @@ function guid() {
  * @returns {DB} Пустая, только что созданная, база данных.
  */
 function db_initialize() {
-    let db = {};
-    return db;
+    return {};
 }
 
 /**
@@ -37,9 +36,9 @@ function db_initialize() {
  * @returns {Promise.<String, Error>} Если обещание сдержанно, то оно вернёт id добавленного объекта.
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
-function db_add(db, entity) {
+function db_add(db, coll, entity) {
     let id = guid();
-    return db_add_by_id(db, id, entity);
+    return db_add_by_id(db, coll, id, entity);
 }
 
 /**
@@ -50,12 +49,13 @@ function db_add(db, entity) {
  * @returns {Promise.<String, Error>} Если обещание сдержанно, то оно вернёт id добавленного объекта.
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
-function db_add_by_id(db, id, entity) {
+function db_add_by_id(db, coll, id, entity) {
     let promise = new Promise(function (resolve, reject) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
         else {
-            db[id] = utility.clone(entity);
+            if (db[coll]===undefined) db[coll] = {};
+            db[coll][id] = utility.clone(entity);
             resolve(id);
         }
     });
@@ -70,15 +70,15 @@ function db_add_by_id(db, id, entity) {
  * @returns {Promise.<Object, Error>} Если обещание сдержанно, то оно вернёт искомый объект, если его нет в БД, то вернёт значение null.
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
-function db_get_by_id(db, id) {
+function db_get_by_id(db, coll, id) {
     return new Promise(function (resolve, reject) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
         else {
-            if (db[id] === undefined)
+            if (db[coll][id] === undefined)
                 resolve(null);
             else
-                resolve(utility.clone(db[id]));
+                resolve(utility.clone(db[coll][id]));
         }
     });
 }
@@ -89,12 +89,14 @@ function db_get_by_id(db, id) {
  * @returns {Promise.<Object, Error>} Если обещание сдержанно, то оно вернёт коллекцию объектов.
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
-function db_get_all(db) {
+function db_get_all(db, coll) {
     return new Promise(function (resolve, reject) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
-        else
-            resolve(utility.clone(db));
+        else{
+            if(db[coll]===undefined) resolve({});
+            resolve(utility.clone(db[coll]));
+        }
     });
 }
 
@@ -105,12 +107,13 @@ function db_get_all(db) {
  * @returns {Promise.<Object, Error>} Если обещание сдержанно, то оно вернёт коллекцию объектов данного типа.
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
-function db_get_by_type(db, type) {
+function db_get_by_type(db, coll, type) {
     let promise = new Promise(function (resolve, reject) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
         else {
-            let res = utility.filterObj(db, function (item) {
+            if(db[coll]===undefined) resolve({});
+            let res = utility.filterObj(db[coll], function (item) {
                 return item.type === type;
             });
             resolve(utility.clone(res));

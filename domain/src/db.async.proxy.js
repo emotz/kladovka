@@ -1,8 +1,13 @@
 const database = require('./db.async');
 
 
-async function connectToDb() {
+async function connect(url) {
+    //много строчек кода работы с url
     return database.initialize();
+}
+
+function disconnect(db) {
+    //много строчек кода работы с db
 }
 /**
  * Сохраняет объект в БД
@@ -33,8 +38,7 @@ async function deleteItemById(db, coll, id) {
     let res = await database.get_by_id(db, coll, id);
     if (res === null) return id;
     res.deleted = true;
-    await database.add_by_id(db , coll, id, res);
-    return id;
+    return database.add_by_id(db, coll, id, res);
 }
 
 /**
@@ -46,7 +50,7 @@ async function deleteAllItems(db, coll) {
     let res = await database.get_all(db, coll);
     for (let id in res) {
         if (res[id].deleted === true) continue;
-        db[coll][id].deleted = true;
+        await deleteItemById(db, coll, id);
         count++;
     }
     return count;
@@ -85,14 +89,13 @@ function selectNotDeleted(dict) {
  */
 async function clearCollection(db, coll) {
     let all = await database.get_all(db, coll);
-    for (let i in db[coll]) {
-        delete db[coll][i];
-    }
+    database.clear_collection(db, coll);
     return Object.keys(all).length;
 }
 
 module.exports = {
-    connect: connectToDb,
+    connect,
+    disconnect,
     add: addItem,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,

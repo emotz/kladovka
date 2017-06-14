@@ -5,6 +5,9 @@ const Item = require('./Item');
 function connect(url) {
     return database.connect(url);
 }
+function disconnect(db) {
+    return database.disconnect(db);
+}
 /**
  * Укладывает предмет в кладовку
  * @param {Item} item - Предмет, который будет уложен в кладовку
@@ -48,6 +51,9 @@ function deleteAllFromKladovka(db, coll) {
     return database.deleteAll(db, coll);
 }
 
+function clearKladovka(db, coll) {
+    return database.clearCollection(db, coll);
+}
 /**
  * Сравнивает 2 предмета
  * @param {Item} item1 - Первый предмет
@@ -102,13 +108,14 @@ async function findWorstInKladovka(db, coll) {
 
 module.exports = {
     connect,
+    disconnect,
     getFromKladovka,
     getAllFromKladovka,
     placeInKladovka,
     deleteFromKladovka,
     deleteAllFromKladovka,
+    clearKladovka,
     compareItems,
     isNeeded,
-    findWorstInKladovka,
-    clearCollection: database.clearCollection
+    findWorstInKladovka
 };

@@ -3,12 +3,12 @@ const mongoDB = require('../src/mongo');
 const memoryDB = require('../src/db.async.proxy');
 const url = 'mongodb://localhost:27017/kladovka';
 const coll = 'items';
-let db;
 
 [mongoDB, memoryDB].forEach(function (database, index) {
 
     describe('Тест БД ' + index, function () {
 
+        let db;
         before(async function () {
             db = await database.connect(url);
         });
@@ -109,6 +109,10 @@ let db;
             assert(obj1.type === 'axe');
             let returned2 = await database.getAll(db, coll);
             assert(returned2[0].type === 'axe');
+        });
+
+        after(function () {
+            database.disconnect(db);
         });
     });
 });

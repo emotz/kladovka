@@ -2,14 +2,16 @@ const assert = require('assert');
 const klad = require('../src/main');
 const url = 'mongodb://localhost:27017/kladovka';
 const coll = 'items';
-let db;
 
 describe('Тест для кладовки', function () {
+
+    let db;
     before(async function () {
         db = await klad.connect(url);
     });
+
     beforeEach(async function () {
-        return klad.clearCollection(db, coll);
+        return klad.clearKladovka(db, coll);
     });
 
     it('сохраняет предмет в кладовке', async function () {
@@ -112,5 +114,9 @@ describe('Тест для кладовки', function () {
             await klad.placeInKladovka(db, coll, item1);
             assert(await klad.isNeeded(db, coll, item2) === false);
         });
+    });
+
+    after(function () {
+        klad.disconnect(db);
     });
 });

@@ -3,8 +3,12 @@ const mongo = mongodb.MongoClient;
 const ObjectID = mongodb.ObjectID;
 
 
-async function connectToDb(url) {
+async function connect(url) {
     return mongo.connect(url);
+}
+
+function disconnect(db) {
+    db.close();
 }
 
 /**
@@ -82,7 +86,8 @@ async function clearCollection(db, coll) {
 }
 
 module.exports = {
-    connect: connectToDb,
+    connect,
+    disconnect,
     add: addItem,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,

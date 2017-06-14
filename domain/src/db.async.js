@@ -54,7 +54,7 @@ function db_add_by_id(db, coll, id, entity) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
         else {
-            if (db[coll]===undefined) db[coll] = {};
+            if (db[coll] === undefined) db[coll] = {};
             db[coll][id] = utility.clone(entity);
             resolve(id);
         }
@@ -93,9 +93,11 @@ function db_get_all(db, coll) {
     return new Promise(function (resolve, reject) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
-        else{
-            if(db[coll]===undefined) resolve({});
-            resolve(utility.clone(db[coll]));
+        else {
+            if (db[coll] === undefined)
+                resolve({});
+            else
+                resolve(utility.clone(db[coll]));
         }
     });
 }
@@ -112,14 +114,20 @@ function db_get_by_type(db, coll, type) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
         else {
-            if(db[coll]===undefined) resolve({});
-            let res = utility.filterObj(db[coll], function (item) {
-                return item.type === type;
-            });
-            resolve(utility.clone(res));
+            if (db[coll] === undefined)
+                resolve({});
+            else {
+                let res = utility.filterObj(db[coll], function (item) {
+                    return item.type === type;
+                });
+                resolve(utility.clone(res));
+            }
         }
     });
     return promise;
+}
+function db_clear_collection(db, coll){
+    delete db[coll];
 }
 
 module.exports = {
@@ -128,5 +136,6 @@ module.exports = {
     add_by_id: db_add_by_id,
     get_by_id: db_get_by_id,
     get_all: db_get_all,
-    get_by_type: db_get_by_type
+    get_by_type: db_get_by_type,
+    clear_collection :db_clear_collection
 };

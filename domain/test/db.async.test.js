@@ -29,14 +29,8 @@ let db;
         });
 
         it('при попытке достать объект из несуществующей коллекции отклоняет обещание', async function () {
-            let rejected = false;
-            try {
-                await database.getById(db, coll, 123);
-            } catch (err) {
-                assert(err.message === "нет базы данных");
-                rejected = true;
-            }
-            assert(rejected);
+            let res = await database.getById(db, coll, 123);
+            assert(res === null);
         });
 
         it('добавляет объект в БД', async function () {

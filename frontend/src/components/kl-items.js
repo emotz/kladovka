@@ -1,4 +1,3 @@
-import toastr from 'toastr';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps } from 'domain/Item';

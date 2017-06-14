@@ -1,4 +1,3 @@
-import toastr from 'toastr';
 export default {
     methods: {
         deleteAll: function () {

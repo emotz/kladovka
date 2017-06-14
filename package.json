@@ -45,10 +45,12 @@
     "express-async-errors": "^2.0.0",
     "jquery": "^3.2.1",
     "mongodb": "^2.2.26",
+    "nprogress": "^0.2.0",
     "toastr": "^2.1.2",
     "vue": "^2.3.3",
     "vue-focus": "^2.1.0",
-    "vue-resource": "^1.3.1"
+    "vue-resource": "^1.3.1",
+    "vue-resource-nprogress": "^1.0.2"
   },
   "optionalDependencies": {
     "eslint": "^3.19.0",

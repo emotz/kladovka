@@ -13,6 +13,7 @@ async function connectToDb(url) {
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
 async function addItem(db, coll, item) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.insertOne(item);
     return res.insertedId;
@@ -24,6 +25,7 @@ async function addItem(db, coll, item) {
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
 async function getNotDeletedItemById(db, coll, id) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
     return item;
@@ -35,6 +37,7 @@ async function getNotDeletedItemById(db, coll, id) {
  * @returns {Promise.<String, Error>} id удалённого объекта
  */
 async function deleteItemById(db, coll, id) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: { 'deleted': true } });
     if (res.result.nModified === 0) return null;
@@ -46,6 +49,7 @@ async function deleteItemById(db, coll, id) {
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
 async function deleteAllItems(db, coll) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.updateMany({ deleted: undefined }, { $set: { deleted: true } });
     return res.modifiedCount;
@@ -56,6 +60,7 @@ async function deleteAllItems(db, coll) {
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getNotDeletedItems(db, coll) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.find({ 'deleted': undefined }).toArray();
     return res;
@@ -66,6 +71,7 @@ async function getNotDeletedItems(db, coll) {
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getAllItemsByType(db, coll, type) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.find({ deleted: undefined, type }).toArray();
     return res;
@@ -76,6 +82,7 @@ async function getAllItemsByType(db, coll, type) {
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
 async function clearCollection(db, coll) {
+    if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.deleteMany({});
     return res.deletedCount;

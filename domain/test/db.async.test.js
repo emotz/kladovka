@@ -17,6 +17,22 @@ const coll = 'items';
             return database.clearCollection(db, coll);
         });
 
+        it('при попытке достать объект из несуществующей базы данных отклоняет обещание', async function () {
+            let rejected = false;
+            try {
+                await database.getById(undefined, undefined, 123);
+            } catch (err) {
+                assert(err.message === "нет базы данных");
+                rejected = true;
+            }
+            assert(rejected);
+        });
+
+        it('при попытке достать объект из несуществующей коллекции отклоняет обещание', async function () {
+            let res = await database.getById(db, coll, 123);
+            assert(res === null);
+        });
+
         it('добавляет объект в БД', async function () {
             let obj = { qwer: 123 };
             let id = await database.add(db, coll, obj);

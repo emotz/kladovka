@@ -1,22 +1,30 @@
 const assert = require('assert');
 const klad = require('../src/main');
+const url = 'mongodb://localhost:27017/kladovka';
+const coll = 'items';
 
 describe('Тест для кладовки', function () {
+
+    let db;
+    before(async function () {
+        db = await klad.connect(url);
+    });
+
     beforeEach(async function () {
-        return klad.clearCollection();
+        return klad.clearKladovka(db, coll);
     });
 
     it('сохраняет предмет в кладовке', async function () {
         let item = { type: 'axe', dps: 100 };
-        let id = await klad.placeInKladovka(item);
+        let id = await klad.placeInKladovka(db, coll, item);
         assert(id !== undefined && id !== null);
         assert(id !== '');
     });
 
     it('получает предмет из кладовки', async function () {
         let item = { type: 'axe', dps: 100 };
-        let id = await klad.placeInKladovka(item);
-        let getItem = await klad.getFromKladovka(id);
+        let id = await klad.placeInKladovka(db, coll, item);
+        let getItem = await klad.getFromKladovka(db, coll, id);
         assert(getItem.type == item.type);
         assert(getItem.dps == item.dps);
     });
@@ -26,19 +34,19 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 100 };
         let item4 = { type: 'sword', dps: 300 };
-        await klad.placeInKladovka(item1);
-        await klad.placeInKladovka(item2);
-        await klad.placeInKladovka(item3);
-        await klad.placeInKladovka(item4);
-        let all = await klad.getAllFromKladovka();
+        await klad.placeInKladovka(db, coll, item1);
+        await klad.placeInKladovka(db, coll, item2);
+        await klad.placeInKladovka(db, coll, item3);
+        await klad.placeInKladovka(db, coll, item4);
+        let all = await klad.getAllFromKladovka(db, coll);
         assert(all.length == 4);
     });
 
     it('удаляет конкретный предмет', async function () {
         let item = { type: 'axe', dps: 100 };
-        let id = await klad.placeInKladovka(item);
-        await klad.deleteFromKladovka(id);
-        let getItem = await klad.getFromKladovka(id);
+        let id = await klad.placeInKladovka(db, coll, item);
+        await klad.deleteFromKladovka(db, coll, id);
+        let getItem = await klad.getFromKladovka(db, coll, id);
         assert(getItem === null);
     });
 
@@ -47,12 +55,12 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 100 };
         let item4 = { type: 'sword', dps: 300 };
-        await klad.placeInKladovka(item1);
-        await klad.placeInKladovka(item2);
-        await klad.placeInKladovka(item3);
-        await klad.placeInKladovka(item4);
-        await klad.deleteAllFromKladovka();
-        let all = await klad.getAllFromKladovka();
+        await klad.placeInKladovka(db, coll, item1);
+        await klad.placeInKladovka(db, coll, item2);
+        await klad.placeInKladovka(db, coll, item3);
+        await klad.placeInKladovka(db, coll, item4);
+        await klad.deleteAllFromKladovka(db, coll);
+        let all = await klad.getAllFromKladovka(db, coll);
         assert(all.length == 0);
     });
 
@@ -61,11 +69,11 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 300 };
         let item4 = { type: 'sword', dps: 50 };
-        await klad.placeInKladovka(item1);
-        await klad.placeInKladovka(item2);
-        await klad.placeInKladovka(item3);
-        await klad.placeInKladovka(item4);
-        let worst = await klad.findWorstInKladovka();
+        await klad.placeInKladovka(db, coll, item1);
+        await klad.placeInKladovka(db, coll, item2);
+        await klad.placeInKladovka(db, coll, item3);
+        await klad.placeInKladovka(db, coll, item4);
+        let worst = await klad.findWorstInKladovka(db, coll);
         assert(worst.type === item4.type);
         assert(worst.dps === item4.dps);
     });
@@ -96,15 +104,19 @@ describe('Тест для кладовки', function () {
         it('#да', async function () {
             let item1 = { type: 'axe', dps: 100 };
             let item2 = { type: 'axe', dps: 200 };
-            await klad.placeInKladovka(item1);
-            assert(await klad.isNeeded(item2) === true);
+            await klad.placeInKladovka(db, coll, item1);
+            assert(await klad.isNeeded(db, coll, item2) === true);
         });
 
         it('#нет', async function () {
             let item1 = { type: 'axe', dps: 200 };
             let item2 = { type: 'axe', dps: 100 };
-            await klad.placeInKladovka(item1);
-            assert(await klad.isNeeded(item2) === false);
+            await klad.placeInKladovka(db, coll, item1);
+            assert(await klad.isNeeded(db, coll, item2) === false);
         });
+    });
+
+    after(function () {
+        klad.disconnect(db);
     });
 });

@@ -75,6 +75,7 @@ function db_get_by_id(db, coll, id) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
         else {
+            if (db[coll] === undefined) db[coll] = {};
             if (db[coll][id] === undefined)
                 resolve(null);
             else

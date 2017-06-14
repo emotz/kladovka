@@ -127,7 +127,8 @@ function db_get_by_type(db, coll, type) {
     });
     return promise;
 }
-function db_clear_collection(db, coll){
+
+function db_clear_collection(db, coll) {
     delete db[coll];
 }
 
@@ -138,5 +139,5 @@ module.exports = {
     get_by_id: db_get_by_id,
     get_all: db_get_all,
     get_by_type: db_get_by_type,
-    clear_collection :db_clear_collection
+    clear_collection: db_clear_collection
 };

@@ -17,7 +17,7 @@ const coll = 'items';
             return database.clearCollection(db, coll);
         });
 
-        it('при попытке достать объект из несуществующей базы данных отклоняет обещание', async function () {
+        it('отклоняет обещание, при попытке достать объект из несуществующей базе данных', async function () {
             let rejected = false;
             try {
                 await database.getById(undefined, undefined, 123);
@@ -28,8 +28,9 @@ const coll = 'items';
             assert(rejected);
         });
 
-        it('при попытке достать объект из несуществующей коллекции отклоняет обещание', async function () {
-            let res = await database.getById(db, coll, 123);
+        it('получает null, при попытке достать элемент из несуществующей коллекции', async function () {
+            let newCollection = 'new';
+            let res = await database.getById(db, newCollection, 123);
             assert(res === null);
         });
 

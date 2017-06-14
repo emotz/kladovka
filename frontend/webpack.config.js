@@ -28,6 +28,7 @@ module.exports = {
         alias: {
             'bootstrap.css$': 'bootstrap/dist/css/bootstrap.min.css',
             'toastr.css$': 'toastr/build/toastr.min.css',
+            'nprogress.css$': 'nprogress/nprogress.css',
             'domain': path.resolve(__dirname, '../domain/src/'),
         },
     },

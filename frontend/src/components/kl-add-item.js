@@ -1,5 +1,4 @@
 import * as Item from 'domain/Item';
-import toastr from 'toastr';
 import { focus } from 'vue-focus';
 export default {
     directives: { focus: focus },

@@ -1,9 +1,6 @@
-/* eslint-env browser*/
 import 'toastr.css';
 import 'bootstrap.css';
 import 'bootstrap';
-import NProgress from 'nprogress';
-window.NProgress = NProgress;
 import 'nprogress.css';
 import Vue from 'vue';
 import VueResource from 'vue-resource';

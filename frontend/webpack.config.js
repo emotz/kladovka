@@ -15,7 +15,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
+            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
             { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'url-loader' },
             {
                 test: /\.vue$/,
@@ -39,8 +39,10 @@ module.exports = {
             { from: './assets' }
         ]),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+            $: 'jquery',
+            jQuery: 'jquery',
+            toastr: 'toastr',
+            'window.NProgress': 'nprogress'
         }),
     ]
 };

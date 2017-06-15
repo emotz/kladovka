@@ -1,4 +1,4 @@
-let model = ['type', 'minDmg', 'maxDmg'];
+let model = ['type', 'minDmg', 'maxDmg', 'aps'];
 
 const apsByType = {
     'mace': 1.20,

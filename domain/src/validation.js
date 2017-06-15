@@ -10,28 +10,28 @@ function validation(item) {
             properties: notExists
         });
     let notNumbers = getNotNumbers(item);
-    if (notNumbers.length == 2) {
+    if (notNumbers.length == 3) {
         res.push({
             id: "mustBeNumber",
             properties: notNumbers
         });
     }
-    else if (notNumbers.length == 1 && !notNumbers.indexOf('minDmg')) {
-        res.push({
-            id: "mustBeNumber",
-            properties: notNumbers
-        });
-        if (item.minDmg <= 0)
+    else {
+        if (notNumbers.length)
             res.push({
-                id: "mustBePositive",
-                properties: ["minDmg"]
+                id: "mustBeNumber",
+                properties: notNumbers
             });
-    }
-    else if (notNumbers.length == 0) {
         if (item.minDmg > item.maxDmg)
             res.push({
                 id: "mustBeLessThan",
                 properties: ["minDmg, maxDmg"]
+            });
+        let notPositive = getNotPositive(item, notNumbers);
+        if (notPositive.length)
+            res.push({
+                id: "mustBePositive",
+                properties: notPositive
             });
     }
     if (!Item.types.some(type => type === item.type))
@@ -45,10 +45,18 @@ function validation(item) {
 function getNotNumbers(item) {
     let res = [];
     if (!Number.isInteger(item.minDmg))
-        res.push(item.minDmg);
+        res.push('minDmg');
     if (!Number.isInteger(item.maxDmg))
-        res.push(item.maxDmg);
+        res.push('maxDmg');
+    if (!(Number(item.aps) === item.aps && item.aps % 1 !== 0))
+        res.push('aps');
     return res;
+}
+
+function getNotPositive(item, notNumbers) {
+    notNumbers.push('type');
+    let nums = array.difference(Object.keys(item), notNumbers);
+    return nums.filter(val => item[val] < 1);
 }
 
 function getNotExistsedProperties(item) {

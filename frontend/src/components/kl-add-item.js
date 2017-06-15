@@ -19,7 +19,13 @@ export default {
             this.$http.post('/api/items/', item).then(response => {
                 item._id = response.body.added_id;
                 this.$emit('addItem', item);
-            }).catch(err => toastr.error('Oops, something went wrong'));
+            }).catch(err => {
+                if (err.status === 400) {
+                    let arrErr = err.body.errors;
+                    arrErr.forEach(error => toastr.error(error.id));
+                } else
+                    toastr.error('Oops, something went wrong');
+            });
         },
         statControl: function () {
             if (this.minDmg < 2) this.minDmg = 2;

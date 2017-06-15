@@ -25,7 +25,7 @@ function validation(item) {
         if (item.minDmg > item.maxDmg)
             res.push({
                 id: "mustBeLessThan",
-                properties: ["minDmg, maxDmg"]
+                properties: ["minDmg", "maxDmg"]
             });
         let notPositive = getNotPositive(item, notNumbers);
         if (notPositive.length)
@@ -64,4 +64,22 @@ function getNotExistsedProperties(item) {
     return array.difference(prop, Item.model);
 }
 
-module.exports = validation;
+function parseValidationErrors(errors) {
+    let res = [];
+    errors.forEach(err => {
+        if (err.id === 'mustBeLessThan') {
+            let str = err.properties[0] + ' ' + err.id + ' ' + err.properties[1]
+            res.push(str);
+        }
+        else {
+            let str = err.properties.join(', ') + ' ' + err.id;
+            res.push(str);
+        }
+    });
+    return res;
+}
+
+module.exports = {
+    validation,
+    parseValidationErrors
+};

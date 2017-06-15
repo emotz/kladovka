@@ -1,4 +1,5 @@
 import * as Item from 'domain/Item';
+import {parseValidationErrors} from 'domain/validation';
 import { focus } from 'vue-focus';
 export default {
     directives: { focus: focus },
@@ -21,8 +22,8 @@ export default {
                 this.$emit('addItem', item);
             }).catch(err => {
                 if (err.status === 400) {
-                    let arrErr = err.body.errors;
-                    arrErr.forEach(error => toastr.error(error.id));
+                    let parsedErrors = parseValidationErrors(err.body.errors);
+                    parsedErrors.forEach(error => toastr.error(error));
                 } else
                     toastr.error('Oops, something went wrong');
             });

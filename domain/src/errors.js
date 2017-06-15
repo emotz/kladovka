@@ -6,7 +6,7 @@ const ErrorCodes = {
 
 function getErrors(item){
     let res = null;
-    let errors = validation(item);
+    let errors = validation.validation(item);
     if(errors.length)
         res = {
             code: ErrorCodes.Validation, 

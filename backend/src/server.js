@@ -2,7 +2,8 @@ require('express-async-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-let klad = require('../../domain/src/main');
+const klad = require('../../domain/src/main');
+const getErrors = require('../../domain/src/errors');
 let app = express();
 
 const url = 'mongodb://localhost:27017/kladovka';
@@ -14,9 +15,14 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
 app.post('/api/items', async function (req, res) {
-    let added_id = await klad.placeInKladovka(db, collection, req.body);
-    res.header('Location', '/api/items/' + added_id);
-    res.status(201).send({ added_id });
+    let itemErrors = getErrors(req.body);
+    if (itemErrors !== null) {
+        res.status(400).send(itemErrors);
+    } else {
+        let added_id = await klad.placeInKladovka(db, collection, req.body);
+        res.header('Location', '/api/items/' + added_id);
+        res.status(201).send({ added_id });
+    }
 });
 
 app.get('/api/items', async function (req, res) {

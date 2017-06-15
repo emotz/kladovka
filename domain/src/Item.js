@@ -1,3 +1,5 @@
+let model = ['type', 'minDmg', 'maxDmg'];
+
 const apsByType = {
     'mace': 1.20,
     'dagger': 1.50,
@@ -31,5 +33,6 @@ module.exports = {
     dps: calcDps,
     score: calcScore,
     aps: calcAps,
-    types
+    types,
+    model
 };

@@ -1,45 +1,52 @@
 const array = require('lodash/array');
 const Item = require('./Item');
 
-function validation(item) {
-    let res = [];
+function checkItem(item) {
+    let errors = [];
     let notExists = getNotExistsedProperties(item);
     if (notExists.length)
-        res.push({
-            id: "NotExistsedProperties",
+        errors.push({
+            id: "mustBePresent",
             properties: notExists
         });
     let notNumbers = getNotNumbers(item);
     if (notNumbers.length == 3) {
-        res.push({
+        errors.push({
             id: "mustBeNumber",
             properties: notNumbers
         });
     }
     else {
-        if (notNumbers.length)
-            res.push({
+        if (notNumbers.length) {
+            errors.push({
                 id: "mustBeNumber",
                 properties: notNumbers
             });
-        if (item.minDmg > item.maxDmg)
-            res.push({
+        }
+        if (item.minDmg > item.maxDmg) {
+            errors.push({
                 id: "mustBeLessThan",
                 properties: ["minDmg", "maxDmg"]
             });
+        }
         let notPositive = getNotPositive(item, notNumbers);
-        if (notPositive.length)
-            res.push({
+        if (notPositive.length) {
+            errors.push({
                 id: "mustBePositive",
                 properties: notPositive
             });
+        }
     }
-    if (!Item.types.some(type => type === item.type))
-        res.push({
+    if (!Item.types.some(type => type === item.type)) {
+        errors.push({
             id: "notValidType",
             properties: ["type"]
         });
-    return res;
+    }
+    let isValid = true;
+    if (errors.length)
+        isValid = false;
+    return { isValid, errors };
 }
 
 function getNotNumbers(item) {
@@ -80,6 +87,6 @@ function parseValidationErrors(errors) {
 }
 
 module.exports = {
-    validation,
+    checkItem,
     parseValidationErrors
 };

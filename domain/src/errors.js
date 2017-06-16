@@ -1,18 +1,14 @@
-const validation = require('./validation');
-
 const ErrorCodes = {
     Validation: 1
 };
 
-function getErrors(item){
-    let res = null;
-    let errors = validation.validation(item);
-    if(errors.length)
-        res = {
-            code: ErrorCodes.Validation, 
-            errors
-        };
-    return res;
+function makeValidationError(errors) {
+    return {
+        code: ErrorCodes.Validation,
+        errors
+    };
 }
 
-module.exports = getErrors;
+module.exports = {
+    makeValidationError
+};

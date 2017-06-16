@@ -3,7 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const klad = require('../../domain/src/main');
-const getErrors = require('../../domain/src/errors');
+const errors = require('../../domain/src/errors');
+const validation = require('../../domain/src/validation');
 let app = express();
 
 const url = 'mongodb://localhost:27017/kladovka';
@@ -15,13 +16,15 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
 app.post('/api/items', async function (req, res) {
-    let itemErrors = getErrors(req.body);
-    if (itemErrors !== null) {
-        res.status(400).send(itemErrors);
-    } else {
+    let item = req.body;
+    let validationResult = validation.checkItem(item);
+    if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, collection, req.body);
         res.header('Location', '/api/items/' + added_id);
         res.status(201).send({ added_id });
+    } else {
+        let resBody = errors.makeValidationError(validationResult.errors);
+        res.status(400).send(resBody);
     }
 });
 

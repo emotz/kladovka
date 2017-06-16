@@ -3,7 +3,7 @@ const Item = require('./Item');
 
 function checkItem(item) {
     let errors = [];
-    let notExists = filterNotExistedProperties(item, ['type', 'minDmg', 'maxDmg']);
+    let notExists = filterNotExistedProperties(item, Object.keys(item), ['type', 'minDmg', 'maxDmg']);
     if (notExists.length)
         errors.push({
             id: "doesNotExist",
@@ -62,7 +62,7 @@ function filterNotPositive(item, props, excludes) {
 }
 
 function filterNotExistedProperties(item, props, excludes) {
-    return array.difference(Object.keys(item), array.difference(props, excludes || []));
+    return array.difference(props,  excludes || []);
 }
 
 module.exports = {

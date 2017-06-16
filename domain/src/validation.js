@@ -3,13 +3,13 @@ const Item = require('./Item');
 
 function checkItem(item) {
     let errors = [];
-    let notExists = getNotExistsedProperties(item);
+    let notExists = filterNotExistedProperties(item, ['type','minDmg', 'maxDmg']);
     if (notExists.length)
         errors.push({
             id: "doesNotExist",
             properties: notExists
         });
-    let notNumbers = getNotNumbers(item);
+    let notNumbers = filterNotNumbers(item, ['minDmg', 'maxDmg']);
     if (notNumbers.length == 2) {
         errors.push({
             id: "mustBeNumber",
@@ -29,7 +29,7 @@ function checkItem(item) {
                 properties: ["minDmg", "maxDmg"]
             });
         }
-        let notPositive = getNotPositive(item, notNumbers);
+        let notPositive = filterNotPositive(item, ['minDmg', 'maxDmg'], notNumbers);
         if (notPositive.length) {
             errors.push({
                 id: "mustBePositive",
@@ -49,24 +49,20 @@ function checkItem(item) {
     return { isValid, errors };
 }
 
-function getNotNumbers(item) {
-    let res = [];
-    if (!Number.isInteger(item.minDmg))
-        res.push('minDmg');
-    if (!Number.isInteger(item.maxDmg))
-        res.push('maxDmg');
-    return res;
+function filterNotNumbers(item, props, excludes) {
+    return array
+        .difference(props, excludes || [])
+        .filter(prop => !Number.isInteger(item[prop]));
 }
 
-function getNotPositive(item, notNumbers) {
-    notNumbers.push('type');
-    let nums = array.difference(Object.keys(item), notNumbers);
-    return nums.filter(val => item[val] < 1);
+function filterNotPositive(item, props, excludes) {
+    return array
+        .difference(props, excludes || [])
+        .filter(prop => item[prop] <= 0);
 }
 
-function getNotExistsedProperties(item) {
-    let prop = Object.keys(item);
-    return array.difference(prop, Item.model);
+function filterNotExistedProperties(item, props, excludes) {
+    return array.difference(Object.keys(item), array.difference(props, excludes || []));
 }
 
 module.exports = {

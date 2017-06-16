@@ -10,7 +10,7 @@ function checkItem(item) {
             properties: notExists
         });
     let notNumbers = getNotNumbers(item);
-    if (notNumbers.length == 3) {
+    if (notNumbers.length == 2) {
         errors.push({
             id: "mustBeNumber",
             properties: notNumbers
@@ -55,8 +55,6 @@ function getNotNumbers(item) {
         res.push('minDmg');
     if (!Number.isInteger(item.maxDmg))
         res.push('maxDmg');
-    if (!(Number(item.aps) === item.aps && item.aps % 1 !== 0))
-        res.push('aps');
     return res;
 }
 

@@ -3,7 +3,7 @@ const Item = require('./Item');
 
 function checkItem(item) {
     let errors = [];
-    let notExists = filterNotExistedProperties(item, ['type','minDmg', 'maxDmg']);
+    let notExists = filterNotExistedProperties(item, ['type', 'minDmg', 'maxDmg']);
     if (notExists.length)
         errors.push({
             id: "doesNotExist",

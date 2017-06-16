@@ -1,5 +1,5 @@
 import * as Item from 'domain/Item';
-import {renderValidationErrors} from '../renderErrors';
+import { renderValidationErrors } from '../renderErrors';
 import { focus } from 'vue-focus';
 export default {
     directives: { focus: focus },
@@ -21,7 +21,7 @@ export default {
                 item.aps = Item.aps(item);
                 this.$emit('addItem', item);
             }).catch(err => {
-                if (err.status === 400) {
+                if (err.status === 400 && err.body.code === 1) {
                     let renderedErrors = renderValidationErrors(err.body.errors);
                     renderedErrors.forEach(error => toastr.error(error));
                 } else
@@ -29,8 +29,8 @@ export default {
             });
         },
         statControl: function () {
-            //if (this.minDmg < 2) this.minDmg = 2;
-            //if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
+            if (this.minDmg < 2) this.minDmg = 2;
+            if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
         }
     },
     watch: {

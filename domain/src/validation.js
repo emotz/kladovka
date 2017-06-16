@@ -6,7 +6,7 @@ function checkItem(item) {
     let notExists = getNotExistsedProperties(item);
     if (notExists.length)
         errors.push({
-            id: "mustBePresent",
+            id: "doesNotExist",
             properties: notExists
         });
     let notNumbers = getNotNumbers(item);
@@ -69,22 +69,6 @@ function getNotExistsedProperties(item) {
     return array.difference(prop, Item.model);
 }
 
-function parseValidationErrors(errors) {
-    let res = [];
-    errors.forEach(err => {
-        if (err.id === 'mustBeLessThan') {
-            let str = err.properties[0] + ' ' + err.id + ' ' + err.properties[1]
-            res.push(str);
-        }
-        else {
-            let str = err.properties.join(', ') + ' ' + err.id;
-            res.push(str);
-        }
-    });
-    return res;
-}
-
 module.exports = {
-    checkItem,
-    parseValidationErrors
+    checkItem
 };

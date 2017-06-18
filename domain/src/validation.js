@@ -1,41 +1,31 @@
-const array = require('lodash/array');
+const _ = require('lodash');
 const Item = require('./Item');
+const clone = require('./utility').clone;
 
 function checkItem(item) {
+    _.pick(item, 'minDmg', 'maxDmg', 'type');
     let errors = [];
-    let notExists = filterNotExistedProperties(item, Object.keys(item), ['type', 'minDmg', 'maxDmg']);
-    if (notExists.length)
-        errors.push({
-            id: "doesNotExist",
-            properties: notExists
-        });
     let notNumbers = filterNotNumbers(item, ['minDmg', 'maxDmg']);
-    if (notNumbers.length == 2) {
+    if (notNumbers.length) {
         errors.push({
             id: "mustBeNumber",
             properties: notNumbers
         });
     }
-    else {
-        if (notNumbers.length) {
-            errors.push({
-                id: "mustBeNumber",
-                properties: notNumbers
-            });
-        }
+    if (notNumbers.indexOf.apply(notNumbers, ['minDmg', 'maxDmg']) === -1) {
         if (item.minDmg > item.maxDmg) {
             errors.push({
                 id: "mustBeLessThan",
                 properties: ["minDmg", "maxDmg"]
             });
         }
-        let notPositive = filterNotPositive(item, ['minDmg', 'maxDmg'], notNumbers);
-        if (notPositive.length) {
-            errors.push({
-                id: "mustBePositive",
-                properties: notPositive
-            });
-        }
+    }
+    let notPositive = filterNotPositive(item, ['minDmg', 'maxDmg'], notNumbers);
+    if (notPositive.length) {
+        errors.push({
+            id: "mustBePositive",
+            properties: notPositive
+        });
     }
     if (!Item.types.some(type => type === item.type)) {
         errors.push({
@@ -43,26 +33,25 @@ function checkItem(item) {
             properties: ["type"]
         });
     }
-    let isValid = true;
-    if (errors.length)
-        isValid = false;
-    return { isValid, errors };
+    let isValid = !errors.length;
+    item = isValid ? clone(item) : undefined;
+    return {
+        item,
+        isValid,
+        errors
+    };
 }
 
 function filterNotNumbers(item, props, excludes) {
-    return array
+    return _
         .difference(props, excludes || [])
         .filter(prop => !Number.isInteger(item[prop]));
 }
 
 function filterNotPositive(item, props, excludes) {
-    return array
+    return _
         .difference(props, excludes || [])
         .filter(prop => item[prop] <= 0);
-}
-
-function filterNotExistedProperties(item, props, excludes) {
-    return array.difference(props,  excludes || []);
 }
 
 module.exports = {

@@ -19,7 +19,7 @@ app.post('/api/items', async function (req, res) {
     let item = req.body;
     let validationResult = validation.checkItem(item);
     if (validationResult.isValid) {
-        let added_id = await klad.placeInKladovka(db, collection, item);
+        let added_id = await klad.placeInKladovka(db, collection, validationResult.item);
         res.header('Location', '/api/items/' + added_id);
         res.status(201).send({ added_id });
     } else {

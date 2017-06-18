@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const klad = require('../../domain/src/main');
-const Item = require('../../domain/src/Item');
 const errors = require('../../domain/src/errors');
 const validation = require('../../domain/src/validation');
 let app = express();
@@ -20,7 +19,6 @@ app.post('/api/items', async function (req, res) {
     let item = req.body;
     let validationResult = validation.checkItem(item);
     if (validationResult.isValid) {
-        item.aps = Item.aps(item);
         let added_id = await klad.placeInKladovka(db, collection, item);
         res.header('Location', '/api/items/' + added_id);
         res.status(201).send({ added_id });

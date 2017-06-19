@@ -3,7 +3,7 @@ const Item = require('./Item');
 const clone = require('./utility').clone;
 
 function checkItem(item) {
-    _.pick(item, 'minDmg', 'maxDmg', 'type');
+    item = _.pick(item, 'minDmg', 'maxDmg', 'type');
     let errors = [];
     let notNumbers = filterNotNumbers(item, ['minDmg', 'maxDmg']);
     if (notNumbers.length) {
@@ -12,7 +12,7 @@ function checkItem(item) {
             properties: notNumbers
         });
     }
-    if (notNumbers.indexOf.apply(notNumbers, ['minDmg', 'maxDmg']) === -1) {
+    if (_.intersection(notNumbers, ['minDmg', 'maxDmg']).length === 0) {
         if (item.minDmg > item.maxDmg) {
             errors.push({
                 id: "mustBeLessThan",

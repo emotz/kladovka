@@ -54,6 +54,7 @@
     "vue-resource-nprogress": "^1.0.2"
   },
   "optionalDependencies": {
+    "chai": "^4.0.2",
     "eslint": "^3.19.0",
     "eslint-plugin-webdriverio": "^1.0.1",
     "mocha": "^3.2.0",

@@ -1,6 +1,6 @@
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
-import { dps } from 'domain/Item';
+import { dps, aps } from 'domain/Item';
 export default {
     data: function () {
         return {
@@ -16,6 +16,7 @@ export default {
         this.$http.get('/api/items/').then(response => {
             for (let i in response.body) {
                 let item = response.body[i];
+                item.aps = aps(item);
                 item.dps = dps(item).toFixed(2);
                 this.items.push(item);
             }
@@ -28,6 +29,7 @@ export default {
             }).catch(err => toastr.error('Oops, something went wrong'));
         },
         addItem: function (item) {
+            item.aps = aps(item);
             item.dps = dps(item).toFixed(2);
             this.items.push(item);
         },

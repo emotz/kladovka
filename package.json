@@ -44,6 +44,7 @@
     "express": "^4.15.2",
     "express-async-errors": "^2.0.0",
     "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "mongodb": "^2.2.26",
     "nprogress": "^0.2.0",
     "toastr": "^2.1.2",
@@ -53,6 +54,8 @@
     "vue-resource-nprogress": "^1.0.2"
   },
   "optionalDependencies": {
+    "axios": "^0.16.2",
+    "chai": "^4.0.2",
     "eslint": "^3.19.0",
     "eslint-plugin-webdriverio": "^1.0.1",
     "mocha": "^3.2.0",

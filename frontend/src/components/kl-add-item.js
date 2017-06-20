@@ -1,4 +1,5 @@
 import * as Item from 'domain/Item';
+import { renderValidationErrors } from '../renderErrors';
 import { focus } from 'vue-focus';
 export default {
     directives: { focus: focus },
@@ -15,11 +16,17 @@ export default {
     methods: {
         addItem: function () {
             let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg };
-            item.aps = Item.aps(item);
             this.$http.post('/api/items/', item).then(response => {
                 item._id = response.body.added_id;
+                item.aps = Item.aps(item);
                 this.$emit('addItem', item);
-            }).catch(err => toastr.error('Oops, something went wrong'));
+            }).catch(err => {
+                if (err.status === 400 && err.body.code === 1) {
+                    let renderedErrors = renderValidationErrors(err.body.errors);
+                    renderedErrors.forEach(error => toastr.error(error));
+                } else
+                    toastr.error('Oops, something went wrong');
+            });
         },
         statControl: function () {
             if (this.minDmg < 2) this.minDmg = 2;

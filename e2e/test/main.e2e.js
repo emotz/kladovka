@@ -19,10 +19,12 @@ describe('e2e test', function () {
         page.deleteAll();
         page.waitForEmptyList();
     });
+
     it('добавляет предмет по умолчанию в пустую кладовку', function () {
         page.addItem();
         page.waitForNotEmptyList();
     });
+
     it('добавляет конкретный предмет в пустую кладовку и сразу же удаляет этот предмет', function () {
         let item = {
             type: 'sword',
@@ -34,6 +36,7 @@ describe('e2e test', function () {
         page.deleteLastItem();
         page.waitForEmptyList();
     });
+
     it('последний добавленный предмет - последний в списке (привет, stack)', function () {
         let item = {
             type: 'sword',

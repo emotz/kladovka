@@ -1,4 +1,5 @@
-const database = require('./mongo');
+const config = require('../../config.json');
+const database = require('./' + config.db);
 const Item = require('./Item');
 
 

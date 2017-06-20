@@ -1,4 +1,5 @@
 require('express-async-errors');
+const config = require('../../config.json');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -7,7 +8,6 @@ const errors = require('../../domain/src/errors');
 const validation = require('../../domain/src/validation');
 let app = express();
 
-const url = 'mongodb://localhost:27017/kladovka';
 const collection = 'items';
 let db;
 
@@ -56,6 +56,6 @@ app.use(function (err, req, res, next) {
     res.sendStatus(500);
 });
 
-app.listen(8080, async function () {
-    db = await klad.connect(url);
+app.listen(config.express_port, async function () {
+    db = await klad.connect(config.db_url);
 });

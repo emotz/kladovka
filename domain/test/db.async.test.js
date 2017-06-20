@@ -1,7 +1,7 @@
 const assert = require('assert');
+const config = require('../../config.json');
 const mongoDB = require('../src/mongo');
 const memoryDB = require('../src/db.async.proxy');
-const url = 'mongodb://localhost:27017/kladovka';
 const coll = 'items';
 
 [mongoDB, memoryDB].forEach(function (database, index) {
@@ -10,7 +10,7 @@ const coll = 'items';
 
         let db;
         before(async function () {
-            db = await database.connect(url);
+            db = await database.connect(config.db_url);
         });
 
         beforeEach(async function () {

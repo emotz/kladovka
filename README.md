@@ -12,7 +12,7 @@ npm install
 
 In root of Kladovka, you must create `config.json`, based on `config.json.example`.
 
-```bat
+```js
 {
     // Kladovka - multilanguage!
     // `default_language` can be "ru" or "en"

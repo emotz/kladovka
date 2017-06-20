@@ -19,7 +19,9 @@ describe('validation e2e test', function () {
                             properties: ["type"]
                         }
                     ]);
+                return;
             }
+            assert(false);
         });
     });
 });

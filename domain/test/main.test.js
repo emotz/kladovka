@@ -1,13 +1,13 @@
 const assert = require('assert');
 const klad = require('../src/main');
-const url = 'mongodb://localhost:27017/kladovka';
+const config = require('../../config.json');
 const coll = 'items';
 
 describe('Тест для кладовки', function () {
 
     let db;
     before(async function () {
-        db = await klad.connect(url);
+        db = await klad.connect(config.db_url);
     });
 
     beforeEach(async function () {

@@ -1,9 +1,9 @@
 const assert = require('assert');
 const expect = require('chai').expect;
-const _ = require('lodash');
 const validation = require('../src/validation');
 
-describe('validation test', function () {
+describe('validation unit test', function () {
+    
     it('предмет проходит валидацию', function () {
         let item = { type: 'axe', minDmg: 2, maxDmg: 3 };
         let validationResult = validation.checkItem(item);

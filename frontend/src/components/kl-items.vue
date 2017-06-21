@@ -15,14 +15,14 @@
                         </dl>
                     </div>
                     <div class="col-xs-4">
-                        <button class="btn diablo" type="button" v-on:click="deleteItem(item._id, index)">Delete</button>
+                        <button class="btn diablo" type="button" v-on:click="deleteItem(item._id, index)">{{ $t('buttonDelete') }}</button>
                     </div>
                 </div>
             </li>
         </ul>
         <div class="manipulate-all">
-            <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">Delete all</button>
-            <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item" v-on:click="focusAddItem=true">Add item</button>
+            <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">{{ $t('buttonDeleteAll') }}</button>
+            <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item" v-on:click="focusAddItem=true">{{ $t('buttonAddItem') }}</button>
         </div>
         <kl-delete-all v-on:deleteAll="deleteAll"></kl-delete-all>       
         <kl-add-item v-on:addItem="addItem" v-bind:focusProp="focusAddItem"></kl-add-item>       

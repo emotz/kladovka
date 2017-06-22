@@ -4,14 +4,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
-                    <h4 class="modal-title">Delete all items</h4>
+                    <h4 class="modal-title">{{ $t('deleteAll.title') }}</h4>
                 </div>
                 <div class="modal-body">
-                    Are you sure want to delete all items from Kladovka?
+                    {{ $t('deleteAll.content') }}Kladovka?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn diablo" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="deleteAll">Delete</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal">{{ $t('deleteAll.buttonCancel') }}</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="deleteAll">{{ $t('deleteAll.buttonOk') }}</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

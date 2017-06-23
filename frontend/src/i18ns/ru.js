@@ -13,13 +13,13 @@ export default {
         'spear': 'копьё',
         'sword': 'меч',
         'axe': 'топор',
-        'firstWeapon': 'кистевое оужие',
+        'fistWeapon': 'кистевое оужие',
         'flail': 'кистень',
         'mightyWeapon': 'мощное оружие',
         'ceremonialKnife': 'церемониальный нож'
     },
     list: {
-        title: "Предметы в ",
+        title: "Предметы в Kladovka",
         buttonDelete: 'Удалить',
         buttonDeleteAll: 'Удалить всё',
         buttonAddItem: 'Добавить предмет',
@@ -34,15 +34,15 @@ export default {
     },
     deleteAll: {
         title: "Удалить все предметы",
-        content: "Вы увеверны что хотите удалить все предметы из ",
+        content: "Вы увеверны что хотите удалить все предметы из Kladovka?",
         buttonCancel: "Отмена",
         buttonOk: 'Удалить',
     },
     errors: {
         default: "Упс, что-то пошло не так",
-        mustBeNumber: "должен быть числом",
-        mustBeLessThan: "должен быть меньше чем",
-        mustBePositive: "должен быть положительным",
-        notValidType: "не правильный тип"
+        mustBeNumber: "{allProps} должен быть числом",
+        mustBeLessThan: "{minDmg} должен быть меньше чем {maxDmg}",
+        mustBePositive: "{allProps} должен быть положительным",
+        notValidType: "{allProps} не правильный тип"
     }
 };

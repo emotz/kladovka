@@ -7,7 +7,7 @@
                     <h4 class="modal-title">{{ $t('deleteAll.title') }}</h4>
                 </div>
                 <div class="modal-body">
-                    {{ $t('deleteAll.content') }}Kladovka?
+                    {{ $t('deleteAll.content') }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn diablo" data-dismiss="modal">{{ $t('deleteAll.buttonCancel') }}</button>

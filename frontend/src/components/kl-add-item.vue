@@ -19,7 +19,7 @@
                             <ul class="list-group">
                                 <li class="item">
                                 <select v-model="type" class="kl-type-input">
-                                    <option v-for="tp in typeList" v-bind:value="tp.value">{{tp.trans}}</option>
+                                    <option v-for="(tp, index) in typeList" v-bind:key="index" v-bind:value="tp.value">{{tp.trans}}</option>
                                 </select>
                                 </li>
                                 <li class="item">

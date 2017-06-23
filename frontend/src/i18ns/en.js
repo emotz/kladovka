@@ -13,13 +13,13 @@ export default {
         'spear': 'spear',
         'sword': 'sword',
         'axe': 'axe',
-        'firstWeapon': 'first weapon',
+        'fistWeapon': 'first weapon',
         'flail': 'flail',
         'mightyWeapon': 'mighty weapon',
         'ceremonialKnife': 'ceremonial knife'
     },
     list: {
-        title: "Items in ",
+        title: "Items in Kladovka",
         buttonDelete: 'Delete',
         buttonDeleteAll: 'Delete all',
         buttonAddItem: 'Add item',
@@ -31,15 +31,15 @@ export default {
     },
     deleteAll: {
         title: "Delete all items",
-        content: "Are you sure want to delete all items from ",
+        content: "Are you sure want to delete all items from Kladovka?",
         buttonCancel: "Cancel",
         buttonOk: "Delete",
     },
     errors: {
         default: "Oops, something went wrong",
-        mustBeNumber: "must be number",
-        mustBeLessThan: "must be less than",
-        mustBePositive: "must be positive",
-        notValidType: "not valid type",
+        mustBeNumber: "{allProps} must be number",
+        mustBeLessThan: "{minDmg} must be less than {maxDmg}",
+        mustBePositive: "{allProps} must be positive",
+        notValidType: "{allProps} not valid type",
     }
 };

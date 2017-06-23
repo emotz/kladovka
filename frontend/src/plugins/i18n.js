@@ -1,4 +1,5 @@
-import config from 'root/config.json';
+// временное решение, проблема будет решена в https://github.com/emotz/kladovka/issues/57
+import config from '../../../config.json';
 import en from '../i18ns/en.js';
 import ru from '../i18ns/ru.js';
 import Vue from 'vue';

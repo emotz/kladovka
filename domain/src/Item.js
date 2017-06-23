@@ -6,7 +6,7 @@ const apsByType = {
     'spear': 1.20,
     'sword': 1.40,
     'axe': 1.30,
-    'firstWeapon': 1.40,
+    'fistWeapon': 1.40,
     'flail': 1.40,
     'mightyWeapon': 1.30,
     'ceremonialKnife': 1.40

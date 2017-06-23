@@ -1,8 +1,8 @@
 <template>
     <div class="col-md-4">
-        <h2>{{ $t('list.title')}} Kladovka</h2>
+        <h2>{{ $t('list.title') }}</h2>
         <ul class="list-group">
-            <li class="list-group-item" v-for="(item, index) in items">
+            <li class="list-group-item" v-for="(item, index) in items" v-bind:key="index">
                 <div class="row">
                     <div class="col-xs-8">
                         <dl>

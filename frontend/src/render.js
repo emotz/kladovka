@@ -1,21 +1,24 @@
 import i18n from './plugins/i18n';
 export function renderValidationErrors(errors) {
     let res = [];
-    errors.forEach(err => {
-        if (err.id === 'mustBeLessThan') {
-            let str = i18n.t('item.' + err.properties[0]) + ' ' + i18n.t('errors.' + err.id) + ' ' + i18n.t('item.' + err.properties[1]);
-            res.push(str);
+    errors.forEach(error => {
+        let id = error.id,
+            props = {};
+        if (id === 'mustBeLessThan') {
+            props = {
+                minDmg: i18n.t('item.' + error.properties[0]),
+                maxDmg: i18n.t('item.' + error.properties[1])
+            };
         }
         else {
-            let str = err.properties.map(prop => i18n.t('item.' + prop)).join(', ') + ' ' + i18n.t('errors.' + err.id);
-            res.push(str);
+            props.allProps = (error.properties.map(prop => i18n.t('item.' + prop))).join(', ');
         }
+        res.push({ id, props });
     });
     return res;
 }
 
 export function transTypeList(typeList) {
-
     return typeList.map(function (prop) {
         return {
             value: prop,

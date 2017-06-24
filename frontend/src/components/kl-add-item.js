@@ -30,8 +30,8 @@ export default {
             });
         },
         statControl: function () {
-            //if (this.minDmg < 2) this.minDmg = 2;
-            //if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
+            if (this.minDmg < 2) this.minDmg = 2;
+            if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
         }
     },
 

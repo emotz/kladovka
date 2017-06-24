@@ -1,5 +1,6 @@
 import * as Item from 'domain/Item';
-import { renderValidationErrors } from '../renderErrors';
+import { renderValidationErrors } from '../render';
+import { transTypeList } from '../render';
 import { focus } from 'vue-focus';
 export default {
     directives: { focus: focus },
@@ -7,7 +8,7 @@ export default {
     data: function () {
         return {
             focused: false,
-            typeList: Item.types,
+            typeList: transTypeList(Item.types),
             type: Item.types[0],
             minDmg: 2,
             maxDmg: 3,
@@ -23,9 +24,9 @@ export default {
             }).catch(err => {
                 if (err.status === 400 && err.body.code === 1) {
                     let renderedErrors = renderValidationErrors(err.body.errors);
-                    renderedErrors.forEach(error => toastr.error(error));
+                    renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
                 } else
-                    toastr.error('Oops, something went wrong');
+                    toastr.error(this.$t('errors.default'));
             });
         },
         statControl: function () {
@@ -33,6 +34,7 @@ export default {
             if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
         }
     },
+
     watch: {
         focusProp: function (newVal) {
             this.focused = newVal;

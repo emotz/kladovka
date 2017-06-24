@@ -18,19 +18,21 @@ export default {
                 let item = response.body[i];
                 item.aps = aps(item);
                 item.dps = dps(item).toFixed(2);
+                item.type = this.$t('types.'+item.type);
                 this.items.push(item);
             }
-        }).catch(err => toastr.error('Oops, something went wrong'));
+        }).catch(err => toastr.error(this.$t('errors.default')));
     },
     methods: {
         deleteItem: function (id, index) {
             this.$http.delete('/api/items/' + id).then(response => {
                 this.items.splice(index, 1);
-            }).catch(err => toastr.error('Oops, something went wrong'));
+            }).catch(err => toastr.error(this.$t('errors.default')));
         },
         addItem: function (item) {
             item.aps = aps(item);
             item.dps = dps(item).toFixed(2);
+            item.type = this.$t('types.'+item.type);
             this.items.push(item);
         },
         deleteAll: function (item) {

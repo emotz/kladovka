@@ -1,13 +1,21 @@
-const db = require('./db.async');
-let kladovka = db.initialize();
+const database = require('./db.async');
 
+
+async function connect(url) {
+    //много строчек кода работы с url
+    return database.initialize();
+}
+
+function disconnect(db) {
+    //много строчек кода работы с db
+}
 /**
  * Сохраняет объект в БД
  * @param {Object} item - Этот объект будет сохранен в базу
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
-async function addItem(item) {
-    return db.add(kladovka, item);
+async function addItem(db, coll, item) {
+    return database.add(db, coll, item);
 }
 
 /**
@@ -15,8 +23,8 @@ async function addItem(item) {
  * @param {String} id - идентификатор искомого объекта
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-async function getNotDeletedItemById(id) {
-    let res = await db.get_by_id(kladovka, id);
+async function getNotDeletedItemById(db, coll, id) {
+    let res = await database.get_by_id(db, coll, id);
     if (res !== null && res.deleted === undefined) return res;
     return null;
 }
@@ -26,27 +34,25 @@ async function getNotDeletedItemById(id) {
  * @param {String} id - идентификатор удаляемого объекта
  * @returns {Promise.<String, Error>} id удалённого объекта
  */
-async function deleteItemById(id) {
-    let res = await db.get_by_id(kladovka, id);
+async function deleteItemById(db, coll, id) {
+    let res = await database.get_by_id(db, coll, id);
     if (res === null) return id;
     res.deleted = true;
-    await db.add_by_id(kladovka, id, res);
-    return id;
+    return database.add_by_id(db, coll, id, res);
 }
 
 /**
  * Удаляет ВСЕ объекты из БД
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
-async function deleteAllItems() {
+async function deleteAllItems(db, coll) {
     let count = 0;
-    let res = await db.get_all(kladovka);
+    let res = await database.get_all(db, coll);
     for (let id in res) {
         if (res[id].deleted === true) continue;
-        res[id].deleted = true;
+        await deleteItemById(db, coll, id);
         count++;
     }
-    kladovka = res;
     return count;
 }
 
@@ -54,8 +60,8 @@ async function deleteAllItems() {
  * Получает массив объектов (не удалённых)
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getNotDeletedItems() {
-    let all = await db.get_all(kladovka);
+async function getNotDeletedItems(db, coll) {
+    let all = await database.get_all(db, coll);
     return selectNotDeleted(all);
 }
 
@@ -63,8 +69,8 @@ async function getNotDeletedItems() {
  * Получает массив объектов (не удалённых) данного типа
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getAllItemsByType(type) {
-    let all = await db.get_by_type(kladovka, type);
+async function getAllItemsByType(db, coll, type) {
+    let all = await database.get_by_type(db, coll, type);
     return selectNotDeleted(all);
 }
 
@@ -81,13 +87,15 @@ function selectNotDeleted(dict) {
  * Очищает коллекцию
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
-async function clearCollection() {
-    let all = await db.get_all(kladovka);
-    kladovka = {};
+async function clearCollection(db, coll) {
+    let all = await database.get_all(db, coll);
+    database.clear_collection(db, coll);
     return Object.keys(all).length;
 }
 
 module.exports = {
+    connect,
+    disconnect,
     add: addItem,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,

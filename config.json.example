@@ -1,0 +1,6 @@
+{
+    "default_language": "en",
+    "db": "mongo",
+    "db_url": "mongodb://localhost:27017/kladovka",
+    "express_port": 8080
+}

@@ -1,13 +1,15 @@
+let model = ['type', 'minDmg', 'maxDmg', 'aps'];
+
 const apsByType = {
     'mace': 1.20,
     'dagger': 1.50,
     'spear': 1.20,
     'sword': 1.40,
     'axe': 1.30,
-    'first weapon': 1.40,
+    'fistWeapon': 1.40,
     'flail': 1.40,
-    'mighty weapon': 1.30,
-    'ceremonial knife': 1.40
+    'mightyWeapon': 1.30,
+    'ceremonialKnife': 1.40
 };
 
 const types = Object.keys(apsByType).sort();
@@ -31,5 +33,6 @@ module.exports = {
     dps: calcDps,
     score: calcScore,
     aps: calcAps,
-    types
+    types,
+    model
 };

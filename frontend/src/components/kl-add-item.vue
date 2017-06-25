@@ -4,22 +4,22 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
-                    <h4 class="modal-title">Add item</h4>
+                    <h4 class="modal-title">{{ $t('addItem.title') }}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 col-md-offset-2">
                             <ul class="list-group">
-                                <li>Type:</li>
-                                <li>Min damage:</li>
-                                <li>Max damage:</li>
+                                <li>{{ $t('item.type') }}:</li>
+                                <li>{{ $t('item.minDmg') }}:</li>
+                                <li>{{ $t('item.maxDmg') }}:</li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="item">
                                 <select v-model="type" class="kl-type-input">
-                                    <option v-for="tp in typeList" v-bind:value="tp">{{tp}}</option>
+                                    <option v-for="(tp, index) in typeList" v-bind:key="index" v-bind:value="tp.value">{{tp.trans}}</option>
                                 </select>
                                 </li>
                                 <li class="item">
@@ -33,8 +33,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn diablo" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="addItem" v-focus="focused" v-on:focus="focused=true" v-on:blur="focused=false">Add</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal">{{ $t('addItem.buttonCancel') }}</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="addItem" v-focus="focused" v-on:focus="focused=true" v-on:blur="focused=false">{{ $t('addItem.buttonOk') }}</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

@@ -1,6 +1,6 @@
 {
   "name": "kladovka",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "test": "npm run test-unit && npm run test-e2e",
     "test-e2e": "cd e2e && wdio",
     "test-unit": "cd domain && mocha",
-    "watch": "cd frontend && webpack --watch"
+    "watch": "cd frontend && webpack --watch",
+    "lint": "eslint . --format unix"
   },
   "repository": {
     "type": "git",
@@ -44,13 +45,19 @@
     "express": "^4.15.2",
     "express-async-errors": "^2.0.0",
     "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "mongodb": "^2.2.26",
+    "nprogress": "^0.2.0",
     "toastr": "^2.1.2",
     "vue": "^2.3.3",
     "vue-focus": "^2.1.0",
-    "vue-resource": "^1.3.1"
+    "vue-i18n": "^7.0.3",
+    "vue-resource": "^1.3.1",
+    "vue-resource-nprogress": "^1.0.2"
   },
   "optionalDependencies": {
+    "axios": "^0.16.2",
+    "chai": "^4.0.2",
     "eslint": "^3.19.0",
     "eslint-plugin-webdriverio": "^1.0.1",
     "mocha": "^3.2.0",

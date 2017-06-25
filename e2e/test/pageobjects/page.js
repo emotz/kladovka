@@ -56,11 +56,10 @@ class Page {
         this.lastChildOfList.$('.col-xs-4 button').click();
     }
     waitForLastItem(item) {
-        if (this.lastChildOfList.$('.col-xs-8 dl dd').getText() == `Type: ${item.type}`) {
+        if (this.lastChildOfList.$('.col-xs-8 dl dd').getText() == `Type: ${item.type}`)
             this.lastChildOfList.waitForVisible();
-        } else {
+        else
             throw new Error('Not Last Item');
-        }
     }
     waitForEmptyList() {
         this.lastChildOfList.waitForVisible(undefined, true);

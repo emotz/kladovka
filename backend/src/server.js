@@ -35,11 +35,11 @@ app.get('/api/items', async function (req, res) {
 
 app.get('/api/items/:id', async function (req, res) {
     let item = await klad.getFromKladovka(db, collection, req.params.id);
-    if (item === null) {
+    if (item === null)
         res.sendStatus(404);
-    } else {
+    else
         res.status(200).send(item);
-    }
+
 });
 
 app.delete('/api/items/', async function (req, res) {

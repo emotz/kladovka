@@ -11,7 +11,9 @@ export function renderValidationErrors(errors) {
             };
         }
         else {
-            props.allProps = (error.properties.map(prop => i18n.t('item.' + prop))).join(', ');
+            props.allProps = (error.properties
+                .map(prop => i18n.t('item.' + prop))
+            ).join(', ');
         }
         res.push({ id, props });
     });

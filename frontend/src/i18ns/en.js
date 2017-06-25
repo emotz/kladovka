@@ -13,7 +13,7 @@ export default {
         'spear': 'spear',
         'sword': 'sword',
         'axe': 'axe',
-        'fistWeapon': 'first weapon',
+        'fistWeapon': 'fist weapon',
         'flail': 'flail',
         'mightyWeapon': 'mighty weapon',
         'ceremonialKnife': 'ceremonial knife'

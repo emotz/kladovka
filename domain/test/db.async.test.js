@@ -1,7 +1,7 @@
 const assert = require('assert');
 const config = require('../../config.json');
 const mongoDB = require('../src/mongo');
-const memoryDB = require('../src/db.async.proxy');
+const memoryDB = require('../src/memory');
 const coll = 'items';
 
 [mongoDB, memoryDB].forEach(function (database, index) {

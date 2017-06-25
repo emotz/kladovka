@@ -22,7 +22,7 @@ In root of Kladovka, you must create `config.json`, based on `config.json.exampl
     // `db` can be "mongo" or "memory"
     "db": "mongo",
 
-    // `db_url` is the address, there runnig your database server
+    // `db_url` is the address for your database server
     "db_url": "mongodb://localhost:27017/kladovka",
 
     // `express_port` is the port that will listen Kladovka
@@ -32,7 +32,7 @@ In root of Kladovka, you must create `config.json`, based on `config.json.exampl
 
 ## Build & Run
 
-### Build distibutable files
+### Build distributable files
 
 ```bat
 npm run build
@@ -44,7 +44,8 @@ npm run build
 npm run dev
 ```
 
-After this two steps, open `http://localhost:8080` (8080 default express port in `config.json.example`) in your browser and delight our application
+After this two steps, open `http://localhost:8080` (8080 default express port in
+`config.json.example`) in your browser and delight our application.
 
 ### Run all tests
 
@@ -64,7 +65,7 @@ npm run test-unit
 npm run test-e2e
 ```
 
-### Clean distibutable files
+### Clean distributable files
 
 ```bat
 npm run clean

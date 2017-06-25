@@ -18,7 +18,7 @@ export default {
                 let item = response.body[i];
                 item.aps = aps(item);
                 item.dps = dps(item).toFixed(2);
-                item.type = this.$t('types.'+item.type);
+                item.type = this.$t('types.' + item.type);
                 this.items.push(item);
             }
         }).catch(err => toastr.error(this.$t('errors.default')));
@@ -32,7 +32,7 @@ export default {
         addItem: function (item) {
             item.aps = aps(item);
             item.dps = dps(item).toFixed(2);
-            item.type = this.$t('types.'+item.type);
+            item.type = this.$t('types.' + item.type);
             this.items.push(item);
         },
         deleteAll: function (item) {

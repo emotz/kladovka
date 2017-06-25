@@ -1,6 +1,6 @@
 {
   "name": "kladovka",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "test": "npm run test-unit && npm run test-e2e",
     "test-e2e": "cd e2e && wdio",
     "test-unit": "cd domain && mocha",
-    "watch": "cd frontend && webpack --watch"
+    "watch": "cd frontend && webpack --watch",
+    "lint": "eslint . --format unix"
   },
   "repository": {
     "type": "git",

@@ -27,7 +27,7 @@ function checkItem(item) {
             properties: notPositive
         });
     }
-    let negative = filterNegative(item, ['critChance', 'critDmg'], notNumbers);
+    let negative = filterNegative(item, ['minDmg', 'maxDmg', 'critChance', 'critDmg'], notNumbers.concat(notPositive));
     if (negative.length) {
         errors.push({
             id: "mustNotBeNegative",

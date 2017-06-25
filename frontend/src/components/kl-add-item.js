@@ -10,8 +10,8 @@ export default {
             focused: false,
             typeList: transTypeList(Item.types),
             type: Item.types[0],
-            minDmg: 2,
-            maxDmg: 3,
+            minDmg: 1,
+            maxDmg: 2,
             critChance: 0,
             critDmg: 0
         };
@@ -38,7 +38,7 @@ export default {
         },
         statControl: function () {
             if (this.minDmg < 1) this.minDmg = 1;
-            if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
+            if (this.minDmg > this.maxDmg) this.maxDmg = this.minDmg;
             if (this.critChance < 0) this.critChance = 0;
             if (this.critDmg < 0) this.critDmg = 0;
         }

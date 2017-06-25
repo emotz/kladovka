@@ -1,5 +1,3 @@
-let model = ['type', 'minDmg', 'maxDmg', 'aps'];
-
 const apsByType = {
     'mace': 1.20,
     'dagger': 1.50,
@@ -22,7 +20,10 @@ function calcAps(item) {
 }
 
 function calcDps(item) {
-    return ((item.minDmg + item.maxDmg) / 2) * item.aps;
+    let res = (((item.minDmg + item.maxDmg) / 2) * item.aps);
+    if (item.critChance && item.critDmg)
+        return res + (item.critChance / 100) * (item.critDmg / 100);
+    return res;
 }
 
 function calcScore(item) {
@@ -33,6 +34,5 @@ module.exports = {
     dps: calcDps,
     score: calcScore,
     aps: calcAps,
-    types,
-    model
+    types
 };

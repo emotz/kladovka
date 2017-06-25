@@ -13,6 +13,8 @@
                                 <li>{{ $t('item.type') }}:</li>
                                 <li>{{ $t('item.minDmg') }}:</li>
                                 <li>{{ $t('item.maxDmg') }}:</li>
+                                <li>{{ $t('item.critChance') }}:</li>
+                                <li>{{ $t('item.critDmg') }}:</li>
                             </ul>
                         </div>
                         <div class="col-md-6">
@@ -27,6 +29,12 @@
                                 </li>
                                 <li class="item">
                                     <input type="number" class="kl-maxDmg-input" v-model.number="maxDmg" v-on:change="statControl">
+                                </li>
+                                <li class="item">
+                                    <input type="number" class="kl-critChance-input" v-model.number="critChance" v-on:change="statControl">
+                                </li>
+                                <li class="item">
+                                    <input type="number" class="kl-critDmg-input" v-model.number="critDmg" v-on:change="statControl">
                                 </li>
                             </ul>
                         </div>

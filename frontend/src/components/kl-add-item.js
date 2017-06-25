@@ -12,14 +12,21 @@ export default {
             type: Item.types[0],
             minDmg: 2,
             maxDmg: 3,
+            critChance: 0,
+            critDmg: 0
         };
     },
     methods: {
         addItem: function () {
-            let item = { type: this.type, minDmg: this.minDmg, maxDmg: this.maxDmg };
+            let item = {
+                type: this.type,
+                minDmg: this.minDmg,
+                maxDmg: this.maxDmg,
+                critChance: this.critChance,
+                critDmg: this.critDmg
+            };
             this.$http.post('/api/items/', item).then(response => {
                 item._id = response.body.added_id;
-                item.aps = Item.aps(item);
                 this.$emit('addItem', item);
             }).catch(err => {
                 if (err.status === 400 && err.body.code === 1) {
@@ -30,8 +37,10 @@ export default {
             });
         },
         statControl: function () {
-            if (this.minDmg < 2) this.minDmg = 2;
+            if (this.minDmg < 1) this.minDmg = 1;
             if (this.maxDmg <= this.minDmg) this.maxDmg = this.minDmg + 1;
+            if (this.critChance < 0) this.critChance = 0;
+            if (this.critDmg < 0) this.critDmg = 0;
         }
     },
 

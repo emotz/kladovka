@@ -7,7 +7,13 @@ describe('validation e2e test', function () {
     describe('validation error', function () {
 
         it('#notValidType: [type]', async function () {
-            let item = { type: 'enot', minDmg: 2, maxDmg: 4 };
+            let item = {
+                type: 'enot',
+                minDmg: 2,
+                maxDmg: 3,
+                critChance: 20,
+                critDmg: 60
+            };
             try {
                 await axios.post('http://localhost:8080/api/items', item);
             } catch (e) {

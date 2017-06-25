@@ -11,7 +11,7 @@ describe('e2e test', function () {
         page.waitForEmptyList();
     });
 
-    it('удаляет все предметы, ннно сперва добавляет парочку', function () {
+   /* it('удаляет все предметы, ннно сперва добавляет парочку', function () {
         page.addItem();
         page.waitForNotEmptyList();
         page.addItem();
@@ -35,14 +35,16 @@ describe('e2e test', function () {
         page.waitForNotEmptyList();
         page.deleteLastItem();
         page.waitForEmptyList();
-    });
+    });*/
 
     it('последний добавленный предмет - последний в списке (привет, stack)', function () {
-        let item = {
-            type: 'sword',
-            minDmg: 20,
-            maxDmg: 30
-        };
+         let item = {
+                type: 'sword',
+                minDmg: 2,
+                maxDmg: 3,
+                critChance: 20,
+                critDmg: 60
+            };
         page.addItem();
         page.waitForNotEmptyList();
         page.addCustomItem(item);

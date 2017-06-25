@@ -10,11 +10,11 @@
                     <div class="row">
                         <div class="col-md-4 col-md-offset-2">
                             <ul class="list-group">
-                                <li>{{ $t('item.type') }}:</li>
-                                <li>{{ $t('item.minDmg') }}:</li>
-                                <li>{{ $t('item.maxDmg') }}:</li>
-                                <li>{{ $t('item.critChance') }}:</li>
-                                <li>{{ $t('item.critDmg') }}:</li>
+                                <li>{{ $t('item.type') }}</li>
+                                <li>{{ $t('item.minDmg') }}</li>
+                                <li>{{ $t('item.maxDmg') }}</li>
+                                <li>{{ $t('item.critChance') }} %</li>
+                                <li>{{ $t('item.critDmg') }} %</li>
                             </ul>
                         </div>
                         <div class="col-md-6">

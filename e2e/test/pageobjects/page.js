@@ -47,8 +47,10 @@ class Page {
         modal.$('.kl-type-input').selectByValue(item.type);
         modal.$('.kl-minDmg-input').clearElement();
         modal.$('.kl-minDmg-input').setValue(item.minDmg);
-        modal.$('.kl-maxDmg-input').clearElement();
-        modal.$('.kl-maxDmg-input').setValue(item.maxDmg);
+        modal.$('.kl-critChance-input').clearElement();
+        modal.$('.kl-critChance-input').setValue(item.critChance);
+        modal.$('.kl-critDmg-input').clearElement();
+        modal.$('.kl-critDmg-input').setValue(item.critDmg);
         this.addItemConfirmBtn.click();
         modal.waitForVisible(undefined, true);
     }

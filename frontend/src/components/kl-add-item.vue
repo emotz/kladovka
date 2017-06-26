@@ -20,21 +20,21 @@
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="item">
-                                <select v-model="type" class="kl-type-input">
+                                <select v-model="item.type" class="kl-type-input">
                                     <option v-for="(tp, index) in typeList" v-bind:key="index" v-bind:value="tp.value">{{tp.trans}}</option>
                                 </select>
                                 </li>
                                 <li class="item">
-                                    <input type="number" class="kl-minDmg-input" v-model.number="minDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-minDmg-input" v-model.number="item.minDmg" v-on:change="statControl">
                                 </li>
                                 <li class="item">
-                                    <input type="number" class="kl-maxDmg-input" v-model.number="maxDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-maxDmg-input" v-model.number="item.maxDmg" v-on:change="statControl">
                                 </li>
                                 <li class="item">
-                                    <input type="number" class="kl-critChance-input" v-model.number="critChance" v-on:change="statControl">
+                                    <input type="number" class="kl-critChance-input" v-model.number="item.critChance" v-on:change="statControl">
                                 </li>
                                 <li class="item">
-                                    <input type="number" class="kl-critDmg-input" v-model.number="critDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-critDmg-input" v-model.number="item.critDmg" v-on:change="statControl">
                                 </li>
                             </ul>
                         </div>

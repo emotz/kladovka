@@ -40,8 +40,10 @@ describe('e2e test', function () {
     it('последний добавленный предмет - последний в списке (привет, stack)', function () {
         let item = {
             type: 'sword',
-            minDmg: 20,
-            maxDmg: 30
+            minDmg: 2,
+            maxDmg: 3,
+            critChance: 20,
+            critDmg: 60
         };
         page.addItem();
         page.waitForNotEmptyList();

@@ -10,23 +10,31 @@
                     <div class="row">
                         <div class="col-md-4 col-md-offset-2">
                             <ul class="list-group">
-                                <li>{{ $t('item.type') }}:</li>
-                                <li>{{ $t('item.minDmg') }}:</li>
-                                <li>{{ $t('item.maxDmg') }}:</li>
+                                <li>{{ $t('item.type') }}</li>
+                                <li>{{ $t('item.minDmg') }}</li>
+                                <li>{{ $t('item.maxDmg') }}</li>
+                                <li>{{ $t('item.critChance') }} %</li>
+                                <li>{{ $t('item.critDmg') }} %</li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="item">
-                                <select v-model="type" class="kl-type-input">
+                                <select v-model="item.type" class="kl-type-input">
                                     <option v-for="(tp, index) in typeList" v-bind:key="index" v-bind:value="tp.value">{{tp.trans}}</option>
                                 </select>
                                 </li>
                                 <li class="item">
-                                    <input type="number" class="kl-minDmg-input" v-model.number="minDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-minDmg-input" v-model.number="item.minDmg" v-on:change="dmgControl">
                                 </li>
                                 <li class="item">
-                                    <input type="number" class="kl-maxDmg-input" v-model.number="maxDmg" v-on:change="statControl">
+                                    <input type="number" class="kl-maxDmg-input" v-model.number="item.maxDmg" v-on:change="dmgControl">
+                                </li>
+                                <li class="item">
+                                    <input type="number" class="kl-critChance-input" v-model.number="item.critChance" v-on:change="critChanceControl">
+                                </li>
+                                <li class="item">
+                                    <input type="number" class="kl-critDmg-input" v-model.number="item.critDmg" v-on:change="critDmgControl">
                                 </li>
                             </ul>
                         </div>

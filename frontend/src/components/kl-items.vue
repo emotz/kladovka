@@ -12,6 +12,8 @@
                             <dd>{{ $t('item.maxDmg')}}: {{ item.maxDmg }}</dd>
                             <dd>{{ $t('item.aps')}}: {{ item.aps }}</dd>
                             <dd>{{ $t('item.dps')}}: {{ item.dps }}</dd>
+                            <dd v-if="item.critChance">{{ $t('item.critChance')}}: {{ item.critChance }} %</dd>
+                            <dd v-if="item.critDmg">{{ $t('item.critDmg')}}: {{ item.critDmg }} %</dd>
                         </dl>
                     </div>
                     <div class="col-xs-4">

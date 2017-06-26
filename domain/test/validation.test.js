@@ -36,6 +36,9 @@ describe('validation unit test', function () {
         assert(validationResult.item.type === item.type);
         assert(validationResult.item.minDmg === item.minDmg);
         assert(validationResult.item.maxDmg === item.maxDmg);
+        assert(validationResult.item.critChance === item.critChance);
+        assert(validationResult.item.critDmg === item.critDmg);
+        assert(validationResult.item.enot === undefined);
         assert(validationResult.isValid === true);
         assert(validationResult.errors.length === 0);
     });

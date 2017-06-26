@@ -27,7 +27,7 @@ function checkItem(item) {
             properties: notPositive
         });
     }
-    let negative = filterNegative(item, ['minDmg', 'maxDmg', 'critChance', 'critDmg'], notNumbers.concat(notPositive));
+    let negative = filterNegative(item, ['critChance', 'critDmg'], notNumbers.concat(notPositive));
     if (negative.length) {
         errors.push({
             id: "mustNotBeNegative",
@@ -46,7 +46,6 @@ function checkItem(item) {
             delete item.critChance;
         if (item.critDmg === 0)
             delete item.critDmg;
-        item = clone(item);
     } else {
         item = undefined;
     }

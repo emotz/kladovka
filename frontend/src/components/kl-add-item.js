@@ -33,12 +33,16 @@ export default {
                     toastr.error(this.$t('errors.default'));
             });
         },
-        statControl: function () {
-            if (this.minDmg < 1) this.minDmg = 1;
-            if (this.minDmg > this.maxDmg) this.maxDmg = this.minDmg;
-            if (this.critChance < 0) this.critChance = 0;
-            if (this.critDmg < 0) this.critDmg = 0;
-        }
+        dmgControl: function () {
+            if (this.item.minDmg < 1) this.item.minDmg = 1;
+            if (this.item.minDmg > this.item.maxDmg) this.item.maxDmg = this.item.minDmg;
+        },
+        critChanceControl: function () {
+            if (this.item.critChance < 0) this.item.critChance = 0;
+        },
+        critDmgControl: function () {
+            if (this.item.critDmg < 0) this.item.critDmg = 0;
+        },
     },
 
     watch: {

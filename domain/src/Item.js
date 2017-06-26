@@ -21,9 +21,11 @@ function calcAps(item) {
 
 function calcDps(item) {
     let res = (((item.minDmg + item.maxDmg) / 2) * item.aps);
-    return (item.critChance && item.critDmg)
-        ? (res + (item.critChance / 100) * (item.critDmg / 100))
-        : res;
+    if (item.critChance && item.critDmg) {
+        if (item.critChance > 100) item.critChance = 100;
+        return (res + (res * (item.critChance / 100) * (item.critDmg / 100)));
+    }
+    return res;
 }
 
 function calcScore(item) {

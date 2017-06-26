@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const Item = require('./Item');
-const clone = require('./utility').clone;
 
 function checkItem(item) {
     item = _.pick(item, ['type', 'minDmg', 'maxDmg', 'critChance', 'critDmg']);
@@ -46,9 +45,9 @@ function checkItem(item) {
             delete item.critChance;
         if (item.critDmg === 0)
             delete item.critDmg;
-    } else {
+    } else
         item = undefined;
-    }
+
     return {
         item,
         isValid,

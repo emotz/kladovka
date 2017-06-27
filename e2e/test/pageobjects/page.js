@@ -69,6 +69,9 @@ class Page {
     waitForNotEmptyList() {
         this.lastChildOfList.waitForVisible();
     }
+    refresh() {
+        browser.refresh();
+    }
 }
 
 module.exports = new Page;

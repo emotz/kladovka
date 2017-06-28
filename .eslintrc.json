@@ -18,6 +18,10 @@
                 "vars": "all",
                 "args": "none"
             }
+        ],
+        "curly": [
+            "error",
+            "multi-or-nest"
         ]
     }
 }

@@ -15,7 +15,9 @@ function disconnect(db) {
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
 async function addItem(db, coll, item) {
-    return database.add(db, coll, item);
+    let _id = database.guid();
+    item._id = _id;
+    return database.add_by_id(db, coll, _id, item);
 }
 
 /**

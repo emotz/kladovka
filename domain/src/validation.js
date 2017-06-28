@@ -1,11 +1,10 @@
 const _ = require('lodash');
 const Item = require('./Item');
-const clone = require('./utility').clone;
 
 function checkItem(item) {
-    item = _.pick(item, 'minDmg', 'maxDmg', 'type');
+    item = _.pick(item, ['type', 'minDmg', 'maxDmg', 'critChance', 'critDmg']);
     let errors = [];
-    let notNumbers = filterNotNumbers(item, ['minDmg', 'maxDmg']);
+    let notNumbers = filterNotNumbers(item, ['minDmg', 'maxDmg', 'critChance', 'critDmg']);
     if (notNumbers.length) {
         errors.push({
             id: "mustBeNumber",
@@ -27,6 +26,13 @@ function checkItem(item) {
             properties: notPositive
         });
     }
+    let negative = filterNegative(item, ['critChance', 'critDmg'], notNumbers.concat(notPositive));
+    if (negative.length) {
+        errors.push({
+            id: "mustNotBeNegative",
+            properties: negative
+        });
+    }
     if (!Item.types.some(type => type === item.type)) {
         errors.push({
             id: "notValidType",
@@ -34,7 +40,14 @@ function checkItem(item) {
         });
     }
     let isValid = !errors.length;
-    item = isValid ? clone(item) : undefined;
+    if (isValid) {
+        if (item.critChance === 0)
+            delete item.critChance;
+        if (item.critDmg === 0)
+            delete item.critDmg;
+    } else
+        item = undefined;
+
     return {
         item,
         isValid,
@@ -45,13 +58,19 @@ function checkItem(item) {
 function filterNotNumbers(item, props, excludes) {
     return _
         .difference(props, excludes || [])
-        .filter(prop => !Number.isInteger(item[prop]));
+        .filter(prop => Number(item[prop]) !== item[prop]);
 }
 
 function filterNotPositive(item, props, excludes) {
     return _
         .difference(props, excludes || [])
         .filter(prop => item[prop] <= 0);
+}
+
+function filterNegative(item, props, excludes) {
+    return _
+        .difference(props, excludes || [])
+        .filter(prop => item[prop] < 0);
 }
 
 module.exports = {

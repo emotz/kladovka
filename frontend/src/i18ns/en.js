@@ -6,6 +6,8 @@ export default {
         minDmg: "Min damage",
         maxDmg: "Max damage",
         dps: "Damage per second",
+        critChance: "Critical chance",
+        critDmg: "Critical damage"
     },
     types: {
         'mace': 'mace',

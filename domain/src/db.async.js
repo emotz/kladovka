@@ -133,6 +133,7 @@ function db_clear_collection(db, coll) {
 }
 
 module.exports = {
+    guid,
     initialize: db_initialize,
     add: db_add,
     add_by_id: db_add_by_id,

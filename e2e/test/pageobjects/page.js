@@ -47,8 +47,10 @@ class Page {
         modal.$('.kl-type-input').selectByValue(item.type);
         modal.$('.kl-minDmg-input').clearElement();
         modal.$('.kl-minDmg-input').setValue(item.minDmg);
-        modal.$('.kl-maxDmg-input').clearElement();
-        modal.$('.kl-maxDmg-input').setValue(item.maxDmg);
+        modal.$('.kl-critChance-input').clearElement();
+        modal.$('.kl-critChance-input').setValue(item.critChance);
+        modal.$('.kl-critDmg-input').clearElement();
+        modal.$('.kl-critDmg-input').setValue(item.critDmg);
         this.addItemConfirmBtn.click();
         modal.waitForVisible(undefined, true);
     }
@@ -56,17 +58,19 @@ class Page {
         this.lastChildOfList.$('.col-xs-4 button').click();
     }
     waitForLastItem(item) {
-        if (this.lastChildOfList.$('.col-xs-8 dl dd').getText() == `Type: ${item.type}`) {
+        if (this.lastChildOfList.$('.col-xs-8 dl dd').getText() == `Type: ${item.type}`)
             this.lastChildOfList.waitForVisible();
-        } else {
+        else
             throw new Error('Not Last Item');
-        }
     }
     waitForEmptyList() {
         this.lastChildOfList.waitForVisible(undefined, true);
     }
     waitForNotEmptyList() {
         this.lastChildOfList.waitForVisible();
+    }
+    refresh() {
+        browser.refresh();
     }
 }
 

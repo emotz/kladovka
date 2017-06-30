@@ -55,6 +55,53 @@ function checkItem(item) {
     };
 }
 
+// > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: 6})
+// {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}, {id: "mustBeCorrectId", properties: ['_id']}]}
+function checkChar(char) {
+    char = _.pick(char, ['_id', 'atkSpd', 'dmg', 'critChance', 'critDmg']);
+    let errors = [];
+    let notNumbers = filterNotNumbers(char, ['atkSpd', 'dmg', 'critChance', 'critDmg']);
+    if (notNumbers.length) {
+        errors.push({
+            id: "mustBeNumber",
+            properties: notNumbers
+        });
+    }
+    let negative = filterNegative(char, ['minDmg', 'maxDmg'], notNumbers);
+    if (negative.length) {
+        errors.push({
+            id: "mustNotBeNegative",
+            properties: negative
+        });
+    }
+    let notId = filterNotId(char, ['_id']);
+    if (notId.length) {
+        errors.push({
+            id: "mustBeCorrectId",
+            properties: notId
+        });
+    }
+    let isValid = !errors.length;
+    if (isValid) {
+        Object.keys(char)
+            .filter(prop => prop !== '_id')
+            .forEach(prop => {
+                if (char[prop] === 0)
+                    delete char[prop];
+            });
+    }
+    else
+        char = undefined;
+
+    return {
+        char,
+        isValid,
+        errors
+    };
+}
+
+// > filterNotNumbers({minDmg:1, maxDmg:'2'}, ['minDmg', 'maxDmg'])
+// ["maxDmg"]
 function filterNotNumbers(item, props, excludes) {
     return _
         .difference(props, excludes || [])
@@ -73,6 +120,14 @@ function filterNegative(item, props, excludes) {
         .filter(prop => item[prop] < 0);
 }
 
+// > filterNotId({id1:1, id2:'22341jd0s943k,kfksldjasdfsdksdfkashk'}, ['id1', 'id2'])
+// ["id1"]
+function filterNotId(item, props, excludes) {
+    return _
+        .difference(props, excludes || [])
+        .filter(prop => String(item[prop]) !== item[prop] || item[prop].length < 24 || item[prop].length > 36);
+}
 module.exports = {
-    checkItem
+    checkItem,
+    checkChar
 };

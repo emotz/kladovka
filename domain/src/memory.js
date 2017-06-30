@@ -86,6 +86,18 @@ function selectNotDeleted(dict) {
 }
 
 /**
+ * Полностью обновляет предмет(кроме id)
+ * @returns {Promise.<Number, Error>} Количество найденных объектов
+ */
+async function updateItemFully(db, coll, item) {
+    let tmp = {};
+    Object.keys(item).filter(val => val != '_id').forEach(prop => tmp[prop] = item[prop]);
+    let id = await database.add_by_id(db, coll, item._id, tmp);
+    if (typeof (id) === 'string')
+        return 1;
+}
+
+/**
  * Очищает коллекцию
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
@@ -104,5 +116,6 @@ module.exports = {
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType,
+    updateItemFully,
     clearCollection
 };

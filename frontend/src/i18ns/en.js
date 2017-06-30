@@ -9,22 +9,32 @@ export default {
         critChance: "Critical chance",
         critDmg: "Critical damage"
     },
+    character: {
+        title: "Character",
+        buttonUpdate: "Update",
+        stats: {
+            critChance: "Critical chance",
+            critDmg: "Critical damage",
+            attackSpd: "Attack speed",
+            dmg: "Damage",
+        }
+    },
     types: {
-        'mace': 'mace',
-        'dagger': 'dagger',
-        'spear': 'spear',
-        'sword': 'sword',
-        'axe': 'axe',
-        'fistWeapon': 'fist weapon',
-        'flail': 'flail',
-        'mightyWeapon': 'mighty weapon',
-        'ceremonialKnife': 'ceremonial knife'
+        "mace": "mace",
+        "dagger": "dagger",
+        "spear": "spear",
+        "sword": "sword",
+        "axe": "axe",
+        "fistWeapon": "fist weapon",
+        "flail": "flail",
+        "mightyWeapon": "mighty weapon",
+        "ceremonialKnife": "ceremonial knife"
     },
     list: {
         title: "Items in Kladovka",
-        buttonDelete: 'Delete',
-        buttonDeleteAll: 'Delete all',
-        buttonAddItem: 'Add item',
+        buttonDelete: "Delete",
+        buttonDeleteAll: "Delete all",
+        buttonAddItem: "Add item",
     },
     addItem: {
         title: "Add item",

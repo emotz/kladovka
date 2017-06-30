@@ -9,22 +9,32 @@ export default {
         critChance: "Шанс критического удара",
         critDmg: "Критический урон"
     },
+    character: {
+        title: "Персонаж",
+        buttonUpdate: "Обновить",
+        stats: {
+            critChance: "Шанс критического удара",
+            critDmg: "Критический урон",
+            attackSpd: "Скорость атаки",
+            dmg: "Урон",
+        }
+    },
     types: {
-        'mace': 'булава',
-        'dagger': 'кинжал',
-        'spear': 'копьё',
-        'sword': 'меч',
-        'axe': 'топор',
-        'fistWeapon': 'кистевое оужие',
-        'flail': 'кистень',
-        'mightyWeapon': 'мощное оружие',
-        'ceremonialKnife': 'церемониальный нож'
+        "mace": "булава",
+        "dagger": "кинжал",
+        "spear": "копьё",
+        "sword": "меч",
+        "axe": "топор",
+        "fistWeapon": "кистевое оужие",
+        "flail": "кистень",
+        "mightyWeapon": "мощное оружие",
+        "ceremonialKnife": "церемониальный нож"
     },
     list: {
         title: "Предметы в Kladovka",
-        buttonDelete: 'Удалить',
-        buttonDeleteAll: 'Удалить всё',
-        buttonAddItem: 'Добавить предмет',
+        buttonDelete: "Удалить",
+        buttonDeleteAll: "Удалить всё",
+        buttonAddItem: "Добавить предмет",
     },
     addItem: {
         title: "Добавить предмет",
@@ -38,7 +48,7 @@ export default {
         title: "Удалить все предметы",
         content: "Вы увеверны что хотите удалить все предметы из Kladovka?",
         buttonCancel: "Отмена",
-        buttonOk: 'Удалить',
+        buttonOk: "Удалить",
     },
     errors: {
         default: "Упс, что-то пошло не так",

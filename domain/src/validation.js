@@ -56,7 +56,7 @@ function checkItem(item) {
 }
 
 // > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: 6})
-// {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}, {id: "mustBeCorrectId", properties: ['_id']}]}
+// {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}, {id: "notValidId", properties: ['_id']}]}
 function checkChar(char) {
     char = _.pick(char, ['_id', 'atkSpd', 'dmg', 'critChance', 'critDmg']);
     let errors = [];
@@ -67,7 +67,7 @@ function checkChar(char) {
             properties: notNumbers
         });
     }
-    let negative = filterNegative(char, ['minDmg', 'maxDmg'], notNumbers);
+    let negative = filterNegative(char, ['atkSpd', 'dmg', 'critChance', 'critDmg'], notNumbers);
     if (negative.length) {
         errors.push({
             id: "mustNotBeNegative",
@@ -77,7 +77,7 @@ function checkChar(char) {
     let notId = filterNotId(char, ['_id']);
     if (notId.length) {
         errors.push({
-            id: "mustBeCorrectId",
+            id: "notValidId",
             properties: notId
         });
     }
@@ -125,7 +125,11 @@ function filterNegative(item, props, excludes) {
 function filterNotId(item, props, excludes) {
     return _
         .difference(props, excludes || [])
-        .filter(prop => String(item[prop]) !== item[prop] || item[prop].length < 24 || item[prop].length > 36);
+        .filter(prop =>
+            String(item[prop]) !== item[prop]
+            || item[prop].length < 24
+            || item[prop].length > 36
+        );
 }
 module.exports = {
     checkItem,

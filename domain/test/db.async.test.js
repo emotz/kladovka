@@ -128,9 +128,10 @@ const coll = 'tests';
             assert(returned2[0].type === 'axe');
         });
 
-        it('should be fully to update item', async function(){
+        it('should be fully to update item', async function () {
             let obj = { qwer: 11, type: 'axe' };
             let id = await database.add(db, coll, obj);
+            obj._id = id;
             obj.type = 'sword';
             delete obj.qwer;
             let n = await database.updateItemFully(db, coll, obj);

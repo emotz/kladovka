@@ -80,13 +80,14 @@ describe('Тест для кладовки', function () {
 
     it('should fully to update character', async function () {
         let char = { dmg: 100, attackSpd: 10 };
-        let id= await klad.placeInKladovka(db, coll, char);
+        let id = await klad.placeInKladovka(db, coll, char);
+        char._id = id;
         char.dmg = 200;
         char.attackSpd = 20;
         let up = await klad.updateFullyInKladovka(db, coll, char);
         assert(up === 1);
         let res = await klad.getFromKladovka(db, coll, id);
-        assert(res.dmg===200);
+        assert(res.dmg === 200);
 
     });
 

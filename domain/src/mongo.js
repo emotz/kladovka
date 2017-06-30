@@ -1,3 +1,4 @@
+const utility = require('./utility');
 const mongodb = require('mongodb');
 const mongo = mongodb.MongoClient;
 const ObjectID = mongodb.ObjectID;
@@ -19,6 +20,7 @@ function disconnect(db) {
 async function addItem(db, coll, item) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
+    item = utility.clone(item);
     let res = await collection.insertOne(item);
     return res.insertedId;
 }

@@ -1,3 +1,4 @@
+const utility = require('./utility');
 const database = require('./db.async');
 
 
@@ -16,6 +17,7 @@ function disconnect(db) {
  */
 async function addItem(db, coll, item) {
     let _id = database.guid();
+    item = utility.clone(item);
     item._id = _id;
     return database.add_by_id(db, coll, _id, item);
 }

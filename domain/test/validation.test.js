@@ -240,6 +240,24 @@ describe('validation unit test', function () {
             assert(validationResult.errors.length === 0);
         });
 
+        it('создание персонажа(_id = undefined) проходит валидацию', function () {
+            let char = {
+                _id: undefined,
+                atkSpd: 54,
+                dmg: 3,
+                critChance: 5,
+                critDmg: 6
+            };
+            let validationResult = validation.checkChar(char);
+            assert(validationResult.char._id === char._id);
+            assert(validationResult.char.atkSpd === char.atkSpd);
+            assert(validationResult.char.dmg === char.dmg);
+            assert(validationResult.char.critChance === char.critChance);
+            assert(validationResult.char.critDmg === char.critDmg);
+            assert(validationResult.isValid === true);
+            assert(validationResult.errors.length === 0);
+        });
+
         it('избыточные свойства обрезаются и персонаж проходит валидацию', function () {
             let char = {
                 enot: true,

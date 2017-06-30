@@ -15,7 +15,7 @@ export default {
         stats: {
             critChance: "Critical chance",
             critDmg: "Critical damage",
-            attackSpd: "Attack speed",
+            atkSpd: "Attack speed",
             dmg: "Damage",
         }
     },

@@ -15,7 +15,7 @@ export default {
         stats: {
             critChance: "Шанс критического удара",
             critDmg: "Критический урон",
-            attackSpd: "Скорость атаки",
+            atkSpd: "Скорость атаки",
             dmg: "Урон",
         }
     },

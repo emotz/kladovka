@@ -15,10 +15,10 @@
                 <input type="number" id="kl-char-critDmg" class="col-md-5 col-md-offset-1">
             </li>
             <li class="row list-group-item">
-                <label for="kl-char-attackSpd" class="col-md-5 col-md-offset-1">
-                    {{ $t('character.stats.attackSpd') }}
+                <label for="kl-char-atkSpd" class="col-md-5 col-md-offset-1">
+                    {{ $t('character.stats.atkSpd') }}
                 </label>
-                <input type="number" id="kl-char-attackSpd" class="col-md-5 col-md-offset-1">
+                <input type="number" id="kl-char-atkSpd" class="col-md-5 col-md-offset-1">
             </li>
             <li class="row list-group-item">
                 <label for="kl-char-dmg" class="col-md-5 col-md-offset-1">

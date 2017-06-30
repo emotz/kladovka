@@ -82,6 +82,19 @@ async function getAllItemsByType(db, coll, type) {
 }
 
 /**
+ * Полностью обновляет предмет(кроме id)
+ * @returns {Promise.<Number, Error>} Количество найденных объектов
+ */
+async function updateItemFully(db, coll, item) {
+    if (db === undefined) throw new Error('нет базы данных');
+    let collection = db.collection(coll);
+    let tmp = {};
+    Object.keys(item).filter(val => val != '_id').forEach(prop => tmp[prop] = item[prop]);
+    let res = await collection.updateOne({ _id: item._id }, { $set: tmp });
+    return res.result.n;
+}
+
+/**
  * Очищает коллекцию
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
@@ -101,5 +114,6 @@ module.exports = {
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType,
+    updateItemFully,
     clearCollection
 };

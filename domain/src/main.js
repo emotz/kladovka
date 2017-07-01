@@ -55,8 +55,8 @@ function deleteAllFromKladovka(db, coll) {
 function clearKladovka(db, coll) {
     return database.clearCollection(db, coll);
 }
-function updateFullyInKladovka(db, coll, item){
-    return database.updateItemFully(db, coll, item);
+function updateFullyInKladovka(db, coll, id, item){
+    return database.updateItemFully(db, coll, id, item);
 }
 /**
  * Сравнивает 2 предмета

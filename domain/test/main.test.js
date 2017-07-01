@@ -78,17 +78,24 @@ describe('Тест для кладовки', function () {
         assert(worst.dps === item4.dps);
     });
 
-    it('should fully to update character', async function () {
+    it('should be fully to update character', async function () {
         let char = { dmg: 100, attackSpd: 10 };
         let id = await klad.placeInKladovka(db, coll, char);
-        char._id = id;
         char.dmg = 200;
         char.attackSpd = 20;
-        let up = await klad.updateFullyInKladovka(db, coll, char);
+        let up = await klad.updateFullyInKladovka(db, coll, id, char);
         assert(up === 1);
         let res = await klad.getFromKladovka(db, coll, id);
         assert(res.dmg === 200);
+    });
 
+    it('should be error at update character', async function () {
+        let char = { dmg: 100, attackSpd: 10 };
+        await klad.placeInKladovka(db, coll, char);
+        char.dmg = 200;
+        char.attackSpd = 20;
+        let up = await klad.updateFullyInKladovka(db, coll, '123', char);
+        assert(up === 0);
     });
 
     describe('Сравнение предметов', function () {

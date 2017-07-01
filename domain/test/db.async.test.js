@@ -131,13 +131,21 @@ const coll = 'tests';
         it('should be fully to update item', async function () {
             let obj = { qwer: 11, type: 'axe' };
             let id = await database.add(db, coll, obj);
-            obj._id = id;
             obj.type = 'sword';
             delete obj.qwer;
-            let n = await database.updateItemFully(db, coll, obj);
+            let n = await database.updateItemFully(db, coll, id, obj);
             assert(n === 1);
             let res = await database.getById(db, coll, id);
             assert(res.type === 'sword');
+        });
+
+        it('should be error at update item', async function () {
+            let obj = { qwer: 11, type: 'axe' };
+            await database.add(db, coll, obj);
+            obj.type = 'sword';
+            delete obj.qwer;
+            let n = await database.updateItemFully(db, coll, '123', obj);
+            assert(n === 0);
         });
 
         after(function () {

@@ -61,7 +61,7 @@ app.post('/api/chars', async function (req, res) {
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send({ resBody });
+        res.status(400).send(resBody);
     }
 });
 
@@ -73,7 +73,7 @@ app.put('/api/chars/:id', async function (req, res) {
         res.sendStatus(204);
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send({ resBody });
+        res.status(400).send(resBody);
     }
 });
 

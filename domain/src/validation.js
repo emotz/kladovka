@@ -74,15 +74,6 @@ function checkChar(char) {
             properties: negative
         });
     }
-    if (char._id !== undefined) {
-        let notId = filterNotId(char, ['_id']);
-        if (notId.length) {
-            errors.push({
-                id: "notValidId",
-                properties: notId
-            });
-        }
-    }
     let isValid = !errors.length;
     if (isValid) {
         Object.keys(char)
@@ -122,17 +113,6 @@ function filterNegative(item, props, excludes) {
         .filter(prop => item[prop] < 0);
 }
 
-// > filterNotId({id1:1, id2:'22341jd0s943k,kfksldjasdfsdksdfkashk'}, ['id1', 'id2'])
-// ["id1"]
-function filterNotId(item, props, excludes) {
-    return _
-        .difference(props, excludes || [])
-        .filter(prop =>
-            String(item[prop]) !== item[prop]
-            || item[prop].length < 24
-            || item[prop].length > 36
-        );
-}
 module.exports = {
     checkItem,
     checkChar

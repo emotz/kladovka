@@ -144,7 +144,7 @@ const coll = 'tests';
             await database.add(db, coll, obj);
             obj.type = 'sword';
             delete obj.qwer;
-            let n = await database.updateItemFully(db, coll, '123', obj);
+            let n = await database.updateItemFully(db, coll, '123asdasdsad', obj);
             assert(n === 0);
         });
 

@@ -224,32 +224,12 @@ describe('validation unit test', function () {
 
         it('персонаж проходит валидацию', function () {
             let char = {
-                _id: '1asdsadasdhasjhdjkashjkdhaskjhdjksad',
                 atkSpd: 54,
                 dmg: 3,
                 critChance: 5,
                 critDmg: 6
             };
             let validationResult = validation.checkChar(char);
-            assert(validationResult.char._id === char._id);
-            assert(validationResult.char.atkSpd === char.atkSpd);
-            assert(validationResult.char.dmg === char.dmg);
-            assert(validationResult.char.critChance === char.critChance);
-            assert(validationResult.char.critDmg === char.critDmg);
-            assert(validationResult.isValid === true);
-            assert(validationResult.errors.length === 0);
-        });
-
-        it('создание персонажа(_id = undefined) проходит валидацию', function () {
-            let char = {
-                _id: undefined,
-                atkSpd: 54,
-                dmg: 3,
-                critChance: 5,
-                critDmg: 6
-            };
-            let validationResult = validation.checkChar(char);
-            assert(validationResult.char._id === char._id);
             assert(validationResult.char.atkSpd === char.atkSpd);
             assert(validationResult.char.dmg === char.dmg);
             assert(validationResult.char.critChance === char.critChance);
@@ -261,14 +241,12 @@ describe('validation unit test', function () {
         it('избыточные свойства обрезаются и персонаж проходит валидацию', function () {
             let char = {
                 enot: true,
-                _id: '1asdsadasdhasjhdjkashjkdhaskjhdjksad',
                 atkSpd: 54,
                 dmg: 3,
                 critChance: 5,
                 critDmg: 6
             };
             let validationResult = validation.checkChar(char);
-            assert(validationResult.char._id === char._id);
             assert(validationResult.char.atkSpd === char.atkSpd);
             assert(validationResult.char.dmg === char.dmg);
             assert(validationResult.char.critChance === char.critChance);
@@ -280,7 +258,6 @@ describe('validation unit test', function () {
 
         it('при ошибке валидации персонажа, в результате нет персонажа и есть ошибка', function () {
             let char = {
-                _id: '1asdsadasdhasjhdjkashjkdhaskjhdjksad',
                 atkSpd: '54',
                 dmg: 3,
                 critChance: 5,
@@ -294,29 +271,8 @@ describe('validation unit test', function () {
 
         describe('errors', function () {
 
-            it('#notValidId: [_id]', function () {
-                let char = {
-                    _id: 123,
-                    atkSpd: 54,
-                    dmg: 3,
-                    critChance: 5,
-                    critDmg: 6
-                };
-                let validationResult = validation.checkChar(char);
-                assert(validationResult.char === undefined);
-                assert(validationResult.isValid === false);
-                expect(validationResult.errors)
-                    .to.have.deep.members([
-                        {
-                            id: "notValidId",
-                            properties: ["_id"]
-                        }
-                    ]);
-            });
-
             it('#mustBeNumber: [dmg, critChance]', function () {
                 let char = {
-                    _id: '1asdsadasdhasjhdjkashjkdhaskjhdjksad',
                     atkSpd: 54,
                     dmg: '3',
                     critChance: undefined,
@@ -336,7 +292,6 @@ describe('validation unit test', function () {
 
             it('#mustBeNumber: [dmg, critChance], mustNotBeNegative: [atkSpd]', function () {
                 let char = {
-                    _id: '1asdsadasdhasjhdjkashjkdhaskjhdjksad',
                     atkSpd: -54,
                     dmg: '3',
                     critChance: undefined,
@@ -354,34 +309,6 @@ describe('validation unit test', function () {
                         {
                             id: "mustNotBeNegative",
                             properties: ["atkSpd"]
-                        }
-                    ]);
-            });
-
-            it('#mustBeNumber: [dmg, critChance], mustNotBeNegative: [atkSpd], notValidId: [_id]', function () {
-                let char = {
-                    _id: '1asdsadasdhasjhdjkashjkdhaasdasdsadsadsadskjhdjksad',
-                    atkSpd: -54,
-                    dmg: '3',
-                    critChance: undefined,
-                    critDmg: 6
-                };
-                let validationResult = validation.checkChar(char);
-                assert(validationResult.char === undefined);
-                assert(validationResult.isValid === false);
-                expect(validationResult.errors)
-                    .to.have.deep.members([
-                        {
-                            id: "mustBeNumber",
-                            properties: ["dmg", "critChance"]
-                        },
-                        {
-                            id: "mustNotBeNegative",
-                            properties: ["atkSpd"]
-                        },
-                        {
-                            id: "notValidId",
-                            properties: ["_id"]
                         }
                     ]);
             });

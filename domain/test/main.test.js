@@ -94,7 +94,7 @@ describe('Тест для кладовки', function () {
         await klad.placeInKladovka(db, coll, char);
         char.dmg = 200;
         char.attackSpd = 20;
-        let up = await klad.updateFullyInKladovka(db, coll, '123', char);
+        let up = await klad.updateFullyInKladovka(db, coll, '123asdasdsad', char);
         assert(up === 0);
     });
 

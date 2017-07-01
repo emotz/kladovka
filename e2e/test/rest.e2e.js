@@ -50,7 +50,6 @@ describe('validation e2e test', function () {
 
         it('should create & update char', async function () {
             let char = {
-                _id: undefined,
                 atkSpd: 54,
                 dmg: 3,
                 critChance: 5,
@@ -58,8 +57,8 @@ describe('validation e2e test', function () {
             };
             let res = await axios.post('http://localhost:8080/api/chars', char);
             assert(typeof (res.data.added_id) === 'string');
-            char._id = res.data.added_id;
-            res = await axios.put('http://localhost:8080/api/chars/' + char._id, char);
+            let id = res.data.added_id;
+            res = await axios.put('http://localhost:8080/api/chars/' + id, char);
             assert(res.status === 204);
         });
 

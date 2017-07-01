@@ -90,7 +90,7 @@ async function getAllItemsByType(db, coll, type) {
 async function updateItemFully(db, coll, id, item) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
-    let res = await collection.updateOne({ _id: id }, { $set: item });
+    let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: item });
     return res.result.n;
 }
 

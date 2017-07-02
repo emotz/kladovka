@@ -16,7 +16,7 @@
             </li>
             <li class="row list-group-item">
                 <label for="kl-char-atkSpd" class="col-md-5 col-md-offset-1">
-                    {{ $t('character.stats.atkSpd') }}
+                    {{ $t('character.stats.atkSpd') }} %
                 </label>
                 <input type="number" id="kl-char-atkSpd" class="col-md-5 col-md-offset-1" v-model.number="char.atkSpd" v-on:change="atkSpdControl">
             </li>
@@ -30,7 +30,6 @@
         <div class="manipulate-all">
         <button class="btn diablo" v-on:click="updateChar">{{ $t('character.buttonUpdate') }}</button>
         </div>
-        {{store.state.char}}
     </div>  
 </template>
 

@@ -7,7 +7,8 @@ export default {
         maxDmg: "Максимальный урон",
         dps: "Урон в секунду",
         critChance: "Шанс критического удара",
-        critDmg: "Критический урон"
+        critDmg: "Критический урон",
+        totalDps: "Итоговый дпс персонажа"
     },
     character: {
         title: "Персонаж",

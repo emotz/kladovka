@@ -32,9 +32,18 @@ function calcScore(item) {
     return item.dps * 10;
 }
 
+// > calcTotalDps({aps:1, minDmg:2, maxDmg:4, critChance:100, critDmg:200}, {dmg:1})
+// 19
+function calcTotalDps(item, char) {
+    if (Object.keys(char).some(prop => char[prop] > 0))
+        return calcDps(item) + 10;
+    return calcDps(item);
+}
+
 module.exports = {
     dps: calcDps,
     score: calcScore,
     aps: calcAps,
+    totalDps: calcTotalDps,
     types
 };

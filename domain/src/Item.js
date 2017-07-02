@@ -32,18 +32,28 @@ function calcScore(item) {
     return item.dps * 10;
 }
 
-// > calcTotalDps({aps:1, minDmg:2, maxDmg:4, critChance:100, critDmg:200}, {dmg:1})
-// 19
+// > calcCharDps({dmg:10, atkSpd: 20})
+// 12
+function calcCharDps(char) {
+    let res = char.dmg + (char.dmg * (char.atkSpd/100));
+    if (char.critChance > 0 && char.critDmg > 0) {
+        if (char.critChance > 100) char.critChance = 100;
+        return (res + (res * (char.critChance / 100) * (char.critDmg / 100)));
+    }
+    return res;
+}
+
+// > calcTotalDps({dps:20},{dmg:10, atkSpd: 20})
+// 32
 function calcTotalDps(item, char) {
-    if (Object.keys(char).some(prop => char[prop] > 0))
-        return calcDps(item) + 10;
-    return calcDps(item);
+    return item.dps*1 + calcCharDps(char).toFixed(2)*1;
 }
 
 module.exports = {
     dps: calcDps,
     score: calcScore,
     aps: calcAps,
+    charDps: calcCharDps,
     totalDps: calcTotalDps,
     types
 };

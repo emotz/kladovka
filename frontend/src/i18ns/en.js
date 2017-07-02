@@ -8,7 +8,7 @@ export default {
         critChance: "Critical chance",
         critDmg: "Critical damage",
         dps: "Damage per second",
-        totalDps: "Total dps of character"
+        totalDps: "Total character dps"
     },
     character: {
         title: "Character",

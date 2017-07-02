@@ -53,5 +53,6 @@ export default {
         mustBeLessThan: "{minDmg} must be less than {maxDmg}",
         mustBePositive: "{allProps} must be positive",
         notValidType: "{allProps} not valid type",
+        notFound: "Page not found"
     }
 };

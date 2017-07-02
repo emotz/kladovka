@@ -14,6 +14,7 @@
                             <dd>{{ $t('item.dps')}}: {{ item.dps }}</dd>
                             <dd v-if="item.critChance">{{ $t('item.critChance')}}: {{ item.critChance }} %</dd>
                             <dd v-if="item.critDmg">{{ $t('item.critDmg')}}: {{ item.critDmg }} %</dd>
+                            <dd >{{ store.state.char }} </dd>
                         </dl>
                     </div>
                     <div class="col-xs-4">

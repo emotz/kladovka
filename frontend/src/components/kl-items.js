@@ -1,3 +1,4 @@
+import store from './store';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps, aps } from 'domain/Item';
@@ -6,6 +7,7 @@ export default {
         return {
             items: [],
             focusAddItem: false,
+            store
         };
     },
     components: {
@@ -38,5 +40,5 @@ export default {
         deleteAll: function (item) {
             this.items = [];
         }
-    }
+    },
 };

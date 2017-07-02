@@ -5,9 +5,9 @@ export default {
         aps: "Attacks per second",
         minDmg: "Min damage",
         maxDmg: "Max damage",
-        dps: "Damage per second",
         critChance: "Critical chance",
         critDmg: "Critical damage",
+        dps: "Damage per second",
         totalDps: "Total dps of character"
     },
     character: {

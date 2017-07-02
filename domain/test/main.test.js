@@ -89,13 +89,29 @@ describe('Тест для кладовки', function () {
         assert(res.dmg === 200);
     });
 
-    it('should be error at update character', async function () {
+    it('should be error at update character with not existsed id', async function () {
         let char = { dmg: 100, attackSpd: 10 };
         await klad.placeInKladovka(db, coll, char);
         char.dmg = 200;
         char.attackSpd = 20;
         let up = await klad.updateFullyInKladovka(db, coll, '123asdasdsad', char);
         assert(up === 0);
+    });
+
+    it('should reset char', async function () {
+        let char = {
+            atkSpd: 54,
+            dmg: 3,
+            critChance: 5,
+            critDmg: 6
+        };
+        let id = await klad.placeInKladovka(db, coll, char);
+        char.atkSpd = 0;
+        char.dmg = 0;
+        char.critChance = 0;
+        char.critDmg = 0;
+        let up = await klad.updateFullyInKladovka(db, coll, id, char);
+        assert(up === 1);
     });
 
     describe('Сравнение предметов', function () {

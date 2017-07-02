@@ -40,14 +40,8 @@ function checkItem(item) {
         });
     }
     let isValid = !errors.length;
-    if (isValid) {
-        if (item.critChance === 0)
-            delete item.critChance;
-        if (item.critDmg === 0)
-            delete item.critDmg;
-    } else
+    if (!isValid)
         item = undefined;
-
     return {
         item,
         isValid,
@@ -75,17 +69,8 @@ function checkChar(char) {
         });
     }
     let isValid = !errors.length;
-    if (isValid) {
-        Object.keys(char)
-            .filter(prop => prop !== '_id')
-            .forEach(prop => {
-                if (char[prop] === 0)
-                    delete char[prop];
-            });
-    }
-    else
+    if (!isValid)
         char = undefined;
-
     return {
         char,
         isValid,

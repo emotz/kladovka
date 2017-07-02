@@ -62,6 +62,24 @@ describe('validation e2e test', function () {
             assert(res.status === 204);
         });
 
+        it('should reset char', async function () {
+            let char = {
+                atkSpd: 54,
+                dmg: 3,
+                critChance: 5,
+                critDmg: 6
+            };
+            let res = await axios.post('http://localhost:8080/api/chars', char);
+            assert(typeof (res.data.added_id) === 'string');
+            let id = res.data.added_id;
+            char.atkSpd = 0;
+            char.dmg = 0;
+            char.critChance = 0;
+            char.critDmg = 0;
+            res = await axios.put('http://localhost:8080/api/chars/' + id, char);
+            assert(res.status === 204);
+        });
+
         describe('error', function () {
 
             it('#mustBeNumber: [atkSpd]', async function () {

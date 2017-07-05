@@ -1,10 +1,10 @@
 export default {
     state: {
         char: {
-            atkSpd: 1,
-            dmg: 2,
-            critChance: 3,
-            critDmg: 4
+            atkSpd: 0,
+            dmg: 0,
+            critChance: 0,
+            critDmg: 0
         }
     },
     setCharAction(newValue) {

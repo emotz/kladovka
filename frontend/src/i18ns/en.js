@@ -10,7 +10,7 @@ export default {
         dps: "Damage per second",
         totalDps: "Total character dps"
     },
-    character: {
+    char: {
         title: "Character",
         buttonUpdate: "Update",
         stats: {

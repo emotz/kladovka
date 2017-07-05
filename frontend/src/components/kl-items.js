@@ -19,7 +19,7 @@ export default {
             for (let i in response.body) {
                 let item = response.body[i];
                 item.aps = aps(item);
-                item.dps = dps(item).toFixed(2);
+                item.dps = dps(item);
                 item.type = this.$t('types.' + item.type);
                 item.totalDps = totalDps(item, store.state.char);
                 this.items.push(item);
@@ -34,7 +34,7 @@ export default {
         },
         addItem: function (item) {
             item.aps = aps(item);
-            item.dps = dps(item).toFixed(2);
+            item.dps = dps(item);
             item.type = this.$t('types.' + item.type);
             item.totalDps = totalDps(item, store.state.char);
             this.items.push(item);

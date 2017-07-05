@@ -10,7 +10,7 @@ export default {
         dps: "Урон в секунду",
         totalDps: "Итоговый увс персонажа"
     },
-    character: {
+    char: {
         title: "Персонаж",
         buttonUpdate: "Обновить",
         stats: {

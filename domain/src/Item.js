@@ -23,9 +23,9 @@ function calcDps(item) {
     let res = (((item.minDmg + item.maxDmg) / 2) * item.aps);
     if (item.critChance > 0 && item.critDmg > 0) {
         if (item.critChance > 100) item.critChance = 100;
-        return (res + (res * (item.critChance / 100) * (item.critDmg / 100)));
+        res += (res * (item.critChance / 100) * (item.critDmg / 100));
     }
-    return res;
+    return res.toFixed(2);
 }
 
 function calcScore(item) {
@@ -35,18 +35,18 @@ function calcScore(item) {
 // > calcCharDps({dmg:10, atkSpd: 20})
 // 12
 function calcCharDps(char) {
-    let res = char.dmg + (char.dmg * (char.atkSpd/100));
+    let res = char.dmg + (char.dmg * (char.atkSpd / 100));
     if (char.critChance > 0 && char.critDmg > 0) {
         if (char.critChance > 100) char.critChance = 100;
-        return (res + (res * (char.critChance / 100) * (char.critDmg / 100)));
+        res += (res * (char.critChance / 100) * (char.critDmg / 100));
     }
-    return res;
+    return res.toFixed(2);
 }
 
 // > calcTotalDps({dps:20},{dmg:10, atkSpd: 20})
 // 32
 function calcTotalDps(item, char) {
-    return item.dps*1 + calcCharDps(char).toFixed(2)*1;
+    return (item.dps * 1 + calcCharDps(char) * 1).toFixed(2);
 }
 
 module.exports = {

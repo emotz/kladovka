@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-4">
+    <div class="col-md-4 kl-items">
         <h2>{{ $t('list.title') }}</h2>
         <ul class="list-group">
             <li class="list-group-item" v-for="(item, index) in items" v-bind:key="index">
@@ -14,7 +14,7 @@
                             <dd v-if="item.critChance">{{ $t('item.critChance')}}: {{ item.critChance }} %</dd>
                             <dd v-if="item.critDmg">{{ $t('item.critDmg')}}: {{ item.critDmg }} %</dd>
                             <dd>{{ $t('item.dps')}}: {{ item.dps }}</dd>
-                            <dd v-if="item.dps != item.totalDps">{{ $t('item.totalDps')}}: {{ item.totalDps }} </dd>
+                            <dd v-if="item.dps != item.totalDps" class="kl-item-totalDps">{{ $t('item.totalDps')}}: {{ item.totalDps }} </dd>
                         </dl>
                     </div>
                     <div class="col-xs-4">

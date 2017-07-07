@@ -83,7 +83,7 @@ describe('Тест для кладовки', function () {
         let id = await klad.placeInKladovka(db, coll, char);
         char.dmg = 200;
         char.attackSpd = 20;
-        let up = await klad.updateFullyInKladovka(db, coll, id, char);
+        let up = await klad.replaceInKladovka(db, coll, id, char);
         assert(up === 1);
         let res = await klad.getFromKladovka(db, coll, id);
         assert(res.dmg === 200);
@@ -94,7 +94,7 @@ describe('Тест для кладовки', function () {
         await klad.placeInKladovka(db, coll, char);
         char.dmg = 200;
         char.attackSpd = 20;
-        let up = await klad.updateFullyInKladovka(db, coll, '123asdasdsad', char);
+        let up = await klad.replaceInKladovka(db, coll, '123asdasdsad', char);
         assert(up === 0);
     });
 
@@ -110,7 +110,7 @@ describe('Тест для кладовки', function () {
         char.dmg = 0;
         char.critChance = 0;
         char.critDmg = 0;
-        let up = await klad.updateFullyInKladovka(db, coll, id, char);
+        let up = await klad.replaceInKladovka(db, coll, id, char);
         assert(up === 1);
     });
 

@@ -57,6 +57,6 @@ export default {
         mustBeLessThan: "{minDmg} должен быть меньше чем {maxDmg}",
         mustBePositive: "{allProps} должен быть положительным",
         notValidType: "{allProps} не правильный тип",
-        notFound: "Страница не найдена"
+        notFound: "Ресурс не найден"
     }
 };

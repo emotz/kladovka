@@ -1,4 +1,4 @@
-export default {
+let store = {
     state: {
         char: {
             atkSpd: 0,
@@ -12,5 +12,10 @@ export default {
     },
     clearCharAction() {
         this.state.char = {};
+    }
+};
+export default {
+    install(Vue, options) {
+        Vue.prototype.$store = store;
     }
 };

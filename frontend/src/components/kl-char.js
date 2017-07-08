@@ -1,4 +1,3 @@
-import store from './store.js';
 import { clone } from 'domain/utility';
 import { renderValidationErrors } from '../render';
 export default {
@@ -10,8 +9,7 @@ export default {
                 dmg: 0,
                 critChance: 0,
                 critDmg: 0
-            },
-            store
+            }
         };
     },
     methods: {
@@ -20,14 +18,14 @@ export default {
                 let char = clone(this.char);
                 this.$http.post('/api/chars', char).then(response => {
                     this._id = response.body.added_id;
-                    store.setCharAction(char);
+                    this.$store.setCharAction(char);
                 }).catch(err => {
                     toastr.error(this.$t('errors.default'));
                 });
             } else {
                 let char = clone(this.char);
                 this.$http.put('/api/chars/' + this._id, char).then(response => {
-                    store.setCharAction(char);
+                    this.$store.setCharAction(char);
                 }).catch(err => {
                     if (err.status === 400 && err.body.code === 1) {
                         let renderedErrors = renderValidationErrors(err.body.errors);

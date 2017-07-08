@@ -1,4 +1,3 @@
-import store from './store';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps, aps, totalDps } from 'domain/Item';
@@ -6,8 +5,7 @@ export default {
     data: function () {
         return {
             items: [],
-            focusAddItem: false,
-            store
+            focusAddItem: false
         };
     },
     components: {
@@ -19,9 +17,9 @@ export default {
             for (let i in response.body) {
                 let item = response.body[i];
                 item.aps = aps(item);
-                item.dps = dps(item);
+                item.dps = dps(item).toFixed(2);
                 item.type = this.$t('types.' + item.type);
-                item.totalDps = totalDps(item, store.state.char);
+                item.totalDps = totalDps(item, this.$store.state.char).toFixed(2);
                 this.items.push(item);
             }
         }).catch(err => toastr.error(this.$t('errors.default')));
@@ -34,9 +32,9 @@ export default {
         },
         addItem: function (item) {
             item.aps = aps(item);
-            item.dps = dps(item);
+            item.dps = dps(item).toFixed(2);
             item.type = this.$t('types.' + item.type);
-            item.totalDps = totalDps(item, store.state.char);
+            item.totalDps = totalDps(item, this.$store.state.char).toFixed(2);
             this.items.push(item);
         },
         deleteAll: function (item) {
@@ -44,9 +42,9 @@ export default {
         }
     },
     watch: {
-        ['store.state.char']: function (newVal) {
+        ['$store.state.char']: function (newVal) {
             this.items = this.items.map(item => {
-                item.totalDps = totalDps(item, newVal);
+                item.totalDps = totalDps(item, newVal).toFixed(2);
                 return item;
             });
         }

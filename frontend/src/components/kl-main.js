@@ -3,7 +3,7 @@ import klChar from './kl-char.vue';
 import i18n from '../plugins/i18n.js';
 export default {
     data: function () {
-        return {};
+        return { store: this.$store };
     },
     components: {
         'kl-items': klItems,

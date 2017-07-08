@@ -71,7 +71,7 @@ app.put('/api/chars/:id', async function (req, res) {
     let char = req.body;
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {
-        if (await klad.updateFullyInKladovka(db, Collections.Chars, req.params.id, validationResult.char))
+        if (await klad.replaceInKladovka(db, Collections.Chars, req.params.id, validationResult.char))
             res.sendStatus(204);
         else
             res.sendStatus(404);

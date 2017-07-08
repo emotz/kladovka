@@ -289,30 +289,6 @@ describe('validation unit test', function () {
                         }
                     ]);
             });
-
-            it('#mustBeNumber: [dmg, critChance], mustNotBeNegative: [atkSpd]', function () {
-                let char = {
-                    atkSpd: -54,
-                    dmg: '3',
-                    critChance: undefined,
-                    critDmg: 6
-                };
-                let validationResult = validation.checkChar(char);
-                assert(validationResult.char === undefined);
-                assert(validationResult.isValid === false);
-                expect(validationResult.errors)
-                    .to.have.deep.members([
-                        {
-                            id: "mustBeNumber",
-                            properties: ["dmg", "critChance"]
-                        },
-                        {
-                            id: "mustNotBeNegative",
-                            properties: ["atkSpd"]
-                        }
-                    ]);
-            });
-
         });
 
     });

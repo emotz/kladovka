@@ -15,7 +15,7 @@ export default {
         };
     },
     methods: {
-        updateChar: function () {
+        replaceChar: function () {
             if (this._id === undefined) {
                 let char = clone(this.char);
                 this.$http.post('/api/chars', char).then(response => {
@@ -38,18 +38,6 @@ export default {
                         toastr.error(this.$t('errors.default'));
                 });
             }
-        },
-        critChanceControl: function () {
-            if (this.char.critChance < 0) this.char.critChance = 0;
-        },
-        critDmgControl: function () {
-            if (this.char.critDmg < 0) this.char.critDmg = 0;
-        },
-        dmgControl: function () {
-            if (this.char.dmg < 0) this.char.dmg = 0;
-        },
-        atkSpdControl: function () {
-            if (this.char.atkSpd < 0) this.char.atkSpd = 0;
-        },
+        }
     }
 };

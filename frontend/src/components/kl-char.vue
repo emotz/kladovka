@@ -6,29 +6,29 @@
                 <label for="kl-char-dmg-input" class="col-md-5 col-md-offset-1">
                     {{ $t('char.stats.dmg') }}
                 </label>
-                <input type="number" id="kl-char-dmg-input" class="col-md-5 col-md-offset-1" v-model.number="char.dmg" v-on:change="dmgControl">
+                <input type="number" id="kl-char-dmg-input" class="col-md-5 col-md-offset-1" v-model.number="char.dmg">
             </li>
             <li class="row list-group-item">
                 <label for="kl-char-atkSpd-input" class="col-md-5 col-md-offset-1">
                     {{ $t('char.stats.atkSpd') }} %
                 </label>
-                <input type="number" id="kl-char-atkSpd-input" class="col-md-5 col-md-offset-1" v-model.number="char.atkSpd" v-on:change="atkSpdControl">
+                <input type="number" id="kl-char-atkSpd-input" class="col-md-5 col-md-offset-1" v-model.number="char.atkSpd">
             </li>
             <li class="row list-group-item">
                 <label for="kl-char-critChance-input" class="col-md-5 col-md-offset-1">
                     {{ $t('char.stats.critChance') }} %
                 </label>
-                <input type="number" id="kl-char-critChance-input" class="col-md-5 col-md-offset-1" v-model.number="char.critChance" v-on:change="critChanceControl">
+                <input type="number" id="kl-char-critChance-input" class="col-md-5 col-md-offset-1" v-model.number="char.critChance">
             </li>
             <li class="row list-group-item">
                 <label for="kl-char-critDmg-input" class="col-md-5 col-md-offset-1">
                      {{ $t('char.stats.critDmg') }} %
                 </label>
-                <input type="number" id="kl-char-critDmg-input" class="col-md-5 col-md-offset-1" v-model.number="char.critDmg" v-on:change="critDmgControl">
+                <input type="number" id="kl-char-critDmg-input" class="col-md-5 col-md-offset-1" v-model.number="char.critDmg">
             </li>
         </ul>
         <div class="manipulate-all">
-        <button class="btn diablo" v-on:click="updateChar">{{ $t('char.buttonUpdate') }}</button>
+        <button class="btn diablo" v-on:click="replaceChar">{{ $t('char.buttonUpdate') }}</button>
         </div>
     </div>  
 </template>

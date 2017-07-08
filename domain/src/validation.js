@@ -50,7 +50,7 @@ function checkItem(item) {
 }
 
 // > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: -6})
-// {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}, {id: "mustNotBeNegative", properties: ['critDmg']}]}
+// {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}]}
 function checkChar(char) {
     char = _.pick(char, ['_id', 'atkSpd', 'dmg', 'critChance', 'critDmg']);
     let errors = [];
@@ -59,13 +59,6 @@ function checkChar(char) {
         errors.push({
             id: "mustBeNumber",
             properties: notNumbers
-        });
-    }
-    let negative = filterNegative(char, ['atkSpd', 'dmg', 'critChance', 'critDmg'], notNumbers);
-    if (negative.length) {
-        errors.push({
-            id: "mustNotBeNegative",
-            properties: negative
         });
     }
     let isValid = !errors.length;

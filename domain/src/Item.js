@@ -35,11 +35,11 @@ function calcScore(item) {
 // > calcTotalDps({ minDmg: 3, maxDmg: 3, aps: 1.2, critChance: 10, critDmg: 50 },{ dmg: 5, atkSpd: 20, critChance: 20 ,  critDmg: 200})
 // 20.16
 function calcTotalDps(item, char) {
-    let dmg = (item.minDmg + item.maxDmg) / 2 + (char.dmg || 0);
-    let aps = item.aps * (1 + (char.atkSpd || 0) / 100);
+    let dmg = (item.minDmg + item.maxDmg) / 2 + char.dmg;
+    let aps = item.aps * (1 + char.atkSpd / 100);
     let res = dmg * aps;
-    let critChance = (item.critChance || 0) + (char.critChance || 0);
-    let critDmg = (item.critDmg || 0) + (char.critDmg || 0);
+    let critChance = item.critChance + char.critChance;
+    let critDmg = item.critDmg + char.critDmg;
     if (critChance > 0 && critDmg > 0) {
         if (critChance > 100) critChance = 100;
         res += res * (critChance / 100) * (critDmg / 100);

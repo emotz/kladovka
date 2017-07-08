@@ -94,9 +94,9 @@ function selectNotDeleted(dict) {
 async function replaceItemById(db, coll, id, item) {
     if (await database.get_by_id(db, coll, id)) {
         await database.add_by_id(db, coll, id, item);
-        return 1;
+        return true;
     } else
-        return 0;
+        return false;
 }
 /**
  * Очищает коллекцию

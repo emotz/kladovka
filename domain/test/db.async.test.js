@@ -133,8 +133,8 @@ const coll = 'tests';
             let id = await database.add(db, coll, obj);
             obj.type = 'sword';
             delete obj.qwer;
-            let n = await database.replaceById(db, coll, id, obj);
-            assert(n === 1);
+            let repRes = await database.replaceById(db, coll, id, obj);
+            assert(repRes === true);
             let res = await database.getById(db, coll, id);
             assert(res.type === 'sword');
         });
@@ -144,8 +144,8 @@ const coll = 'tests';
             await database.add(db, coll, obj);
             obj.type = 'sword';
             delete obj.qwer;
-            let n = await database.replaceById(db, coll, '123asdasdsad', obj);
-            assert(n === 0);
+            let repRes = await database.replaceById(db, coll, '123asdasdsad', obj);
+            assert(repRes === false);
         });
 
         after(function () {

@@ -78,7 +78,7 @@ describe('Тест для кладовки', function () {
         assert(worst.dps === item4.dps);
     });
 
-    it('should be fully to update character', async function () {
+    it('should replace character', async function () {
         let char = { dmg: 100, attackSpd: 10 };
         let id = await klad.placeInKladovka(db, coll, char);
         char.dmg = 200;
@@ -89,7 +89,7 @@ describe('Тест для кладовки', function () {
         assert(res.dmg === 200);
     });
 
-    it('should be error at update character with not existsed id', async function () {
+    it('should not replace non-existing character', async function () {
         let char = { dmg: 100, attackSpd: 10 };
         await klad.placeInKladovka(db, coll, char);
         char.dmg = 200;
@@ -98,7 +98,7 @@ describe('Тест для кладовки', function () {
         assert(repRes === false);
     });
 
-    it('should reset char', async function () {
+    it('should reset character', async function () {
         let char = {
             atkSpd: 54,
             dmg: 3,

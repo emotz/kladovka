@@ -128,7 +128,7 @@ const coll = 'tests';
             assert(returned2[0].type === 'axe');
         });
 
-        it('should be fully to update item', async function () {
+        it('should replace item', async function () {
             let obj = { qwer: 11, type: 'axe' };
             let id = await database.add(db, coll, obj);
             obj.type = 'sword';
@@ -139,7 +139,7 @@ const coll = 'tests';
             assert(res.type === 'sword');
         });
 
-        it('should be error at update item', async function () {
+        it('should be error at replace item', async function () {
             let obj = { qwer: 11, type: 'axe' };
             await database.add(db, coll, obj);
             obj.type = 'sword';

@@ -129,23 +129,36 @@ const coll = 'tests';
         });
 
         it('should replace item', async function () {
-            let obj = { qwer: 11, type: 'axe' };
-            let id = await database.add(db, coll, obj);
-            obj.type = 'sword';
-            delete obj.qwer;
-            let repRes = await database.replaceById(db, coll, id, obj);
+            let item = { dps: 100, type: 'axe' };
+            let id = await database.add(db, coll, item);
+            item.dps = 300;
+            item.type = 'mace';
+            let repRes = await database.replaceById(db, coll, id, item);
             assert(repRes === true);
             let res = await database.getById(db, coll, id);
-            assert(res.type === 'sword');
+            assert(res.dps === 300);
+            assert(res.type === 'mace');
         });
 
-        it('should be error at replace item', async function () {
-            let obj = { qwer: 11, type: 'axe' };
-            await database.add(db, coll, obj);
-            obj.type = 'sword';
-            delete obj.qwer;
-            let repRes = await database.replaceById(db, coll, '123asdasdsad', obj);
+        it('should not replace non-existing item', async function () {
+            let item = { dps: 100, type: 'axe' };
+            let id = '123asdasdsad';
+            let repRes = await database.replaceById(db, coll, id, item);
             assert(repRes === false);
+            let res = await database.getById(db, coll, id);
+            assert(res === null);
+        });
+
+        it('should reset item', async function () {
+            let item = { dps: 100, type: 'axe' };
+            let id = await database.add(db, coll, item);
+            item.type = '';
+            item.dps = 0;
+            let repRes = await database.replaceById(db, coll, id, item);
+            assert(repRes === true);
+            let res = await database.getById(db, coll, id);
+            assert(res.dps === 0);
+            assert(res.type === '');
         });
 
         after(function () {

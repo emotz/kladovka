@@ -78,40 +78,37 @@ describe('Тест для кладовки', function () {
         assert(worst.dps === item4.dps);
     });
 
-    it('should replace character', async function () {
-        let char = { dmg: 100, attackSpd: 10 };
-        let id = await klad.placeInKladovka(db, coll, char);
-        char.dmg = 200;
-        char.attackSpd = 20;
-        let repRes = await klad.replaceInKladovka(db, coll, id, char);
+    it('should replace item', async function () {
+        let item = { dps: 100, type: 'axe' };
+        let id = await klad.placeInKladovka(db, coll, item);
+        item.dps = 300;
+        item.type = 'mace';
+        let repRes = await klad.replaceInKladovka(db, coll, id, item);
         assert(repRes === true);
         let res = await klad.getFromKladovka(db, coll, id);
-        assert(res.dmg === 200);
+        assert(res.dps === 300);
+        assert(res.type === 'mace');
     });
 
-    it('should not replace non-existing character', async function () {
-        let char = { dmg: 100, attackSpd: 10 };
-        await klad.placeInKladovka(db, coll, char);
-        char.dmg = 200;
-        char.attackSpd = 20;
-        let repRes = await klad.replaceInKladovka(db, coll, '123asdasdsad', char);
+    it('should not replace non-existing item', async function () {
+        let item = { dps: 100, type: 'axe' };
+        let id = '123asdasdsad';
+        let repRes = await klad.replaceInKladovka(db, coll, id, item);
         assert(repRes === false);
+        let res = await klad.getFromKladovka(db, coll, id);
+        assert(res === null);
     });
 
-    it('should reset character', async function () {
-        let char = {
-            atkSpd: 54,
-            dmg: 3,
-            critChance: 5,
-            critDmg: 6
-        };
-        let id = await klad.placeInKladovka(db, coll, char);
-        char.atkSpd = 0;
-        char.dmg = 0;
-        char.critChance = 0;
-        char.critDmg = 0;
-        let repRes = await klad.replaceInKladovka(db, coll, id, char);
+    it('should reset item', async function () {
+        let item = { dps: 100, type: 'axe' };
+        let id = await klad.placeInKladovka(db, coll, item);
+        item.type = '';
+        item.dps = 0;
+        let repRes = await klad.replaceInKladovka(db, coll, id, item);
         assert(repRes === true);
+        let res = await klad.getFromKladovka(db, coll, id);
+        assert(res.dps === 0);
+        assert(res.type === '');
     });
 
     describe('Сравнение предметов', function () {

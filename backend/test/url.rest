@@ -24,3 +24,15 @@ DELETE http://localhost:8080/api/items/590a2f2868789115a8c9cbd8
 ### удалить все предметы из кладовки
 
 DELETE http://localhost:8080/api/items/
+
+### добавить персонажа в кладовку
+
+POST http://localhost:8080/api/chars
+content-type: application/json
+
+{
+    "atkSpd": 54,
+    "dmg": 3,
+    "critChance": 5,
+    "critDmg": 6
+}

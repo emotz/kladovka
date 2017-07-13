@@ -64,4 +64,18 @@ describe('e2e test', function () {
         page.refresh();
         page.waitForEmptyList();
     });
+
+    it('should recalculate the item dps for current character', function () {
+        page.addItem();
+        page.waitForNotEmptyList();
+        page.itemWithOutTotalDps();
+        let char = {
+            atkSpd: 54,
+            dmg: 3,
+            critChance: 5,
+            critDmg: 6
+        };
+        page.addCustomChar(char);
+        page.itemWithTotalDps();
+    });
 });

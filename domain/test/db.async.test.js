@@ -2,7 +2,7 @@ const assert = require('assert');
 const config = require('../../config.json');
 const mongoDB = require('../src/mongo');
 const memoryDB = require('../src/memory');
-const coll = 'items';
+const coll = 'tests';
 
 [mongoDB, memoryDB].forEach(function (database, index) {
 
@@ -126,6 +126,39 @@ const coll = 'items';
             assert(obj1.type === 'axe');
             let returned2 = await database.getAll(db, coll);
             assert(returned2[0].type === 'axe');
+        });
+
+        it('should replace item', async function () {
+            let item = { dps: 100, type: 'axe' };
+            let id = await database.add(db, coll, item);
+            item.dps = 300;
+            item.type = 'mace';
+            let repRes = await database.replaceById(db, coll, id, item);
+            assert(repRes === true);
+            let res = await database.getById(db, coll, id);
+            assert(res.dps === 300);
+            assert(res.type === 'mace');
+        });
+
+        it('should not replace non-existing item', async function () {
+            let item = { dps: 100, type: 'axe' };
+            let id = '123asdasdsad';
+            let repRes = await database.replaceById(db, coll, id, item);
+            assert(repRes === false);
+            let res = await database.getById(db, coll, id);
+            assert(res === null);
+        });
+
+        it('should reset item', async function () {
+            let item = { dps: 100, type: 'axe' };
+            let id = await database.add(db, coll, item);
+            item.type = '';
+            item.dps = 0;
+            let repRes = await database.replaceById(db, coll, id, item);
+            assert(repRes === true);
+            let res = await database.getById(db, coll, id);
+            assert(res.dps === 0);
+            assert(res.type === '');
         });
 
         after(function () {

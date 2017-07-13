@@ -40,14 +40,8 @@ function checkItem(item) {
         });
     }
     let isValid = !errors.length;
-    if (isValid) {
-        if (item.critChance === 0)
-            delete item.critChance;
-        if (item.critDmg === 0)
-            delete item.critDmg;
-    } else
+    if (!isValid)
         item = undefined;
-
     return {
         item,
         isValid,
@@ -55,6 +49,30 @@ function checkItem(item) {
     };
 }
 
+// > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: -6})
+// {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}]}
+function checkChar(char) {
+    char = _.pick(char, ['_id', 'atkSpd', 'dmg', 'critChance', 'critDmg']);
+    let errors = [];
+    let notNumbers = filterNotNumbers(char, ['atkSpd', 'dmg', 'critChance', 'critDmg']);
+    if (notNumbers.length) {
+        errors.push({
+            id: "mustBeNumber",
+            properties: notNumbers
+        });
+    }
+    let isValid = !errors.length;
+    if (!isValid)
+        char = undefined;
+    return {
+        char,
+        isValid,
+        errors
+    };
+}
+
+// > filterNotNumbers({minDmg:1, maxDmg:'2'}, ['minDmg', 'maxDmg'])
+// ["maxDmg"]
 function filterNotNumbers(item, props, excludes) {
     return _
         .difference(props, excludes || [])
@@ -74,5 +92,6 @@ function filterNegative(item, props, excludes) {
 }
 
 module.exports = {
-    checkItem
+    checkItem,
+    checkChar
 };

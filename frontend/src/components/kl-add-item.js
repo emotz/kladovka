@@ -13,7 +13,7 @@ export default {
             item: {
                 type: Item.types[0],
                 minDmg: 1,
-                maxDmg: 2,
+                maxDmg: 1,
                 critChance: 0,
                 critDmg: 0
             }

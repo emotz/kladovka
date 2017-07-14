@@ -1,6 +1,17 @@
 <template>
     <div class="col-md-4 kl-items">
         <h2>{{ $t('list.title') }}</h2>
+        <div class="kl-sort">
+            <label for="kl-sort-select">
+                    {{ $t('sort.title')}}:
+            </label>
+            <div>
+                <select v-model="sort" id="kl-sort-select">
+                    <option value="sort-dps-asc">{{ $t('sort.dpsAsc')}}</option>
+                    <option value="sort-dps-desc">{{ $t('sort.dpsDesc')}}</option>
+                </select>
+            </div>
+        </div>
         <ul class="list-group">
             <li class="list-group-item" v-for="(item, index) in items" v-bind:key="index">
                 <div class="row">
@@ -23,7 +34,7 @@
                 </div>
             </li>
         </ul>
-        <div class="manipulate-all">
+        <div class="manipulate-all">      
             <button class="btn diablo" type="button" data-toggle="modal" data-target="#delete-all">{{ $t('list.buttonDeleteAll') }}</button>
             <button class="btn diablo" type="button" data-toggle="modal" data-target="#add-item" v-on:click="focusAddItem=true">{{ $t('list.buttonAddItem') }}</button>
         </div>
@@ -51,5 +62,15 @@ h2 {
 .manipulate-all {
     padding-right: 15px;
     margin-bottom: 20px;
+}
+div.kl-sort, div.kl-sort > div {
+    display: inline-block;
+}
+#kl-sort-select {
+    height: 20px;
+    width: 150px;
+}
+label {
+    color:white
 }
 </style>

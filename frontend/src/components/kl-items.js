@@ -6,7 +6,7 @@ export default {
         return {
             items: [],
             focusAddItem: false,
-            sort:''
+            sort: ''
         };
     },
     components: {
@@ -39,11 +39,11 @@ export default {
                 this.items = [];
             }).catch(err => toastr.error(this.$t('errors.default')));
         },
-        'sort-dps-asc': function(){
-            this.items.sort((a, b) => {return a.totalDps-b.totalDps;});
+        'sort-dps-asc': function () {
+            this.items.sort((a, b) => { return a.totalDps - b.totalDps; });
         },
-        'sort-dps-desc': function(){
-            this.items.sort((a, b) => {return b.totalDps-a.totalDps;});
+        'sort-dps-desc': function () {
+            this.items.sort((a, b) => { return b.totalDps - a.totalDps; });
         }
     },
     watch: {
@@ -53,7 +53,7 @@ export default {
                 return item;
             });
         },
-        selected:function(newVal){
+        sort: function (newVal) {
             this[newVal]();
         }
     }

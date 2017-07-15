@@ -28,11 +28,17 @@ class Page {
     get addItemConfirmBtn() {
         return browser.$('#add-item div.modal-footer button.btn.diablo:last-child');
     }
-    get char(){
+    get char() {
         return browser.$('div.col-md-4.kl-char');
     }
     get updateCharBtn() {
         return browser.$('div.col-md-4.kl-char button.btn.diablo:last-child');
+    }
+    get sortSelect() {
+        return browser.$('#kl-sort-select');
+    }
+    get optionDpsDesc() {
+        return this.sortSelect.$('option:last-child');
     }
     deleteAll() {
         this.deleteAllBtn.click();
@@ -75,7 +81,7 @@ class Page {
     waitForNotEmptyList() {
         this.lastChildOfList.waitForVisible();
     }
-    addCustomChar(char){
+    addCustomChar(char) {
         this.char.$('#kl-char-dmg-input').clearElement();
         this.char.$('#kl-char-dmg-input').setValue(char.dmg);
         this.char.$('#kl-char-atkSpd-input').clearElement();
@@ -86,11 +92,15 @@ class Page {
         this.char.$('#kl-char-critDmg-input').setValue(char.critDmg);
         this.updateCharBtn.click();
     }
-    itemWithOutTotalDps(){
+    itemWithOutTotalDps() {
         this.lastChildOfList.$('.kl-item-totalDps').waitForVisible(undefined, true);
     }
-    itemWithTotalDps(){
+    itemWithTotalDps() {
         this.lastChildOfList.$('.kl-item-totalDps').waitForVisible();
+    }
+    sortByDpsDesc() {
+        this.sortSelect.click();
+        this.optionDpsDesc.click();
     }
     refresh() {
         browser.refresh();

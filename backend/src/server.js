@@ -1,4 +1,5 @@
 require('express-async-errors');
+const logger = require('./winston.js');
 const config = require('../../config.json');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -86,5 +87,6 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(config.express_port, async function () {
+    logger.info('Server run on port: ' + config.express_port);
     db = await klad.connect(config.db_url);
 });

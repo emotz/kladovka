@@ -52,9 +52,13 @@ export default {
                 item.totalDps = totalDps(item, newVal).toFixed(2);
                 return item;
             });
-        },
-        sort: function (newVal) {
-            this[newVal]();
+        }
+    },
+    computed: {
+        sorted: function () {
+            if (this.sort)
+                this[this.sort]();
+            return this.items;
         }
     }
 };

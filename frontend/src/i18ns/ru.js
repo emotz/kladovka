@@ -58,5 +58,10 @@ export default {
         mustBePositive: "{allProps} должен быть положительным",
         notValidType: "{allProps} не правильный тип",
         notFound: "Ресурс не найден"
+    },
+    sort: {
+        title: "Сортировка по",
+        dpsAsc: "увеличению увс",
+        dpsDesc: "уменьшению увс"
     }
 };

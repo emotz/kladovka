@@ -5,7 +5,8 @@ export default {
     data: function () {
         return {
             items: [],
-            focusAddItem: false
+            focusAddItem: false,
+            sort: ''
         };
     },
     components: {
@@ -37,6 +38,12 @@ export default {
             this.$http.delete('api/items').then(response => {
                 this.items = [];
             }).catch(err => toastr.error(this.$t('errors.default')));
+        },
+        'sort-dps-asc': function () {
+            this.items.sort((a, b) => { return a.totalDps - b.totalDps; });
+        },
+        'sort-dps-desc': function () {
+            this.items.sort((a, b) => { return b.totalDps - a.totalDps; });
         }
     },
     watch: {
@@ -45,6 +52,13 @@ export default {
                 item.totalDps = totalDps(item, newVal).toFixed(2);
                 return item;
             });
+        }
+    },
+    computed: {
+        sorted: function () {
+            if (this.sort)
+                this[this.sort]();
+            return this.items;
         }
     }
 };

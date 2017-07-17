@@ -30,7 +30,7 @@
         <div class="manipulate-all">
         <button class="btn diablo" v-on:click="replaceChar">{{ $t('char.buttonUpdate') }}</button>
         </div>
-    </div>  
+    </div>
 </template>
 
 <script src="./kl-char.js"></script>

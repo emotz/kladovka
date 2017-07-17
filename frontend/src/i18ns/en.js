@@ -55,5 +55,10 @@ export default {
         mustBePositive: "{allProps} must be positive",
         notValidType: "{allProps} not valid type",
         notFound: "Resource is not found"
+    },
+    sort: {
+        title: "Sort by",
+        dpsAsc: "dps ascent",
+        dpsDesc: "dps descent"
     }
 };

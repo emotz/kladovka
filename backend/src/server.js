@@ -2,6 +2,7 @@ require('express-async-errors');
 const logger = require('./winston.js');
 const fs = require('fs');
 const config = require('../../config/config.json');
+const api = require('../../config/api.json');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -23,12 +24,12 @@ let db;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
-app.post('/api/items', async function (req, res) {
+app.post(api.items, async function (req, res) {
     let item = req.body;
     let validationResult = validation.checkItem(item);
     if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, Collections.Items, validationResult.item);
-        res.header('Location', '/api/items/' + added_id);
+        res.header('Location', api.items + added_id);
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
@@ -36,12 +37,12 @@ app.post('/api/items', async function (req, res) {
     }
 });
 
-app.get('/api/items', async function (req, res) {
+app.get(api.items, async function (req, res) {
     let all = await klad.getAllFromKladovka(db, Collections.Items);
     res.status(200).send(all);
 });
 
-app.get('/api/items/:id', async function (req, res) {
+app.get(api.items + ':id', async function (req, res) {
     let item = await klad.getFromKladovka(db, Collections.Items, req.params.id);
     if (item === null)
         res.sendStatus(404);
@@ -49,22 +50,22 @@ app.get('/api/items/:id', async function (req, res) {
         res.status(200).send(item);
 });
 
-app.delete('/api/items/', async function (req, res) {
+app.delete(api.items, async function (req, res) {
     let deleted_count = await klad.deleteAllFromKladovka(db, Collections.Items);
     res.status(200).send({ deleted_count });
 });
 
-app.delete('/api/items/:id', async function (req, res) {
+app.delete(api.items + ':id', async function (req, res) {
     await klad.deleteFromKladovka(db, Collections.Items, req.params.id);
     res.sendStatus(204);
 });
 
-app.post('/api/chars', async function (req, res) {
+app.post(api.chars, async function (req, res) {
     let char = req.body;
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, Collections.Chars, validationResult.char);
-        res.header('Location', '/api/chars/' + added_id);
+        res.header('Location', api.chars + added_id);
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
@@ -72,7 +73,7 @@ app.post('/api/chars', async function (req, res) {
     }
 });
 
-app.put('/api/chars/:id', async function (req, res) {
+app.put(api.chars + ':id', async function (req, res) {
     let char = req.body;
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {

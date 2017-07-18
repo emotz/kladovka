@@ -1,5 +1,5 @@
 const assert = require('assert');
-const config = require('../../config.json');
+const config = require('../../config/config.json');
 const mongoDB = require('../src/mongo');
 const memoryDB = require('../src/memory');
 const coll = 'tests';

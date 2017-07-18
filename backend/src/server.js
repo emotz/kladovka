@@ -1,6 +1,6 @@
 require('express-async-errors');
 const logger = require('./winston.js');
-const config = require('../../config.json');
+const config = require('../../config/config.json');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');

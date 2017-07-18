@@ -1,4 +1,4 @@
-const config = require('../../config.json');
+const config = require('../../config/config.json');
 const database = require('./' + config.db);
 const Item = require('./Item');
 

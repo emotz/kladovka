@@ -1,5 +1,6 @@
 require('express-async-errors');
 const logger = require('./winston.js');
+const fs = require('fs');
 const config = require('../../config/config.json');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,6 +9,9 @@ const klad = require('../../domain/src/main');
 const errors = require('../../domain/src/errors');
 const validation = require('../../domain/src/validation');
 let app = express();
+
+if (fs.readdirSync('../../').indexOf('logs') < 0)
+    fs.mkdirSync('../../logs');
 
 const Collections = {
     Items: 'items',

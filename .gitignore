@@ -1,4 +1,4 @@
 /node_modules
 /frontend/dist
-/logs/errorShot
+/logs
 /config/config.json

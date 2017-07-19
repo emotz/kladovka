@@ -50,10 +50,10 @@ export default {
     },
     errors: {
         default: "Oops, something went wrong",
-        mustBeNumber: "{allProps} must be number",
+        mustBeNumber: "must be number | must be numbers",
         mustBeLessThan: "{minDmg} must be less than {maxDmg}",
-        mustBePositive: "{allProps} must be positive",
-        notValidType: "{allProps} not valid type",
+        mustBePositive: "must be positive | must be positives",
+        notValidType: "not valid type",
         notFound: "Resource is not found",
         emailAlreadyExists: "Email already exists",
         invalidToken: "Invalid token",

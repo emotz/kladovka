@@ -25,7 +25,7 @@
                                         {{ $t('item.minDmg') }}
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="number" class="item" id="kl-item-minDmg-input" v-model.number="item.minDmg" v-on:change="dmgControl" >
+                                        <input type="number" class="item" id="kl-item-minDmg-input" v-model.number="item.minDmg" v-on:change="dmgControl">
                                     </div>
                                 </li>
                                 <li class="row">

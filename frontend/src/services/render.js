@@ -1,6 +1,7 @@
 import i18n from '../plugins/i18n';
 export function renderValidationError(errors) {
     let res = [];
+    let count = 0;
     errors.forEach(error => {
         let id = error.id,
             props = {};
@@ -9,13 +10,17 @@ export function renderValidationError(errors) {
                 minDmg: i18n.t('item.' + error.properties[0]),
                 maxDmg: i18n.t('item.' + error.properties[1])
             };
+            count = 2;
         }
         else {
             props.allProps = error.properties
-                .map(prop => i18n.t('item.' + prop))
+                .map(prop => {
+                    count++;
+                    return i18n.t('item.' + prop);
+                })
                 .join(', ');
         }
-        res.push({ id, props });
+        res.push({ id, props, count });
     });
     return res;
 }

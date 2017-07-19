@@ -53,10 +53,10 @@ export default {
     },
     errors: {
         default: "Упс, что-то пошло не так",
-        mustBeNumber: "{allProps} должен быть числом",
+        mustBeNumber: "должен быть числом | должны быть числами",
         mustBeLessThan: "{minDmg} должен быть меньше чем {maxDmg}",
-        mustBePositive: "{allProps} должен быть положительным",
-        notValidType: "{allProps} не правильный тип",
+        mustBePositive: " должен быть положительным | должны быть положительными",
+        notValidType: "не правильный тип",
         notFound: "Ресурс не найден",
         emailAlreadyExists: "Такой email уже существует",
         invalidToken: "Неправильный токен",

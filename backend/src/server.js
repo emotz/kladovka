@@ -6,12 +6,13 @@ const api = require('../../config/api.json');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const urlJoin = require('url-join');
 const klad = require('../../domain/src/main');
 const errors = require('../../domain/src/errors');
 const validation = require('../../domain/src/validation');
 let app = express();
 
-if (fs.readdirSync('../../').indexOf('logs') < 0)
+if (!fs.existsSync(__dirname + '/../../logs'))
     fs.mkdirSync('../../logs');
 
 const Collections = {
@@ -29,7 +30,7 @@ app.post(api.items, async function (req, res) {
     let validationResult = validation.checkItem(item);
     if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, Collections.Items, validationResult.item);
-        res.header('Location', api.items + added_id);
+        res.header('Location', urlJoin(api.items, added_id));
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
@@ -42,7 +43,7 @@ app.get(api.items, async function (req, res) {
     res.status(200).send(all);
 });
 
-app.get(api.items + ':id', async function (req, res) {
+app.get(urlJoin(api.items, ':id'), async function (req, res) {
     let item = await klad.getFromKladovka(db, Collections.Items, req.params.id);
     if (item === null)
         res.sendStatus(404);
@@ -55,7 +56,7 @@ app.delete(api.items, async function (req, res) {
     res.status(200).send({ deleted_count });
 });
 
-app.delete(api.items + ':id', async function (req, res) {
+app.delete(urlJoin(api.items, ':id'), async function (req, res) {
     await klad.deleteFromKladovka(db, Collections.Items, req.params.id);
     res.sendStatus(204);
 });
@@ -65,7 +66,7 @@ app.post(api.chars, async function (req, res) {
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, Collections.Chars, validationResult.char);
-        res.header('Location', api.chars + added_id);
+        res.header('Location', urlJoin(api.chars, added_id));
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
@@ -73,7 +74,7 @@ app.post(api.chars, async function (req, res) {
     }
 });
 
-app.put(api.chars + ':id', async function (req, res) {
+app.put(urlJoin(api.chars, ':id'), async function (req, res) {
     let char = req.body;
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {

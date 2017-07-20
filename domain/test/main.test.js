@@ -1,6 +1,6 @@
 const assert = require('assert');
 const klad = require('../src/main');
-const CONFIG = require('../../config.json');
+const CONFIG = require('../../config/config.json');
 const coll = 'items';
 
 describe('Тест для кладовки', function () {

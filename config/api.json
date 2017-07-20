@@ -1,4 +1,4 @@
 {
-    "items": "/api/items/",
-    "chars": "/api/chars/"
+    "ITEMS": "/api/items/",
+    "CHARS": "/api/chars/"
 }

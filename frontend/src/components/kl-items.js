@@ -1,4 +1,4 @@
-import api from '../../../config/api.json';
+import API from '../../../config/api.json';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps, aps, totalDps } from 'domain/Item';
@@ -15,7 +15,7 @@ export default {
         'kl-delete-all': klDeleteAll,
     },
     mounted: function () {
-        this.$http.get(api.items).then(response => {
+        this.$http.get(API.ITEMS).then(response => {
             for (let i in response.body) {
                 let item = response.body[i];
                 this.addItem(item);
@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         deleteItem: function (id, index) {
-            this.$http.delete(api.items + id).then(response => {
+            this.$http.delete(API.ITEMS + id).then(response => {
                 this.items.splice(index, 1);
             }).catch(err => toastr.error(this.$t('errors.default')));
         },
@@ -36,7 +36,7 @@ export default {
             this.items.push(item);
         },
         deleteAll: function (item) {
-            this.$http.delete(api.items).then(response => {
+            this.$http.delete(API.ITEMS).then(response => {
                 this.items = [];
             }).catch(err => toastr.error(this.$t('errors.default')));
         },

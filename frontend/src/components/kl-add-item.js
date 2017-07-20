@@ -1,4 +1,4 @@
-import api from '../../../config/api.json';
+import API from '../../../config/api.json';
 import * as Item from 'domain/Item';
 import { clone } from 'domain/utility';
 import { renderValidationErrors } from '../render';
@@ -23,7 +23,7 @@ export default {
     methods: {
         addItem: function () {
             let item = clone(this.item);
-            this.$http.post(api.items, item).then(response => {
+            this.$http.post(API.ITEMS, item).then(response => {
                 item._id = response.body.added_id;
                 this.$emit('addItem', item);
             }).catch(err => {

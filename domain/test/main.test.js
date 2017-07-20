@@ -1,13 +1,13 @@
 const assert = require('assert');
 const klad = require('../src/main');
-const config = require('../../config.json');
+const CONFIG = require('../../config.json');
 const coll = 'items';
 
 describe('Тест для кладовки', function () {
 
     let db;
     before(async function () {
-        db = await klad.connect(config.db_url);
+        db = await klad.connect(CONFIG.DB_URL);
     });
 
     beforeEach(async function () {

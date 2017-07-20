@@ -1,5 +1,5 @@
-const config = require('../../config/config.json');
-const database = require('./' + config.db);
+const CONFIG = require('../../config/config.json');
+const database = require('./' + CONFIG.DB);
 const Item = require('./Item');
 
 

@@ -1,4 +1,4 @@
-import API from '../../../config/api.json';
+import API from 'api.json';
 export default {
     methods: {
         deleteAll: function () {

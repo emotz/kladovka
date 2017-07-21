@@ -1,4 +1,5 @@
-import API from '../../../config/api.json';
+import API from 'api.json';
+import urlJoin from 'url-join';
 import { clone } from 'domain/utility';
 import { renderValidationErrors } from '../render';
 export default {
@@ -25,7 +26,7 @@ export default {
                 });
             } else {
                 let char = clone(this.char);
-                this.$http.put(API.CHARS + this._id, char).then(response => {
+                this.$http.put(urlJoin(API.CHARS, this._id), char).then(response => {
                     this.$store.setCharAction(char);
                 }).catch(err => {
                     if (err.status === 400 && err.body.code === 1) {

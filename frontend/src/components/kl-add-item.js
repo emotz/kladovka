@@ -1,4 +1,4 @@
-import API from '../../../config/api.json';
+import API from 'api.json';
 import * as Item from 'domain/Item';
 import { clone } from 'domain/utility';
 import { renderValidationErrors } from '../render';

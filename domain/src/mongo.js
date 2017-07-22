@@ -6,7 +6,7 @@ const ObjectID = mongodb.ObjectID;
 /**
  * Открывает соединение с сервером MongoDB
  * @param {String} url - Адрес сервера MongoDB
- * @returns {Promise.<Object, Error>} БД 
+ * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
     return mongo.connect(url);
@@ -105,6 +105,31 @@ async function getAllItemsByType(db, coll, type) {
 }
 
 /**
+ * Получает массив объектов(не удалённых) данного типа
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
+ * @param {Srting} name - Имя по которому проводится поиск
+ * @returns {Promise.<Object, Error>} Объект. Если объекта с таким именем нет,
+ * то ничего страшного, результат null
+ */
+async function getNotDeletedItemByName(db, coll, name) {
+    if (db === undefined) throw new Error('нет базы данных');
+    let collection = db.collection(coll);
+    let res = await collection.findOne({ deleted: undefined, name });
+    return res;
+}
+/*  async function test(){
+    let db = await connect("mongodb://localhost:27017/kladovka");
+    let obj = {name: 'qui'}
+    // await addItem(db, 'items', obj);
+    let res  = await getNotDeletedItemByName(db, 'items', obj.name);
+    console.log(res);
+    disconnect(db)
+}
+test().then()  */
+
+
+/**
  * Заменяет объект по id
  * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
@@ -142,5 +167,6 @@ module.exports = {
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType,
     replaceById: replaceItemById,
+    getItemByName: getNotDeletedItemByName,
     clearCollection
 };

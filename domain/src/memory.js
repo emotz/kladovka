@@ -85,7 +85,7 @@ async function deleteAllItems(db, coll) {
  */
 async function getNotDeletedItems(db, coll) {
     let all = await database.get_all(db, coll);
-    return selectNotDeleted(all);
+    return selectNotDeletedItems(all);
 }
 
 /**
@@ -97,16 +97,24 @@ async function getNotDeletedItems(db, coll) {
  */
 async function getAllItemsByType(db, coll, type) {
     let all = await database.get_by_prop(db, coll, 'type', type);
-    return selectNotDeleted(all);
+    return selectNotDeletedItems(all);
 }
 
-function selectNotDeleted(dict) {
+function selectNotDeletedItems(dict) {
     let res = [];
     for (let id in dict) {
         if (dict[id].deleted === true) continue;
         res.push(dict[id]);
     }
     return res;
+}
+
+function selectFirstNotDeletedItem(dict) {
+    for (let id in dict) {
+        if (dict[id].deleted === true) continue;
+        return dict[id];
+    }
+    return null;
 }
 
 /**
@@ -118,10 +126,9 @@ function selectNotDeleted(dict) {
  */
 async function getNotDeletedItemByName(db, coll, name) {
     let all = await database.get_by_prop(db, coll, 'name', name);
-    let res = await selectNotDeleted(all);
-    return res.length ? res : null;
+    let res = await selectFirstNotDeletedItem(all);
+    return res ? res : null;
 }
-
 /**
  * Заменяет объект по id
  * @param {Object} db - БД
@@ -160,6 +167,6 @@ module.exports = {
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType,
     replaceById: replaceItemById,
-    getItemByName: getNotDeletedItemByName,
+    getByName: getNotDeletedItemByName,
     clearCollection
 };

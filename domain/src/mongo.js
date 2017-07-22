@@ -156,6 +156,6 @@ module.exports = {
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType,
     replaceById: replaceItemById,
-    getItemByName: getNotDeletedItemByName,
+    getByName: getNotDeletedItemByName,
     clearCollection
 };

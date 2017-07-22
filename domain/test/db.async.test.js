@@ -161,6 +161,19 @@ const coll = 'tests';
             assert(res.type === '');
         });
 
+        it('should get item by name', async function () {
+            let item = { name: 'item' };
+            await database.add(db, coll, item);
+            let res = await database.getByName(db, coll, item.name);
+            assert(res.name === item.name);
+        });
+
+        it('should not get item with non-existing name', async function () {
+            let item = { name: 'item' };
+            let res = await database.getByName(db, coll, item.name);
+            assert(res === null);
+        });
+
         after(function () {
             database.disconnect(db);
         });

@@ -55,8 +55,13 @@ function deleteAllFromKladovka(db, coll) {
 function clearKladovka(db, coll) {
     return database.clearCollection(db, coll);
 }
+
 function replaceInKladovka(db, coll, id, item) {
     return database.replaceById(db, coll, id, item);
+}
+
+function getByNameFromKladovka(db, coll, name) {
+    return database.getByName(db, coll, name);
 }
 /**
  * Сравнивает 2 предмета
@@ -119,6 +124,7 @@ module.exports = {
     deleteFromKladovka,
     deleteAllFromKladovka,
     replaceInKladovka,
+    getByNameFromKladovka,
     clearKladovka,
     compareItems,
     isNeeded,

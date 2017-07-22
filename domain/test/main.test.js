@@ -111,6 +111,19 @@ describe('Тест для кладовки', function () {
         assert(res.type === '');
     });
 
+    it('should get item by name', async function () {
+        let item = { name: 'item' };
+        await klad.placeInKladovka(db, coll, item);
+        let res = await klad.getByNameFromKladovka(db, coll, item.name);
+        assert(res.name === item.name);
+    });
+
+    it('should not get item with non-existing name', async function () {
+        let item = { name: 'item' };
+        let res = await klad.getByNameFromKladovka(db, coll, item.name);
+        assert(res === null);
+    });
+
     describe('Сравнение предметов', function () {
 
         it('#первый предмет лучше', function () {

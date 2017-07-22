@@ -51,4 +51,7 @@ li.row.list-group-item input{
     width: 130px;
     padding: 0
 }
+.kl-char h2 {
+    margin-bottom: 35px;
+}
 </style>

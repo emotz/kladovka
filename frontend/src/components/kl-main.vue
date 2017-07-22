@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+      <kl-header></kl-header>
       <div class="row">
         <kl-items></kl-items>
         <kl-char></kl-char>

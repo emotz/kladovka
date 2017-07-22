@@ -4,7 +4,7 @@ const database = require('./db.async');
 /**
  * Открывает соединение с сервером MongoDB
  * @param {String} url - Адрес сервера MongoDB
- * @returns {Promise.<Object, Error>} БД 
+ * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
     //много строчек кода работы с url
@@ -96,7 +96,7 @@ async function getNotDeletedItems(db, coll) {
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getAllItemsByType(db, coll, type) {
-    let all = await database.get_by_type(db, coll, type);
+    let all = await database.get_by_prop(db, coll, 'type', type);
     return selectNotDeleted(all);
 }
 
@@ -107,6 +107,19 @@ function selectNotDeleted(dict) {
         res.push(dict[id]);
     }
     return res;
+}
+
+/**
+ * Получает массив объектов(не удалённых) данного типа
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
+ * @param {Srting} name - Имя по которому проводится поиск
+ * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
+ */
+async function getNotDeletedItemByName(db, coll, name) {
+    let all = await database.get_by_prop(db, coll, 'name', name);
+    let res = await selectNotDeleted(all);
+    return res.length ? res : null;
 }
 
 /**
@@ -147,5 +160,6 @@ module.exports = {
     getAll: getNotDeletedItems,
     getByType: getAllItemsByType,
     replaceById: replaceItemById,
+    getItemByName: getNotDeletedItemByName,
     clearCollection
 };

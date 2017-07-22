@@ -104,13 +104,14 @@ function db_get_all(db, coll) {
 }
 
 /**
- * Создаёт коллекцию объектов, нужного типа.
+ * Создаёт коллекцию объектов, нужного свойства.
  * @param {DB} db - База данных, в которой будут искаться объекты.
- * @param {String} type - Тип искомых объектов.
+ * @param {String} prop - Имя искомого свойства.
+ * @param {String} value - Значение искомого свойства.
  * @returns {Promise.<Object, Error>} Если обещание сдержанно, то оно вернёт коллекцию объектов данного типа.
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
-function db_get_by_type(db, coll, type) {
+function db_get_by_prop(db, coll, prop, value) {
     let promise = new Promise(function (resolve, reject) {
         if (db === undefined)
             reject(new Error('нет базы данных'));
@@ -119,7 +120,7 @@ function db_get_by_type(db, coll, type) {
                 resolve({});
             else {
                 let res = utility.filterObj(db[coll], function (item) {
-                    return item.type === type;
+                    return item[prop] === value;
                 });
                 resolve(utility.clone(res));
             }
@@ -139,6 +140,6 @@ module.exports = {
     add_by_id: db_add_by_id,
     get_by_id: db_get_by_id,
     get_all: db_get_all,
-    get_by_type: db_get_by_type,
+    get_by_prop: db_get_by_prop,
     clear_collection: db_clear_collection
 };

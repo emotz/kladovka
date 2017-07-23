@@ -1,5 +1,7 @@
 const _ = require('lodash');
 const Item = require('./Item');
+const User = require('./User');
+const klad = require('./main');
 
 function checkItem(item) {
     item = _.pick(item, ['type', 'minDmg', 'maxDmg', 'critChance', 'critDmg']);
@@ -71,6 +73,35 @@ function checkChar(char) {
     };
 }
 
+async function checkUserBeforeSave(user, db) {
+    user = _.pick(user, ['name', 'password']);
+    let errors = [];
+    let notString = filterNotString(user, ['name', 'password']);
+    if (notString.length) {
+        errors.push({
+            id: "mustBeString",
+            properties: notString
+        });
+    } else {
+        let exists = await klad.getByNameFromKladovka(db, 'users', user.name);
+        if (exists) {
+            errors.push({
+                id: "nameAlreadyExists",
+                properties: ["name"]
+            });
+        } else
+            user = User.readyToSave(user);
+    }
+    let isValid = !errors.length;
+    if (!isValid)
+        user = undefined;
+    return {
+        user,
+        isValid,
+        errors
+    };
+}
+
 // > filterNotNumbers({minDmg:1, maxDmg:'2'}, ['minDmg', 'maxDmg'])
 // ["maxDmg"]
 function filterNotNumbers(item, props, excludes) {
@@ -91,7 +122,16 @@ function filterNegative(item, props, excludes) {
         .filter(prop => item[prop] < 0);
 }
 
+// > filterNotString({name:'user1', password:'', salt:2}, ['user', 'password', 'salt'])
+// ["password", "salt"]
+function filterNotString(item, props, excludes) {
+    return _
+        .difference(props, excludes || [])
+        .filter(prop => (typeof item[prop] !== 'string' || item[prop].length === 0));
+}
+
 module.exports = {
     checkItem,
-    checkChar
+    checkChar,
+    checkUserBeforeSave
 };

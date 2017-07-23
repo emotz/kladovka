@@ -2,8 +2,8 @@ const utility = require('./utility');
 const database = require('./db.async');
 
 /**
- * Открывает соединение с сервером MongoDB
- * @param {String} url - Адрес сервера MongoDB
+ * Открывает соединение с сервером БД
+ * @param {String} url - Адрес сервера БД
  * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
@@ -12,7 +12,7 @@ async function connect(url) {
 }
 
 /**
- * Закрывает соединение с сервером MongoDB
+ * Закрывает соединение с сервером БД
  * @param {Object} db - БД
  */
 function disconnect(db) {
@@ -100,25 +100,8 @@ async function getAllItemsByType(db, coll, type) {
     return selectNotDeletedItems(all);
 }
 
-function selectNotDeletedItems(dict) {
-    let res = [];
-    for (let id in dict) {
-        if (dict[id].deleted === true) continue;
-        res.push(dict[id]);
-    }
-    return res;
-}
-
-function selectFirstNotDeletedItem(dict) {
-    for (let id in dict) {
-        if (dict[id].deleted === true) continue;
-        return dict[id];
-    }
-    return null;
-}
-
 /**
- * Получает массив объектов(не удалённых) данного типа
+ * Получает объект по заданному имени
  * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {Srting} name - Имя по которому проводится поиск
@@ -126,9 +109,9 @@ function selectFirstNotDeletedItem(dict) {
  */
 async function getNotDeletedItemByName(db, coll, name) {
     let all = await database.get_by_prop(db, coll, 'name', name);
-    let res = await selectFirstNotDeletedItem(all);
-    return res ? res : null;
+    return selectFirstNotDeletedItem(all);
 }
+
 /**
  * Заменяет объект по id
  * @param {Object} db - БД
@@ -155,6 +138,23 @@ async function clearCollection(db, coll) {
     let all = await database.get_all(db, coll);
     database.clear_collection(db, coll);
     return Object.keys(all).length;
+}
+
+function selectNotDeletedItems(dict) {
+    let res = [];
+    for (let id in dict) {
+        if (dict[id].deleted === true) continue;
+        res.push(dict[id]);
+    }
+    return res;
+}
+
+function selectFirstNotDeletedItem(dict) {
+    for (let id in dict) {
+        if (dict[id].deleted === true) continue;
+        return dict[id];
+    }
+    return null;
 }
 
 module.exports = {

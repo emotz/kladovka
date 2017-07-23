@@ -2,15 +2,27 @@ const CONFIG = require('../../config/config.json');
 const database = require('./' + CONFIG.DB);
 const Item = require('./Item');
 
-
+/**
+ * Открывает соединение с сервером БД
+ * @param {String} url - Адрес сервера БД
+ * @returns {Promise.<Object, Error>} БД
+ */
 function connect(url) {
     return database.connect(url);
 }
+
+/**
+ * Закрывает соединение с сервером БД
+ * @param {Object} db - БД
+ */
 function disconnect(db) {
     return database.disconnect(db);
 }
+
 /**
  * Укладывает предмет в кладовку
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {Promise.<String, Error>} Идентификатор предмета уложенного в кладовку
  */
@@ -19,7 +31,9 @@ function placeInKladovka(db, coll, item) {
 }
 
 /**
- * Получает предмет из кладовки под указанным идентификатором.
+ * Получает предмет из кладовки под указанным идентификатором
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
  * @param {String} id - Идентификатор получаемого предмета
  * @returns {Promise.<Item, Error>} Искомый предмет
  */
@@ -29,6 +43,8 @@ function getFromKladovka(db, coll, id) {
 
 /**
  * Получает все предметы из кладовки
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
  * @returns {Promise.<Item, Error>} Коллекция предметов
  */
 function getAllFromKladovka(db, coll) {
@@ -36,7 +52,9 @@ function getAllFromKladovka(db, coll) {
 }
 
 /**
- * Удаляет предмет из кладовки под указанным идентификатором.
+ * Удаляет предмет из кладовки под указанным идентификатором
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
  * @param {String} id - Идентификатор предмета для удаления
  * @returns  {Promise.<String, Error>} Идентификатор удалённого предмета
  */
@@ -46,23 +64,47 @@ function deleteFromKladovka(db, coll, id) {
 
 /**
  * Удаляет ВСЕ предметы из кладовки
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
  * @returns  {Promise.<Number, Error>} Количество удалённых объектов
  */
 function deleteAllFromKladovka(db, coll) {
     return database.deleteAll(db, coll);
 }
 
-function clearKladovka(db, coll) {
-    return database.clearCollection(db, coll);
+/**
+ * Получает объект по заданному имени
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
+ * @param {Srting} name - Имя по которому проводится поиск
+ * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
+ */
+function getByNameFromKladovka(db, coll, name) {
+    return database.getByName(db, coll, name);
 }
 
+/**
+ * Заменяет объект по id
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
+ * @param {String} id - Идентификатор искомого объекта
+ * @param {Object} item - Этот объект будет сохранен в кладовку
+ * @returns {Promise.<Boolean, Error>} Истина если есть объект под данным id
+ */
 function replaceInKladovka(db, coll, id, item) {
     return database.replaceById(db, coll, id, item);
 }
 
-function getByNameFromKladovka(db, coll, name) {
-    return database.getByName(db, coll, name);
+/**
+ * Очищает кладовку
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
+ */
+function clearKladovka(db, coll) {
+    return database.clearCollection(db, coll);
 }
+
 /**
  * Сравнивает 2 предмета
  * @param {Item} item1 - Первый предмет
@@ -82,6 +124,8 @@ function compareItems(item1, item2) {
 
 /**
  * Проверяет нужен ли предмет
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
  * @param {Item} item - Проверяемый предмет
  * @returns {Promise.<Boolean, Error>}  True, если предмет нужен. False, если нет
  */
@@ -98,7 +142,9 @@ async function isNeeded(db, coll, item) {
 
 /**
  * Возвращает худший предмет из кладовки
- * @returns  {Promise.<Item, Error>}  Худший предмет
+ * @param {Object} db - БД
+ * @param {Srting} coll - Коллекция
+ * @returns {Promise.<Item, Error>}  Худший предмет
  */
 async function findWorstInKladovka(db, coll) {
     let res = {},

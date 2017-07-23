@@ -105,7 +105,7 @@ async function getAllItemsByType(db, coll, type) {
 }
 
 /**
- * Получает массив объектов(не удалённых) данного типа
+ * Получает объект по заданному имени
  * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {Srting} name - Имя по которому проводится поиск

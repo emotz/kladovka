@@ -6,13 +6,8 @@ function readyToSave(user) {
         created: Date.now(),
         token: Date.now()
     };
-    if (user.password) {
-        res.salt = crypto.randomBytes(128).toString('base64');
-        res.passwordHash = crypto.pbkdf2Sync(user.password, res.salt, 1, 128, 'sha1').toString('hex');
-    } else {
-        res.salt = undefined;
-        res.passwordHash = undefined;
-    }
+    res.salt = crypto.randomBytes(128).toString('base64');
+    res.passwordHash = crypto.pbkdf2Sync(user.password, res.salt, 1, 128, 'sha1').toString('hex');
     return res;
 }
 
@@ -22,7 +17,7 @@ function checkPassword(user, password) {
     return crypto.pbkdf2Sync(password, user.salt, 1, 128, 'sha1').toString('hex') === user.passwordHash;
 }
 
-module.export = {
+module.exports = {
     readyToSave,
     checkPassword
 };

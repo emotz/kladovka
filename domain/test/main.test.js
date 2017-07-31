@@ -111,16 +111,29 @@ describe('Тест для кладовки', function () {
         assert(res.type === '');
     });
 
-    it('should get item by name', async function () {
+    it('should get all items by example prop', async function () {
+        let item1 = { type: 'axe', dps: 100 };
+        let item2 = { type: 'axe', dps: 200 };
+        let item3 = { type: 'mace', dps: 300 };
+        let item4 = { type: 'sword', dps: 50 };
+        await klad.placeInKladovka(coll, item1);
+        await klad.placeInKladovka(coll, item2);
+        await klad.placeInKladovka(coll, item3);
+        await klad.placeInKladovka(coll, item4);
+        let res = await klad.getAllByPropFromKladovka(coll, 'type', 'axe');
+        assert(res.length === 2);
+    });
+
+    it('should get item by example prop', async function () {
         let item = { name: 'item' };
         await klad.placeInKladovka(coll, item);
-        let res = await klad.getByNameFromKladovka(coll, item.name);
+        let res = await klad.getByPropFromKladovka(coll, 'name', item.name);
         assert(res.name === item.name);
     });
 
-    it('should not get item with non-existing name', async function () {
+    it('should not get item with non-existing prop value', async function () {
         let item = { name: 'item' };
-        let res = await klad.getByNameFromKladovka(coll, item.name);
+        let res = await klad.getByPropFromKladovka(coll, 'name', item.name);
         assert(res === null);
     });
 

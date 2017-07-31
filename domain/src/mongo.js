@@ -86,9 +86,10 @@ async function getNotDeletedItems(coll) {
 }
 
 /**
- * Получает массив объектов(не удалённых) данного типа
+ * Получает массив объектов(не удалённых) по заданному свойству
  * @param {Srting} coll - Коллекция
- * @param {Srting} type - Искомый тип
+ * @param {Srting} prop - Свойство по которому проводится поиск
+ * @param {Srting} value - Значение свойства, по которому проводится поиск
  * @returns {Promise.<Array, Error>} Массив объектов
  */
 async function getAllNotDeletedItemsByProp(coll, prop, value) {
@@ -99,9 +100,10 @@ async function getAllNotDeletedItemsByProp(coll, prop, value) {
 }
 
 /**
- * Получает объект по заданному имени
+ * Получает объект по заданному свойству
  * @param {Srting} coll - Коллекция
- * @param {Srting} name - Имя по которому проводится поиск
+ * @param {Srting} prop - Свойство по которому проводится поиск
+ * @param {Srting} value - Значение свойства, по которому проводится поиск
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
 async function getNotDeletedItemByProp(coll, prop, value) {

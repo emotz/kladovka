@@ -67,13 +67,25 @@ function deleteAllFromKladovka(coll) {
 }
 
 /**
- * Получает объект по заданному имени
+ * Получает массив объектов по заданному свойству
  * @param {Srting} coll - Коллекция
- * @param {Srting} name - Имя по которому проводится поиск
+ * @param {Srting} prop - Свойство по которому проводится поиск
+ * @param {Srting} value - Значение свойства, по которому проводится поиск
+ * @returns {Promise.<Array, Error>} Массив объектов
+ */
+function getAllByPropFromKladovka(coll, prop, value) {
+    return database.getAllByProp(coll, prop, value);
+}
+
+/**
+ * Получает объект по заданному свойству
+ * @param {Srting} coll - Коллекция
+ * @param {Srting} prop - Свойство по которому проводится поиск
+ * @param {Srting} value - Значение свойства, по которому проводится поиск
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-function getByNameFromKladovka(coll, name) {
-    return database.getByName(coll, name);
+function getByPropFromKladovka(coll, prop, value) {
+    return database.getByProp(coll, prop, value);
 }
 
 /**
@@ -120,7 +132,7 @@ function compareItems(item1, item2) {
  * @returns {Promise.<Boolean, Error>}  True, если предмет нужен. False, если нет
  */
 async function isNeeded(coll, item) {
-    let res = await database.getByType(coll, item.type);
+    let res = await database.getAllByProp(coll, 'type', item.type);
     let score = Item.score(item);
     for (let item of res) {
         if (Item.score(item) < score)
@@ -159,7 +171,8 @@ module.exports = {
     deleteFromKladovka,
     deleteAllFromKladovka,
     replaceInKladovka,
-    getByNameFromKladovka,
+    getAllByPropFromKladovka,
+    getByPropFromKladovka,
     clearKladovka,
     compareItems,
     isNeeded,

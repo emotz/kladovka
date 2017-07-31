@@ -1,6 +1,7 @@
 const utility = require('./utility');
 const database = require('./db.async');
 
+let db = {};
 /**
  * Открывает соединение с сервером БД
  * @param {String} url - Адрес сервера БД
@@ -13,20 +14,18 @@ async function connect(url) {
 
 /**
  * Закрывает соединение с сервером БД
- * @param {Object} db - БД
  */
-function disconnect(db) {
+function disconnect() {
     //много строчек кода работы с db
 }
 
 /**
  * Сохраняет объект в БД
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {Object} item - Этот объект будет сохранен в базу
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
-async function addItem(db, coll, item) {
+async function addItem(coll, item) {
     let _id = database.guid();
     item = utility.clone(item);
     item._id = _id;
@@ -35,12 +34,11 @@ async function addItem(db, coll, item) {
 
 /**
  * Получает из базы данных объект (не удалённый)
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {String} id - Идентификатор искомого объекта
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-async function getNotDeletedItemById(db, coll, id) {
+async function getNotDeletedItemById(coll, id) {
     let res = await database.get_by_id(db, coll, id);
     if (res !== null && res.deleted === undefined) return res;
     return null;
@@ -48,12 +46,11 @@ async function getNotDeletedItemById(db, coll, id) {
 
 /**
  * Удаляет объект из БД
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {String} id - Идентификатор удаляемого объекта
  * @returns {Promise.<String, Error>} id удалённого объекта
  */
-async function deleteItemById(db, coll, id) {
+async function deleteItemById(coll, id) {
     let res = await database.get_by_id(db, coll, id);
     if (res === null) return id;
     res.deleted = true;
@@ -62,16 +59,15 @@ async function deleteItemById(db, coll, id) {
 
 /**
  * Удаляет ВСЕ объекты из БД
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
-async function deleteAllItems(db, coll) {
+async function deleteAllItems(coll) {
     let count = 0;
     let res = await database.get_all(db, coll);
     for (let id in res) {
         if (res[id].deleted === true) continue;
-        await deleteItemById(db, coll, id);
+        await deleteItemById(coll, id);
         count++;
     }
     return count;
@@ -79,48 +75,44 @@ async function deleteAllItems(db, coll) {
 
 /**
  * Получает массив объектов(не удалённых)
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getNotDeletedItems(db, coll) {
+async function getNotDeletedItems(coll) {
     let all = await database.get_all(db, coll);
     return selectNotDeletedItems(all);
 }
 
 /**
  * Получает массив объектов(не удалённых) данного типа
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {Srting} type - Искомый тип
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getAllItemsByType(db, coll, type) {
+async function getAllItemsByType(coll, type) {
     let all = await database.get_by_prop(db, coll, 'type', type);
     return selectNotDeletedItems(all);
 }
 
 /**
  * Получает объект по заданному имени
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {Srting} name - Имя по которому проводится поиск
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-async function getNotDeletedItemByName(db, coll, name) {
+async function getNotDeletedItemByName(coll, name) {
     let all = await database.get_by_prop(db, coll, 'name', name);
     return selectFirstNotDeletedItem(all);
 }
 
 /**
  * Заменяет объект по id
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @param {String} id - Идентификатор искомого объекта
  * @param {Object} item - Этот объект будет сохранен в базу
  * @returns {Promise.<Boolean, Error>} Истина если есть объект под данным id
  */
-async function replaceItemById(db, coll, id, item) {
+async function replaceItemById(coll, id, item) {
     if (await database.get_by_id(db, coll, id)) {
         await database.add_by_id(db, coll, id, item);
         return true;
@@ -130,11 +122,10 @@ async function replaceItemById(db, coll, id, item) {
 
 /**
  * Очищает коллекцию
- * @param {Object} db - БД
  * @param {Srting} coll - Коллекция
  * @returns {Promise.<Number, Error>} Количество удалённых объектов
  */
-async function clearCollection(db, coll) {
+async function clearCollection(coll) {
     let all = await database.get_all(db, coll);
     database.clear_collection(db, coll);
     return Object.keys(all).length;

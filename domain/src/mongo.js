@@ -91,10 +91,10 @@ async function getNotDeletedItems(coll) {
  * @param {Srting} type - Искомый тип
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getAllItemsByType(coll, type) {
+async function getAllNotDeletedItemsByProp(coll, prop, value) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
-    let res = await collection.find({ deleted: undefined, type }).toArray();
+    let res = await collection.find({ deleted: undefined, [prop]: value }).toArray();
     return res;
 }
 
@@ -104,10 +104,10 @@ async function getAllItemsByType(coll, type) {
  * @param {Srting} name - Имя по которому проводится поиск
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-async function getNotDeletedItemByName(coll, name) {
+async function getNotDeletedItemByProp(coll, prop, value) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
-    let res = await collection.findOne({ deleted: undefined, name });
+    let res = await collection.findOne({ deleted: undefined, [prop]: value });
     return res;
 }
 
@@ -145,8 +145,8 @@ module.exports = {
     deleteAll: deleteAllItems,
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
-    getByType: getAllItemsByType,
+    getAllByProp: getAllNotDeletedItemsByProp,
+    getByProp: getNotDeletedItemByProp,
     replaceById: replaceItemById,
-    getByName: getNotDeletedItemByName,
     clearCollection
 };

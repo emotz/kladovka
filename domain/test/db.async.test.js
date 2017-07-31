@@ -88,15 +88,28 @@ const coll = 'tests';
             assert(res.length === 0);
         });
 
-        it('получает объекты конкретного типа', async function () {
+        it('получает объекты по заданному свойству, например type', async function () {
             let obj1 = { qwer: 11, type: 'axe' };
             let obj2 = { qwer: 2, type: 'sword' };
             let obj3 = { qwer: 33, type: 'axe' };
             await database.add(coll, obj1);
             await database.add(coll, obj2);
             await database.add(coll, obj3);
-            let res = await database.getByType(coll, 'axe');
+            let res = await database.getAllByProp(coll, 'type', 'axe');
             assert(res.length === 2);
+        });
+
+        it('получает один объект по заданному свойству, например type', async function () {
+            let item = { qwer: 11, type: 'axe' };
+            await database.add(coll, item);
+            let res = await database.getByProp(coll, 'type', item.type);
+            assert(res.name === item.name);
+        });
+
+        it('получает null, если поиск идет по не существующему значению свойсва', async function () {
+            let item = { qwer: 11, type: 'axe' };
+            let res = await database.getByProp(coll, 'type', item.type);
+            assert(res === null);
         });
 
         it('получает записанный объект через getAll', async function () {
@@ -148,19 +161,6 @@ const coll = 'tests';
             let res = await database.getById(coll, id);
             assert(res.dps === 0);
             assert(res.type === '');
-        });
-
-        it('should get item by name', async function () {
-            let item = { name: 'item' };
-            await database.add(coll, item);
-            let res = await database.getByName(coll, item.name);
-            assert(res.name === item.name);
-        });
-
-        it('should not get item with non-existing name', async function () {
-            let item = { name: 'item' };
-            let res = await database.getByName(coll, item.name);
-            assert(res === null);
         });
 
         after(function () {

@@ -89,8 +89,8 @@ async function getNotDeletedItems(coll) {
  * @param {Srting} type - Искомый тип
  * @returns {Promise.<Array, Error>} Массив объектов
  */
-async function getAllItemsByType(coll, type) {
-    let all = await database.get_by_prop(db, coll, 'type', type);
+async function getAllNotDeletedItemsByProp(coll, prop, value) {
+    let all = await database.get_by_prop(db, coll, prop, value);
     return selectNotDeletedItems(all);
 }
 
@@ -100,8 +100,8 @@ async function getAllItemsByType(coll, type) {
  * @param {Srting} name - Имя по которому проводится поиск
  * @returns {Promise.<Object, Error>} Объект или null если такого объекта нет
  */
-async function getNotDeletedItemByName(coll, name) {
-    let all = await database.get_by_prop(db, coll, 'name', name);
+async function getNotDeletedItemByProp(coll, prop, value) {
+    let all = await database.get_by_prop(db, coll, prop, value);
     return selectFirstNotDeletedItem(all);
 }
 
@@ -156,8 +156,8 @@ module.exports = {
     deleteAll: deleteAllItems,
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
-    getByType: getAllItemsByType,
+    getAllByProp: getAllNotDeletedItemsByProp,
+    getByProp: getNotDeletedItemByProp,
     replaceById: replaceItemById,
-    getByName: getNotDeletedItemByName,
     clearCollection
 };

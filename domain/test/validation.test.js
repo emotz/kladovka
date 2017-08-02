@@ -258,4 +258,62 @@ describe('validation unit test', function () {
             });
         });
     });
+
+
+    describe('for user', function () {
+
+        it('должен зарегистрировать пользователя', function () {
+            let user = {
+                email: 'userEmail',
+                name: 'userName',
+                password: 'userPass'
+            };
+            let validationResult = validation.checkSignUp(user);
+            assert(validationResult.isValid === true);
+        });
+
+        it('должен обрезать лишние свойства и зарегистрировать пользователя', function () {
+            let user = {
+                email: 'userEmail',
+                name: 'userName',
+                password: 'userPass',
+                enot: true
+            };
+            let validationResult = validation.checkSignUp(user);
+            assert(validationResult.isValid === true);
+            assert(validationResult.user.enot === undefined);
+        });
+
+        it('при ошибке валидации пользователя, в результате нет пользователя и есть ошибка', function () {
+            let user = {
+                email: 'userEmail',
+                name: 'userName',
+                password: 123,
+            };
+            let validationResult = validation.checkSignUp(user);
+            assert(validationResult.isValid === false);
+            assert(validationResult.user === undefined);
+            assert(validationResult.errors.length === 1);
+        });
+
+
+        describe('errors', function () {
+
+            it('#mustBeString: [name, password]', function () {
+                let user = {
+                    email: 'userEmail',
+                    password: 123,
+                };
+                let validationResult = validation.checkSignUp(user);
+                expect(validationResult.errors)
+                    .to.have.deep.members([
+                        {
+                            id: "mustBeString",
+                            properties: ["name", "password"]
+                        }
+                    ]);
+            });
+
+        });
+    });
 });

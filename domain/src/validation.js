@@ -1,7 +1,5 @@
 const _ = require('lodash');
 const Item = require('./Item');
-const User = require('./User');
-const klad = require('./main');
 
 function checkItem(item) {
     item = _.pick(item, ['type', 'minDmg', 'maxDmg', 'critChance', 'critDmg']);
@@ -73,24 +71,39 @@ function checkChar(char) {
     };
 }
 
-async function checkUserBeforeSave(user, db) {
-    user = _.pick(user, ['name', 'password']);
+// > checkSignUp({email: 'userEmail', name: 'userName', password: 'userPass'})
+// {isValid: true, errors: [], user : {email: 'userEmail', name: 'userName', password: 'userPass'}}
+function checkSignUp(user) {
+    user = _.pick(user, ['email', 'name', 'password']);
     let errors = [];
-    let notString = filterNotString(user, ['name', 'password']);
+    let notString = filterNotString(user, ['email', 'name', 'password']);
     if (notString.length) {
         errors.push({
             id: "mustBeString",
             properties: notString
         });
-    } else {
-        let exists = await klad.getByNameFromKladovka(db, 'users', user.name);
-        if (exists) {
-            errors.push({
-                id: "nameAlreadyExists",
-                properties: ["name"]
-            });
-        } else
-            user = User.readyToSave(user);
+    }
+    let isValid = !errors.length;
+    if (!isValid)
+        user = undefined;
+    return {
+        user,
+        isValid,
+        errors
+    };
+}
+
+// > checkSignIn({email: 'userEmail', name: 'userName', password: 'userPass'})
+// {isValid: true, errors: [], user : {email: 'userEmail', password: 'userPass'}}
+function checkSignIn(user) {
+    user = _.pick(user, ['email', 'password']);
+    let errors = [];
+    let notString = filterNotString(user, ['email', 'password']);
+    if (notString.length) {
+        errors.push({
+            id: "mustBeString",
+            properties: notString
+        });
     }
     let isValid = !errors.length;
     if (!isValid)
@@ -122,7 +135,7 @@ function filterNegative(item, props, excludes) {
         .filter(prop => item[prop] < 0);
 }
 
-// > filterNotString({name:'user1', password:'', salt:2}, ['user', 'password', 'salt'])
+// > filterNotString({name:'user1', password:'', salt:2}, ['name', 'password', 'salt'])
 // ["password", "salt"]
 function filterNotString(item, props, excludes) {
     return _
@@ -133,5 +146,6 @@ function filterNotString(item, props, excludes) {
 module.exports = {
     checkItem,
     checkChar,
-    checkUserBeforeSave
+    checkSignUp,
+    checkSignIn
 };

@@ -13,6 +13,10 @@
                             <input class="col-md-6" type="text" id="kl-sign-in-email"><br>
                         </li>
                         <li class="row">
+                            <label class="col-md-3 col-md-offset-3" for="kl-sign-in-name">User name: </label>
+                            <input class="col-md-6" type="text" id="kl-sign-in-name"><br>
+                        </li>
+                        <li class="row">
                             <label class="col-md-3 col-md-offset-3" for="kl-sign-in-pass">Password: </label>
                             <input class="col-md-6" type="password" id="kl-sign-in-pass">
                         </li>
@@ -20,7 +24,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn diablo" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn diablo" data-dismiss="modal">Create an account</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal">Sign up</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

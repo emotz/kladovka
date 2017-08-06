@@ -10,10 +10,10 @@ const coll = 'tests';
 
 
         before(async function () {
-            await database.connect(CONFIG.DB_URL);
+            return database.connect(CONFIG.DB_URL);
         });
 
-        afterEach(async function () {
+        beforeEach(async function () {
             return database.clearCollection(coll);
         });
 

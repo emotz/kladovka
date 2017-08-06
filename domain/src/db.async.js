@@ -7,17 +7,6 @@
 
 const utility = require('./utility');
 
-// Генератор рандомных ID
-function guid() {
-    function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
-}
-//////////////////////////////////////////////////
 
 /**
  * Создаёт новую базу данных.
@@ -37,7 +26,7 @@ function db_initialize() {
  * Если нет БД, то происходит отказ от обещания и вернётся ошибка.
  */
 function db_add(db, coll, entity) {
-    let id = guid();
+    let id = utility.guid();
     return db_add_by_id(db, coll, id, entity);
 }
 
@@ -134,7 +123,6 @@ function db_clear_collection(db, coll) {
 }
 
 module.exports = {
-    guid,
     initialize: db_initialize,
     add: db_add,
     add_by_id: db_add_by_id,

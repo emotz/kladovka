@@ -26,7 +26,7 @@ function disconnect() {
  * @returns {Promise.<String, Error>} id добавленного объекта
  */
 async function addItem(coll, item) {
-    let _id = database.guid();
+    let _id = utility.guid();
     item = utility.clone(item);
     item._id = _id;
     return database.add_by_id(db, coll, _id, item);

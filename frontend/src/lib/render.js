@@ -1,4 +1,4 @@
-import i18n from './plugins/i18n';
+import i18n from '../plugins/i18n';
 export function renderValidationErrors(errors) {
     let res = [];
     errors.forEach(error => {

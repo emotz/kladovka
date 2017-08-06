@@ -36,3 +36,29 @@ content-type: application/json
     "critChance": 5,
     "critDmg": 6
 }
+
+### добавить пользователя
+
+POST http://localhost:8080/api/users
+content-type: application/json
+
+{
+    "email": "enotMail",
+    "name": "enot",
+    "password": "enotPass"
+}
+
+### получить токен
+
+POST http://localhost:8080/api/tokens
+content-type: application/json
+
+{
+    "email": "enotMail",
+    "password": "enotPass"
+}
+
+### hui
+
+GET http://localhost:8080/api/test
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OTgzNmJiMmExYzU5MzE5NDg5YzUxNTAiLCJ1c2VyIjoiZW5vdCIsImVtYWlsIjoiZW5vdE1haWwiLCJpYXQiOjE1MDIwMDU5NDZ9.9jWgQqmb19VXEnI844fWlnArTDgXb2OjeWNnsKQwF5

@@ -2,6 +2,7 @@ const crypto = require('crypto');
 
 function readyToSave(user) {
     let res = {
+        email: user.email,
         name: user.name,
         created: Date.now(),
         token: Date.now()
@@ -11,13 +12,12 @@ function readyToSave(user) {
     return res;
 }
 
-function checkPassword(user, password) {
-    if (!password) return false;
-    if (!user.passwordHash) return false;
+function comparePasswords(user, password) {
+    if(!user.passwordHash || !password) return false;
     return crypto.pbkdf2Sync(password, user.salt, 1, 128, 'sha1').toString('hex') === user.passwordHash;
 }
 
 module.exports = {
     readyToSave,
-    checkPassword
+    comparePasswords
 };

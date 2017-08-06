@@ -1,9 +1,7 @@
-import API from 'api.json';
 import * as Item from 'domain/Item';
-import { clone } from 'domain/utility';
-import { renderValidationErrors } from '../render';
-import { transTypeList } from '../render';
+import { transTypeList } from '../lib/render';
 import { focus } from 'vue-focus';
+import { item } from '../lib/methods';
 export default {
     directives: { focus: focus },
     props: ['focusProp'],
@@ -22,17 +20,7 @@ export default {
     },
     methods: {
         addItem: function () {
-            let item = clone(this.item);
-            this.$http.post(API.ITEMS, item).then(response => {
-                item._id = response.body.added_id;
-                this.$emit('addItem', item);
-            }).catch(err => {
-                if (err.status === 400 && err.body.code === 1) {
-                    let renderedErrors = renderValidationErrors(err.body.errors);
-                    renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                } else
-                    toastr.error(this.$t('errors.default'));
-            });
+            item[this.$store.state.storageType].addItem(this);
         },
         dmgControl: function () {
             if (this.item.minDmg < 1) this.item.minDmg = 1;

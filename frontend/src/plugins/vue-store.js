@@ -5,7 +5,11 @@ let store = {
             dmg: 0,
             critChance: 0,
             critDmg: 0
-        }
+        },
+        storageType: 'local'
+    },
+    setStorageAction(newValue) {
+        this.state.storageType = newValue;
     },
     setCharAction(newValue) {
         this.state.char = newValue;

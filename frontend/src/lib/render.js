@@ -1,5 +1,5 @@
 import i18n from '../plugins/i18n';
-export function renderValidationErrors(errors) {
+export function renderValidationError(errors) {
     let res = [];
     errors.forEach(error => {
         let id = error.id,

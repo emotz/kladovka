@@ -1,7 +1,7 @@
 import API from 'api.json';
 import urlJoin from 'url-join';
 import { clone } from 'domain/utility';
-import { renderValidationErrors } from '../render';
+import { renderValidationError } from '../lib/render';
 export default {
     data: function () {
         return {
@@ -30,7 +30,7 @@ export default {
                     this.$store.setCharAction(char);
                 }).catch(err => {
                     if (err.status === 400 && err.body.code === 1) {
-                        let renderedErrors = renderValidationErrors(err.body.errors);
+                        let renderedErrors = renderValidationError(err.body.errors);
                         renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
                     } else if (err.status === 404)
                         toastr.error(this.$t('errors.notFound'));

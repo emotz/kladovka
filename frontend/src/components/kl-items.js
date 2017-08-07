@@ -1,8 +1,8 @@
-import API from 'api.json';
-import urlJoin from 'url-join';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps, aps, totalDps } from 'domain/Item';
+import { items } from './kl-items.method.js';
+
 export default {
     data: function () {
         return {
@@ -16,18 +16,11 @@ export default {
         'kl-delete-all': klDeleteAll,
     },
     mounted: function () {
-        this.$http.get(API.ITEMS).then(response => {
-            for (let i in response.body) {
-                let item = response.body[i];
-                this.addItem(item);
-            }
-        }).catch(err => toastr.error(this.$t('errors.default')));
+        items[this.$store.state.storageType].mounted(this);
     },
     methods: {
         deleteItem: function (id, index) {
-            this.$http.delete(urlJoin(API.ITEMS, id)).then(response => {
-                this.items.splice(index, 1);
-            }).catch(err => toastr.error(this.$t('errors.default')));
+            items[this.$store.state.storageType].deleteItem(this, id, index);
         },
         addItem: function (item) {
             item.aps = aps(item);
@@ -37,9 +30,7 @@ export default {
             this.items.push(item);
         },
         deleteAll: function (item) {
-            this.$http.delete(API.ITEMS).then(response => {
-                this.items = [];
-            }).catch(err => toastr.error(this.$t('errors.default')));
+            items[this.$store.state.storageType].deleteAll(this);
         },
         'sort-dps-asc': function () {
             this.items.sort((a, b) => { return a.totalDps - b.totalDps; });

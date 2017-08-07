@@ -1,7 +1,8 @@
 import * as Item from 'domain/Item';
 import { transTypeList } from '../lib/render';
 import { focus } from 'vue-focus';
-import { item } from '../lib/methods';
+import { addItem } from './kl-add-item.method.js';
+
 export default {
     directives: { focus: focus },
     props: ['focusProp'],
@@ -20,7 +21,7 @@ export default {
     },
     methods: {
         addItem: function () {
-            item[this.$store.state.storageType].addItem(this);
+            addItem[this.$store.state.storageType].addItem(this);
         },
         dmgControl: function () {
             if (this.item.minDmg < 1) this.item.minDmg = 1;

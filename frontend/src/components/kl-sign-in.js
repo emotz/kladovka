@@ -1,6 +1,7 @@
 import API from 'api.json';
 import _ from 'lodash';
 import { renderValidationError } from '../services/render';
+
 export default {
     data: function () {
         return {

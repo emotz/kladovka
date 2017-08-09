@@ -126,7 +126,7 @@ app.post(API.TOKENS, async function (req, res, next) {
                     email: user.email
                 };
                 let token = jwt.sign(payload, CONFIG.JWT_SECRET);
-                return res.status(200).send({ user: user.name, access_token: token });
+                return res.status(200).send({ user: user.name, accessToken: token });
             }
         })(req, res, next);
     } else {

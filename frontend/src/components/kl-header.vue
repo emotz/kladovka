@@ -6,7 +6,7 @@
             <a href="#" data-toggle="modal" data-target="#sign-up">Sign up</a>
         </div>
         <kl-sign-in v-on:signIn="signIn"></kl-sign-in>
-        <kl-sign-up></kl-sign-up>
+        <kl-sign-up v-on:signIn="signIn"></kl-sign-up>
     </header>
     <header v-else class="row">
          <div class="col-md-4 col-md-offset-6">

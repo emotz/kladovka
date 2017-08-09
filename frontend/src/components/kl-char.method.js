@@ -3,7 +3,7 @@ import urlJoin from 'url-join';
 import { clone, guid12bytes } from 'domain/utility';
 import { checkChar } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
-import { renderValidationError } from '../lib/render';
+import { renderValidationError } from '../services/render';
 
 export let char = { remote: {}, local: {} };
 
@@ -12,7 +12,7 @@ char.remote.replaceChar = function (component) {
         let char = clone(component.char);
         component.$http.post(API.CHARS, char).then(response => {
             component._id = response.body.added_id;
-            component.$store.setCharAction(char);
+            component.$store.setChar(char);
         }).catch(err => {
             if (err.status === 400 && err.body.code === 1) {
                 let renderedErrors = renderValidationError(err.body.errors);
@@ -23,7 +23,7 @@ char.remote.replaceChar = function (component) {
     } else {
         let char = clone(component.char);
         component.$http.put(urlJoin(API.CHARS, component._id), char).then(response => {
-            component.$store.setCharAction(char);
+            component.$store.setChar(char);
         }).catch(err => {
             if (err.status === 400 && err.body.code === 1) {
                 let renderedErrors = renderValidationError(err.body.errors);
@@ -42,7 +42,7 @@ char.local.replaceChar = function (component) {
     if (validationResult.isValid) {
         let _id = guid12bytes();
         component._id = _id;
-        component.$store.setCharAction(char);
+        component.$store.setChar(char);
     } else {
         let res = makeValidationError(validationResult.errors);
         let renderedErrors = renderValidationError(res.errors);

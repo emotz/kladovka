@@ -14,7 +14,10 @@ export default {
     },
     methods: {
         replaceChar: function () {
-            char[this.$store.state.storageType].replaceChar(this);
+            if (localStorage.getItem('token'))
+                char.remote.replaceChar(this);
+            else
+                char.local.replaceChar(this);
         }
     }
 };

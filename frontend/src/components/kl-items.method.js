@@ -14,6 +14,7 @@ items.remote.mounted = function (component) {
 
 items.local.mounted = function (component) {
     for (let id in localStorage) {
+        if (id === 'user' || id === 'token') continue;
         let item = localStorage.getItem(id);
         component.addItem(JSON.parse(item));
     }
@@ -37,6 +38,9 @@ items.remote.deleteAll = function (component) {
 };
 
 items.local.deleteAll = function (component) {
-    localStorage.clear();
+    for (let id in localStorage) {
+        if (id === 'user' || id === 'token') continue;
+        localStorage.removeItem(id);
+    }
     component.items = [];
 };

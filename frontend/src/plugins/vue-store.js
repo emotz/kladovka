@@ -6,15 +6,15 @@ let store = {
             critChance: 0,
             critDmg: 0
         },
-        storageType: 'local'
+        signOut: false,
     },
-    setStorageAction(newValue) {
-        this.state.storageType = newValue;
+    setSignOut(newValue) {
+        this.state.signOut = newValue;
     },
-    setCharAction(newValue) {
+    setChar(newValue) {
         this.state.char = newValue;
     },
-    clearCharAction() {
+    clearChar() {
         this.state.char = {};
     }
 };

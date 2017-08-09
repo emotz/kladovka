@@ -16,11 +16,17 @@ export default {
         'kl-delete-all': klDeleteAll,
     },
     mounted: function () {
-        items[this.$store.state.storageType].mounted(this);
+        if (localStorage.getItem('token'))
+            items.remote.mounted(this);
+        else
+            items.local.mounted(this);
     },
     methods: {
         deleteItem: function (id, index) {
-            items[this.$store.state.storageType].deleteItem(this, id, index);
+            if (localStorage.getItem('token'))
+                items.remote.deleteItem(this, id, index);
+            else
+                items.local.deleteItem(this, id, index);
         },
         addItem: function (item) {
             item.aps = aps(item);
@@ -30,7 +36,10 @@ export default {
             this.items.push(item);
         },
         deleteAll: function (item) {
-            items[this.$store.state.storageType].deleteAll(this);
+            if (localStorage.getItem('token'))
+                items.remote.deleteAll(this);
+            else
+                items.local.deleteAll(this);
         },
         'sort-dps-asc': function () {
             this.items.sort((a, b) => { return a.totalDps - b.totalDps; });
@@ -45,6 +54,12 @@ export default {
                 item.totalDps = totalDps(item, newVal).toFixed(2);
                 return item;
             });
+        },
+        '$store.state.signOut': function (newVal) {
+            if (newVal === true) {
+                this.items = [];
+                this.$store.setSignOut(false);
+            }
         }
     },
     computed: {

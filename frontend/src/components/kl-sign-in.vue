@@ -10,17 +10,17 @@
                     <ul class="list-group">
                         <li class="row">
                             <label class="col-md-3 col-md-offset-3" for="kl-sign-in-email">Email address: </label>
-                            <input class="col-md-6" type="text" id="kl-sign-in-email"><br>
+                            <input class="col-md-6" type="text" id="kl-sign-in-email" v-model="email"><br>
                         </li>
                         <li class="row">
                             <label class="col-md-3 col-md-offset-3" for="kl-sign-in-pass">Password: </label>
-                            <input class="col-md-6" type="password" id="kl-sign-in-pass">
+                            <input class="col-md-6" type="password" id="kl-sign-in-pass" v-model="password">
                         </li>
                     </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn diablo" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn diablo" data-dismiss="modal">Sign in</button>
+                    <button type="button" class="btn diablo" data-dismiss="modal" v-on:click="signIn">Sign in</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

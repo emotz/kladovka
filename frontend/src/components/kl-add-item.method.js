@@ -2,7 +2,7 @@ import API from 'api.json';
 import { clone, guid12bytes } from 'domain/utility';
 import { checkItem } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
-import { renderValidationError } from '../lib/render';
+import { renderValidationError } from '../services/render';
 
 export let addItem = { remote: {}, local: {} };
 

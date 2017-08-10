@@ -30,17 +30,3 @@ items.local.deleteItem = function (component, id, index) {
     localStorage.removeItem(id);
     component.items.splice(index, 1);
 };
-
-items.remote.deleteAll = function (component) {
-    component.$http.delete(API.ITEMS).then(response => {
-        component.items = [];
-    }).catch(err => toastr.error(component.$t('errors.default')));
-};
-
-items.local.deleteAll = function (component) {
-    for (let id in localStorage) {
-        if (id === 'user' || id === 'token') continue;
-        localStorage.removeItem(id);
-    }
-    component.items = [];
-};

@@ -8,8 +8,8 @@ import { renderValidationError } from '../services/render';
 export let char = { remote: {}, local: {} };
 
 char.remote.replaceChar = function (component) {
+    let char = clone(component.char);
     if (component._id === undefined) {
-        let char = clone(component.char);
         component.$http.post(API.CHARS, char).then(response => {
             component._id = response.body.added_id;
             component.$store.setChar(char);
@@ -21,7 +21,6 @@ char.remote.replaceChar = function (component) {
                 toastr.error(component.$t('errors.default'));
         });
     } else {
-        let char = clone(component.char);
         component.$http.put(urlJoin(API.CHARS, component._id), char).then(response => {
             component.$store.setChar(char);
         }).catch(err => {
@@ -42,6 +41,7 @@ char.local.replaceChar = function (component) {
     if (validationResult.isValid) {
         let _id = guid12bytes();
         component._id = _id;
+        localStorage.setItem('char', char);
         component.$store.setChar(char);
     } else {
         let res = makeValidationError(validationResult.errors);

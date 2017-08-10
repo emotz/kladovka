@@ -36,10 +36,7 @@ export default {
             this.items.push(item);
         },
         deleteAll: function (item) {
-            if (localStorage.getItem('token'))
-                items.remote.deleteAll(this);
-            else
-                items.local.deleteAll(this);
+            this.items = [];
         },
         'sort-dps-asc': function () {
             this.items.sort((a, b) => { return a.totalDps - b.totalDps; });

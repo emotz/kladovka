@@ -9,6 +9,9 @@ deleteAll.remote.deleteAll = function (component) {
 };
 
 deleteAll.local.deleteAll = function (component) {
-    localStorage.clear();
+    for (let id in localStorage) {
+        if (id === 'user' || id === 'token') continue;
+        localStorage.removeItem(id);
+    }
     component.$emit('deleteAll');
 };

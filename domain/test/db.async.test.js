@@ -88,6 +88,17 @@ const coll = 'tests';
             assert(res.length === 0);
         });
 
+        it('удаляет все объекты по заданному свойству из БД', async function () {
+            let obj1 = { qwer: 11 };
+            let obj2 = { qwer: 22 };
+            await database.add(coll, obj1);
+            await database.add(coll, obj2);
+            let count = await database.deleteAllByProp(coll);
+            assert(count === 2);
+            let res = await database.getAll(coll);
+            assert(res.length === 0);
+        });
+
         it('получает объекты по заданному свойству, например type', async function () {
             let obj1 = { qwer: 11, type: 'axe' };
             let obj2 = { qwer: 2, type: 'sword' };

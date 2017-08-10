@@ -74,6 +74,24 @@ async function deleteAllItems(coll) {
 }
 
 /**
+ * Удаляет ВСЕ объекты из БД по заданному свойству
+ * @param {Srting} coll - Коллекция
+ * @param {Srting} prop - Свойство по которому проводится поиск
+ * @param {Srting} value - Значение свойства, по которому проводится поиск
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
+ */
+async function deleteAllItemsByProp(coll, prop, value) {
+    let count = 0;
+    let res = await database.get_by_prop(db, coll, prop, value);
+    for (let id in res) {
+        if (res[id].deleted === true) continue;
+        await deleteItemById(coll, id);
+        count++;
+    }
+    return count;
+}
+
+/**
  * Получает массив объектов(не удалённых)
  * @param {Srting} coll - Коллекция
  * @returns {Promise.<Array, Error>} Массив объектов
@@ -156,6 +174,7 @@ module.exports = {
     add: addItem,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,
+    deleteAllByProp: deleteAllItemsByProp,
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
     getAllByProp: getAllNotDeletedItemsByProp,

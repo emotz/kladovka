@@ -65,6 +65,14 @@ function deleteFromKladovka(coll, id) {
 function deleteAllFromKladovka(coll) {
     return database.deleteAll(coll);
 }
+/**
+ * Удаляет ВСЕ предметы из кладовки
+ * @param {Srting} coll - Коллекция
+ * @returns  {Promise.<Number, Error>} Количество удалённых объектов
+ */
+function deleteAllByPropFromKladovka(coll, prop, value) {
+    return database.deleteAllByProp(coll, prop, value);
+}
 
 /**
  * Получает массив объектов по заданному свойству
@@ -170,6 +178,7 @@ module.exports = {
     placeInKladovka,
     deleteFromKladovka,
     deleteAllFromKladovka,
+    deleteAllByPropFromKladovka,
     replaceInKladovka,
     getAllByPropFromKladovka,
     getByPropFromKladovka,

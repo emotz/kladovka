@@ -74,6 +74,20 @@ async function deleteAllItems(coll) {
 }
 
 /**
+ * Удаляет ВСЕ объекты из БД по заданному свойству
+ * @param {Srting} coll - Коллекция
+ * @param {Srting} prop - Свойство по которому проводится поиск
+ * @param {Srting} value - Значение свойства, по которому проводится поиск
+ * @returns {Promise.<Number, Error>} Количество удалённых объектов
+ */
+async function deleteAllItemsByProp(coll, prop, value) {
+    if (db === undefined) throw new Error('нет базы данных');
+    let collection = db.collection(coll);
+    let res = await collection.updateMany({ deleted: undefined, [prop]: value }, { $set: { deleted: true } });
+    return res.modifiedCount;
+}
+
+/**
  * Получает массив объектов(не удалённых)
  * @param {Srting} coll - Коллекция
  * @returns {Promise.<Array, Error>} Массив объектов
@@ -98,7 +112,14 @@ async function getAllNotDeletedItemsByProp(coll, prop, value) {
     let res = await collection.find({ deleted: undefined, [prop]: value }).toArray();
     return res;
 }
-
+/* async function test(){
+    await connect('mongodb://localhost:27017/kladovka');
+ //let res = await getNotDeletedItems('items')
+ let res = await getAllNotDeletedItemsByProp('items', 'user_id', '598b548e0db317106c2ba930')
+ console.log(res);
+ disconnect();
+}
+test() */
 /**
  * Получает объект по заданному свойству
  * @param {Srting} coll - Коллекция
@@ -145,6 +166,7 @@ module.exports = {
     add: addItem,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,
+    deleteAllByProp: deleteAllItemsByProp,
     getById: getNotDeletedItemById,
     getAll: getNotDeletedItems,
     getAllByProp: getAllNotDeletedItemsByProp,

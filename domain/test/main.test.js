@@ -64,6 +64,20 @@ describe('Тест для кладовки', function () {
         assert(all.length == 0);
     });
 
+    it('удаляет все предметы по заданному свойству из кладовки', async function () {
+        let item1 = { type: 'axe', dps: 100 };
+        let item2 = { type: 'axe', dps: 200 };
+        let item3 = { type: 'mace', dps: 100 };
+        let item4 = { type: 'sword', dps: 300 };
+        await klad.placeInKladovka(coll, item1);
+        await klad.placeInKladovka(coll, item2);
+        await klad.placeInKladovka(coll, item3);
+        await klad.placeInKladovka(coll, item4);
+        await klad.deleteAllByPropFromKladovka(coll);
+        let all = await klad.getAllFromKladovka(coll);
+        assert(all.length == 0);
+    });
+
     it('возвращает худший предмет из кладовки', async function () {
         let item1 = { type: 'axe', dps: 100 };
         let item2 = { type: 'axe', dps: 200 };

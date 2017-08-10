@@ -18,6 +18,7 @@ passport.use(new LocalStrategy(
             err = null;
         try {
             user = await klad.getByPropFromKladovka('users', 'email', email);
+            //typeof user._id == object
             if (!user || !User.comparePasswords(user, password))
                 user = false;
         } catch (err) {
@@ -37,6 +38,10 @@ passport.use(new JwtStrategy(
             err = null;
         try {
             user = await klad.getFromKladovka('users', payload._id);
+            if (user !== null)
+                user._id = user._id.toString();
+            //typeof payload._id  === string
+            //typeof user._id  === object
         } catch (err) {
             return done(err);
         }

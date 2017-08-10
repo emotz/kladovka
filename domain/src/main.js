@@ -24,8 +24,18 @@ function disconnect() {
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {Promise.<String, Error>} Идентификатор предмета уложенного в кладовку
  */
-function placeInKladovka(coll, item) {
+function addInKladovka(coll, item) {
     return database.add(coll, item);
+}
+
+/**
+ * Укладывает предметы в кладовку
+ * @param {Srting} coll - Коллекция
+ * @param {Array} items - Предметы, которые будут уложены в кладовку
+ * @returns {Promise.<Nubmer, Error>} Кол-во добавленных предметов
+ */
+function addItemsInKladovka(coll, items) {
+    return database.addItemsArray(coll, items);
 }
 
 /**
@@ -175,7 +185,8 @@ module.exports = {
     disconnect,
     getFromKladovka,
     getAllFromKladovka,
-    placeInKladovka,
+    addInKladovka,
+    addItemsInKladovka,
     deleteFromKladovka,
     deleteAllFromKladovka,
     deleteAllByPropFromKladovka,

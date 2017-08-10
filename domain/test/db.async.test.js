@@ -52,6 +52,15 @@ const coll = 'tests';
             assert(get.qwer === 123);
         });
 
+        it('добавляет массив объект в БД', async function () {
+            let arr = [
+                { qwer: 123 },
+                { qwer: 666 }
+            ];
+            let count = await database.addItemsArray(coll, arr);
+            assert(count === 2);
+        });
+
         it('получает все объекты из БД ', async function () {
             let obj1 = { qwer: 11 };
             let obj2 = { qwer: 22 };

@@ -16,14 +16,23 @@ describe('Тест для кладовки', function () {
 
     it('сохраняет предмет в кладовке', async function () {
         let item = { type: 'axe', dps: 100 };
-        let id = await klad.placeInKladovka(coll, item);
+        let id = await klad.addInKladovka(coll, item);
         assert(id !== undefined && id !== null);
         assert(id !== '');
     });
 
+    it('сохраняет коллекцию предметов в кладовке', async function () {
+            let arr = [
+                { qwer: 123 },
+                { qwer: 666 }
+            ];
+            let count = await klad.addItemsInKladovka(coll, arr);
+            assert(count === 2);
+        });
+
     it('получает предмет из кладовки', async function () {
         let item = { type: 'axe', dps: 100 };
-        let id = await klad.placeInKladovka(coll, item);
+        let id = await klad.addInKladovka(coll, item);
         let getItem = await klad.getFromKladovka(coll, id);
         assert(getItem.type == item.type);
         assert(getItem.dps == item.dps);
@@ -34,17 +43,17 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 100 };
         let item4 = { type: 'sword', dps: 300 };
-        await klad.placeInKladovka(coll, item1);
-        await klad.placeInKladovka(coll, item2);
-        await klad.placeInKladovka(coll, item3);
-        await klad.placeInKladovka(coll, item4);
+        await klad.addInKladovka(coll, item1);
+        await klad.addInKladovka(coll, item2);
+        await klad.addInKladovka(coll, item3);
+        await klad.addInKladovka(coll, item4);
         let all = await klad.getAllFromKladovka(coll);
         assert(all.length == 4);
     });
 
     it('удаляет конкретный предмет', async function () {
         let item = { type: 'axe', dps: 100 };
-        let id = await klad.placeInKladovka(coll, item);
+        let id = await klad.addInKladovka(coll, item);
         await klad.deleteFromKladovka(coll, id);
         let getItem = await klad.getFromKladovka(coll, id);
         assert(getItem === null);
@@ -55,10 +64,10 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 100 };
         let item4 = { type: 'sword', dps: 300 };
-        await klad.placeInKladovka(coll, item1);
-        await klad.placeInKladovka(coll, item2);
-        await klad.placeInKladovka(coll, item3);
-        await klad.placeInKladovka(coll, item4);
+        await klad.addInKladovka(coll, item1);
+        await klad.addInKladovka(coll, item2);
+        await klad.addInKladovka(coll, item3);
+        await klad.addInKladovka(coll, item4);
         await klad.deleteAllFromKladovka(coll);
         let all = await klad.getAllFromKladovka(coll);
         assert(all.length == 0);
@@ -69,10 +78,10 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 100 };
         let item4 = { type: 'sword', dps: 300 };
-        await klad.placeInKladovka(coll, item1);
-        await klad.placeInKladovka(coll, item2);
-        await klad.placeInKladovka(coll, item3);
-        await klad.placeInKladovka(coll, item4);
+        await klad.addInKladovka(coll, item1);
+        await klad.addInKladovka(coll, item2);
+        await klad.addInKladovka(coll, item3);
+        await klad.addInKladovka(coll, item4);
         await klad.deleteAllByPropFromKladovka(coll);
         let all = await klad.getAllFromKladovka(coll);
         assert(all.length == 0);
@@ -83,10 +92,10 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 300 };
         let item4 = { type: 'sword', dps: 50 };
-        await klad.placeInKladovka(coll, item1);
-        await klad.placeInKladovka(coll, item2);
-        await klad.placeInKladovka(coll, item3);
-        await klad.placeInKladovka(coll, item4);
+        await klad.addInKladovka(coll, item1);
+        await klad.addInKladovka(coll, item2);
+        await klad.addInKladovka(coll, item3);
+        await klad.addInKladovka(coll, item4);
         let worst = await klad.findWorstInKladovka(coll);
         assert(worst.type === item4.type);
         assert(worst.dps === item4.dps);
@@ -94,7 +103,7 @@ describe('Тест для кладовки', function () {
 
     it('should replace item', async function () {
         let item = { dps: 100, type: 'axe' };
-        let id = await klad.placeInKladovka(coll, item);
+        let id = await klad.addInKladovka(coll, item);
         item.dps = 300;
         item.type = 'mace';
         let repRes = await klad.replaceInKladovka(coll, id, item);
@@ -115,7 +124,7 @@ describe('Тест для кладовки', function () {
 
     it('should reset item', async function () {
         let item = { dps: 100, type: 'axe' };
-        let id = await klad.placeInKladovka(coll, item);
+        let id = await klad.addInKladovka(coll, item);
         item.type = '';
         item.dps = 0;
         let repRes = await klad.replaceInKladovka(coll, id, item);
@@ -130,17 +139,17 @@ describe('Тест для кладовки', function () {
         let item2 = { type: 'axe', dps: 200 };
         let item3 = { type: 'mace', dps: 300 };
         let item4 = { type: 'sword', dps: 50 };
-        await klad.placeInKladovka(coll, item1);
-        await klad.placeInKladovka(coll, item2);
-        await klad.placeInKladovka(coll, item3);
-        await klad.placeInKladovka(coll, item4);
+        await klad.addInKladovka(coll, item1);
+        await klad.addInKladovka(coll, item2);
+        await klad.addInKladovka(coll, item3);
+        await klad.addInKladovka(coll, item4);
         let res = await klad.getAllByPropFromKladovka(coll, 'type', 'axe');
         assert(res.length === 2);
     });
 
     it('should get item by example prop', async function () {
         let item = { name: 'item' };
-        await klad.placeInKladovka(coll, item);
+        await klad.addInKladovka(coll, item);
         let res = await klad.getByPropFromKladovka(coll, 'name', item.name);
         assert(res.name === item.name);
     });
@@ -177,14 +186,14 @@ describe('Тест для кладовки', function () {
         it('#да', async function () {
             let item1 = { type: 'axe', dps: 100 };
             let item2 = { type: 'axe', dps: 200 };
-            await klad.placeInKladovka(coll, item1);
+            await klad.addInKladovka(coll, item1);
             assert(await klad.isNeeded(coll, item2) === true);
         });
 
         it('#нет', async function () {
             let item1 = { type: 'axe', dps: 200 };
             let item2 = { type: 'axe', dps: 100 };
-            await klad.placeInKladovka(coll, item1);
+            await klad.addInKladovka(coll, item1);
             assert(await klad.isNeeded(coll, item2) === false);
         });
     });

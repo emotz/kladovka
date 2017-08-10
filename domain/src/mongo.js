@@ -35,6 +35,19 @@ async function addItem(coll, item) {
 }
 
 /**
+ * Сохраняет массив объектов в БД
+ * @param {Srting} coll - Коллекция
+ * @param {Array} array - Массив объектов
+ * @returns {Promise.<Number, Error>} Кол-во добавленных объектов
+ */
+async function addItemsArray(coll, arr) {
+    if (db === undefined) throw new Error('нет базы данных');
+    let collection = db.collection(coll);
+    let res = await collection.insertMany(arr);
+    return res.insertedCount;
+}
+
+/**
  * Получает из базы данных объект (не удалённый)
  * @param {Srting} coll - Коллекция
  * @param {String} id - Идентификатор искомого объекта
@@ -164,6 +177,7 @@ module.exports = {
     connect,
     disconnect,
     add: addItem,
+    addItemsArray,
     deleteById: deleteItemById,
     deleteAll: deleteAllItems,
     deleteAllByProp: deleteAllItemsByProp,

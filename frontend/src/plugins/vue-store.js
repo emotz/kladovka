@@ -6,7 +6,11 @@ let store = {
             critChance: 0,
             critDmg: 0
         },
-        signOut: false,
+        signIn: false,
+        signOut: false
+    },
+    setSignIn(newValue) {
+        this.state.signIn = newValue;
     },
     setSignOut(newValue) {
         this.state.signOut = newValue;

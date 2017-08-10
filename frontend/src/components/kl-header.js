@@ -14,6 +14,7 @@ export default {
     methods: {
         signIn: function (user) {
             this.user = user;
+            this.$store.setSignIn(true);
         },
         signOut: function () {
             localStorage.clear();

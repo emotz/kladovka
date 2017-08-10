@@ -42,7 +42,7 @@ app.post(API.ITEMS, async function (req, res, next) {
             let validationResult = validation.checkItem(item);
             if (validationResult.isValid) {
                 validationResult.item.user_id = user._id;
-                let added_id = await klad.placeInKladovka(COLLECTIONS.ITEMS, validationResult.item);
+                let added_id = await klad.addInKladovka(COLLECTIONS.ITEMS, validationResult.item);
                 res.header('Location', urlJoin(API.ITEMS, added_id));
                 res.status(201).send({ added_id });
             } else {
@@ -132,6 +132,36 @@ app.delete(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
     })(req, res, next);
 });
 
+app.post(urlJoin(API.ITEMS, 'collections'), async function (req, res, next) {
+    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+        if (err)
+            next(err);
+        else if (user === false) {
+            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
+            res.status(401).send(resBody);
+        }
+        else if (user === null) {
+            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
+            res.status(401).send(resBody);
+        }
+        else {
+            let collection = req.body;
+            let validationResult = validation.checkCollection(collection);
+            if (validationResult.isValid) {
+                validationResult.collection.map(item => {
+                    item.user_id = user._id;
+                    return item;
+                });
+                let inserted_count = await klad.addItemsInKladovka(COLLECTIONS.ITEMS, validationResult.collection);
+                res.status(201).send({ inserted_count });
+            } else {
+                let resBody = errors.makeValidationError(validationResult.errors);
+                res.status(400).send(resBody);
+            }
+        }
+    })(req, res, next);
+});
+
 app.post(API.CHARS, async function (req, res, next) {
     return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
         if (err)
@@ -149,7 +179,7 @@ app.post(API.CHARS, async function (req, res, next) {
             let validationResult = validation.checkChar(char);
             if (validationResult.isValid) {
                 validationResult.char.user_id = user._id;
-                let added_id = await klad.placeInKladovka(COLLECTIONS.CHARS, validationResult.char);
+                let added_id = await klad.addInKladovka(COLLECTIONS.CHARS, validationResult.char);
                 res.header('Location', urlJoin(API.CHARS, added_id));
                 res.status(201).send({ added_id });
             } else {
@@ -196,7 +226,7 @@ app.post(API.USERS, async function (req, res) {
         let verificationResult = await verification.checkEmail(user.email);
         if (verificationResult.isVerify) {
             let readyUser = User.readyToSave(validationResult.user);
-            let added_id = await klad.placeInKladovka(COLLECTIONS.USERS, readyUser);
+            let added_id = await klad.addInKladovka(COLLECTIONS.USERS, readyUser);
             res.header('Location', urlJoin(API.USERS, added_id));
             res.status(201).send({ added_id });
         } else {

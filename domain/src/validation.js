@@ -200,26 +200,6 @@ function filterNotString(item, props, excludes) {
         .filter(prop => (typeof item[prop] !== 'string' || item[prop].length === 0));
 }
 
-let collection = [
-                {
-                    enot: true,
-                    type: 'axe',
-                    minDmg: 2,
-                    maxDmg: 3,
-                    critChance: 20,
-                    critDmg: 60
-                }, {
-                    enot: false,
-                    type: 'mace',
-                    minDmg: 20,
-                    maxDmg: 30,
-                    critChance: 0,
-                    critDmg: 0
-                }
-            ];
-            let validationResult = checkCollection(collection);
-            console.log(validationResult)
-
 module.exports = {
     checkItem,
     checkCollection,

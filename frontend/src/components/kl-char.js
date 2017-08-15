@@ -3,8 +3,8 @@ import { char } from './kl-char.method.js';
 export default {
     data: function () {
         return {
-            _id: undefined,
             char: {
+                _id: undefined,
                 atkSpd: 0,
                 dmg: 0,
                 critChance: 0,

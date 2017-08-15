@@ -5,9 +5,32 @@ content-type: application/json
 
 {
     "type": "mace",
-    "dps": 333,
-    "hui": 25
+    "minDmg": 3,
+    "maxDmg": 25
 }
+
+### добавить коллекцию предметов
+
+POST http://localhost:8080/api/items/collections
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OThiNTk4NTFlM2M1NjEzNDA2ZjFkYTgiLCJ1c2VyIjoiZW5vdCIsImVtYWlsIjoiZW5vdE1haWwiLCJpYXQiOjE1MDIzNDkzOTF9.cWvnLaKZDeYg0p0k_kzx_7Ilp_uaMqgGI7TtmceKNF8
+content-type: application/json
+
+[
+    {
+        "type": "mace",
+        "minDmg": 3,
+        "maxDmg": 25,
+        "critDmg": 0,
+        "critChance": 0
+    },
+    {
+        "type": "axe",
+        "minDmg": 1,
+        "maxDmg": 2,
+        "critDmg": 0,
+        "critChance": 0
+    }
+]
 
 ### получить предмет из кладовки
 
@@ -61,4 +84,5 @@ content-type: application/json
 ### hui
 
 GET http://localhost:8080/api/test
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OTgzNmJiMmExYzU5MzE5NDg5YzUxNTAiLCJ1c2VyIjoiZW5vdCIsImVtYWlsIjoiZW5vdE1haWwiLCJpYXQiOjE1MDIwMDU5NDZ9.9jWgQqmb19VXEnI844fWlnArTDgXb2OjeWNnsKQwF5
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OThiNTk4NTFlM2M1NjEzNDA2ZjFkYTgiLCJ1c2VyIjoiZW5vdCIsImVtYWlsIjoiZW5vdE1haWwiLCJpYXQiOjE1MDIzNDkzOTF9.cWvnLaKZDeYg0p0k_kzx_7Ilp_uaMqgGI7TtmceKNF8
+

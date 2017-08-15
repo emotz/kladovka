@@ -63,22 +63,30 @@ export default {
         },
         '$store.state.signIn': function (newVal) {
             if (newVal === true) {
-                this.$http.post(urlJoin(API.ITEMS, 'collections'), this.items).then(response => {
-                    for (let id in localStorage) {
-                        if (id === 'user' || id === 'token') continue;
-                        localStorage.removeItem(id);
-                    }
-                    this.$store.setSignIn(false);
-                }).catch(err => {
-                    if (err.status === 400 && err.body.code === 1) {
-                        let renderedErrors = renderValidationError(err.body.errors);
-                        renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                    } else if (err.status === 401 && err.body.code === 3) {
-                        let renderedErrors = renderValidationError(err.body.errors);
-                        renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                    } else
-                        toastr.error(this.$t('errors.default'));
-                });
+                this.$http.post(API.CHARS, this.$store.state.char)
+                    .then(() => {
+                        localStorage.removeItem('char');
+                        if (this.items.length) {
+                            this.$http.post(urlJoin(API.ITEMS, 'collections'), this.items)
+                                .then(() => {
+                                    for (let id in localStorage) {
+                                        if (id === 'user' || id === 'token') continue;
+                                        localStorage.removeItem(id);
+                                    }
+                                });
+                        }
+                        this.$store.setSignIn(false);
+                    })
+                    .catch(err => {
+                        if (err.status === 400 && err.body.code === 1) {
+                            let renderedErrors = renderValidationError(err.body.errors);
+                            renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                        } else if (err.status === 401 && err.body.code === 3) {
+                            let renderedErrors = renderValidationError(err.body.errors);
+                            renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                        } else
+                            toastr.error(this.$t('errors.default'));
+                    });
             }
         }
     },

@@ -1,6 +1,7 @@
 let store = {
     state: {
         char: {
+            _id: undefined,
             atkSpd: 0,
             dmg: 0,
             critChance: 0,

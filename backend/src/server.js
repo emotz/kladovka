@@ -219,6 +219,25 @@ app.put(urlJoin(API.CHARS, ':id'), async function (req, res, next) {
     })(req, res, next);
 });
 
+app.get(API.CHARS, async function (req, res, next) {
+    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+        if (err)
+            next(err);
+        else if (user === false) {
+            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
+            res.status(401).send(resBody);
+        }
+        else if (user === null) {
+            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
+            res.status(401).send(resBody);
+        }
+        else {
+            let char = await klad.getByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
+            res.status(200).send(char);
+        }
+    })(req, res, next);
+});
+
 app.post(API.USERS, async function (req, res) {
     let user = req.body;
     let validationResult = await validation.checkSignUp(user);

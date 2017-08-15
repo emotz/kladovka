@@ -25,7 +25,8 @@ export default {
                     let user = _.upperFirst(response.body.user);
                     localStorage.setItem('user', user);
                     this.$emit('signIn', user);
-                }).catch(err => {
+                })
+                .catch(err => {
                     if (err.status === 400 && err.body.code === 1) {
                         let renderedErrors = renderValidationError(err.body.errors);
                         renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));

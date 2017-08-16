@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import klSignIn from './kl-sign-in.vue';
 import klSignUp from './kl-sign-up.vue';
 
@@ -12,7 +13,10 @@ export default {
         'kl-sign-up': klSignUp
     },
     methods: {
-        signIn: function (user) {
+        signIn: function (body) {
+            localStorage.setItem('token', body.accessToken);
+            let user = _.upperFirst(body.user);
+            localStorage.setItem('user', user);
             this.user = user;
             this.$store.setSignIn(true);
         },

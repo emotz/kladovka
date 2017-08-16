@@ -1,5 +1,4 @@
 import API from 'api.json';
-import _ from 'lodash';
 import { renderValidationError } from '../services/render';
 
 export default {
@@ -21,10 +20,7 @@ export default {
                 .then(() =>
                     this.$http.post(API.TOKENS, { email: this.email, password: this.password }))
                 .then(response => {
-                    localStorage.setItem('token', response.body.accessToken);
-                    let user = _.upperFirst(response.body.user);
-                    localStorage.setItem('user', user);
-                    this.$emit('signIn', user);
+                    this.$emit('signIn', response.body);
                 })
                 .catch(err => {
                     if (err.status === 400 && err.body.code === 1) {

@@ -157,6 +157,7 @@ async function getNotDeletedItemByProp(coll, prop, value) {
 async function replaceItemById(coll, id, item) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
+    delete item._id;
     let res = await collection.updateOne({ _id: ObjectID(id) }, { $set: item });
     return !!res.result.n;
 }

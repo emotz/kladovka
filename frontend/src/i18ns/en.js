@@ -54,11 +54,35 @@ export default {
         mustBeLessThan: "{minDmg} must be less than {maxDmg}",
         mustBePositive: "{allProps} must be positive",
         notValidType: "{allProps} not valid type",
-        notFound: "Resource is not found"
+        notFound: "Resource is not found",
+        emailAlreadyExists: "Email already exists",
+        invalidToken: "Invalid token",
+        emailOrPasswordInvalid: "Email or password invalid"
     },
     sort: {
         title: "Sort by",
         dpsAsc: "dps ascent",
         dpsDesc: "dps descent"
+    },
+    header: {
+        signUp: "Sign up",
+        signIn: "Sign in",
+        signOut: "Sign out",
+        hello: "Hello, "
+    },
+    signIn:{
+        title:"Sign in to Kladovka",
+        email:"Email address:",
+        password: "Password:",
+        buttonCancel: "Cancel",
+        buttonOk: "Sign in",
+    },
+    signUp:{
+        title:"Sign up for Kladovka",
+        email:"Email address:",
+        name: "User name:",
+        password: "Password:",
+        buttonCancel: "Cancel",
+        buttonOk: "Sign up",
     }
 };

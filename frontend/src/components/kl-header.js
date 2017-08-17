@@ -23,6 +23,7 @@ export default {
         signOut: function () {
             localStorage.clear();
             this.user = '';
+            this.$store.clearChar();
             this.$store.state.signOut = true;
         }
     }

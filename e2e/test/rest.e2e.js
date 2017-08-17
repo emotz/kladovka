@@ -2,7 +2,7 @@ const assert = require('assert');
 const expect = require('chai').expect;
 const axios = require('axios');
 
-/* describe('e2e test', function () {
+describe('e2e test', function () {
 
     describe('for user', function () {
 
@@ -148,17 +148,4 @@ const axios = require('axios');
             });
         });
     });
-}); */
-
-async function test() {
-    let user = { email: "enotMail", password: "enotPass" };
-    let res = await axios.post("http://localhost:8080/api/tokens", user);
-    console.log(res.data);
-    /*  let re = await axios.get("http://localhost:8080/api/itms",
-        { headers: { 'authorization': 'Bearer '+res.data.access_token } });
-    console.log(re.data); */
-}
-test().catch(err => {
-    console.log(err.response.status);
-    console.log(err.response.data);
 });

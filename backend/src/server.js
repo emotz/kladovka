@@ -233,7 +233,10 @@ app.get(API.CHARS, async function (req, res, next) {
         }
         else {
             let char = await klad.getByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
-            res.status(200).send(char);
+            if (char === null)
+                res.sendStatus(204);
+            else
+                res.status(200).send(char);
         }
     })(req, res, next);
 });
@@ -289,25 +292,7 @@ app.post(API.TOKENS, async function (req, res, next) {
     }
 });
 
-app.get('/api/test', function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else
-            res.status(200).send('ok!');
-    })(req, res, next);
-});
-
 app.use(function (err, req, res, next) {
-    console.log(err);
     res.sendStatus(500);
 });
 

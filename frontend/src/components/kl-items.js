@@ -1,5 +1,6 @@
 import API from 'api.json';
 import urlJoin from 'url-join';
+import { clone } from 'domain/utility';
 import { renderValidationError } from '../services/render';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
@@ -61,32 +62,38 @@ export default {
                 this.$store.setSignOut(false);
             }
         },
-        '$store.state.signIn': function (newVal) {
+        '$store.state.signIn': async function (newVal) {
             if (newVal === true) {
-                this.$http.post(API.CHARS, this.$store.state.char)
-                    .then(() => {
-                        localStorage.removeItem('char');
-                        if (this.items.length) {
-                            this.$http.post(urlJoin(API.ITEMS, 'collections'), this.items)
-                                .then(() => {
-                                    for (let id in localStorage) {
-                                        if (id === 'user' || id === 'token') continue;
-                                        localStorage.removeItem(id);
-                                    }
-                                });
-                        }
-                        this.$store.setSignIn(false);
-                    })
-                    .catch(err => {
-                        if (err.status === 400 && err.body.code === 1) {
-                            let renderedErrors = renderValidationError(err.body.errors);
-                            renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                        } else if (err.status === 401 && err.body.code === 3) {
-                            let renderedErrors = renderValidationError(err.body.errors);
-                            renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                try {
+                    let _id,
+                        char;
+                    let resGetChar = await this.$http.get(API.CHARS);
+                    if (resGetChar.status === 204) {
+                        char = clone(this.$store.state.char);
+                        let resPostChar = await this.$http.post(API.CHARS, char);
+                        _id = resPostChar.body.added_id;
+                        char._id = _id;
+                    }
+                    else if (resGetChar.status === 200) {
+                        if (localStorage.getItem('char')) {
+                            _id = resGetChar.body._id;
+                            char = clone(this.$store.state.char);
+                            char._id = _id;
+                            await this.$http.put(urlJoin(API.CHARS, _id), char);
                         } else
-                            toastr.error(this.$t('errors.default'));
-                    });
+                            char = resGetChar.body;
+                    }
+                    await items.remote.charAndItems(this, char);
+                } catch (err) {
+                    if (err.status === 400 && err.body.code === 1) {
+                        let renderedErrors = renderValidationError(err.body.errors);
+                        renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                    } else if (err.status === 401 && err.body.code === 3) {
+                        let renderedErrors = renderValidationError(err.body.errors);
+                        renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                    } else
+                        toastr.error(this.$t('errors.default'));
+                }
             }
         }
     },

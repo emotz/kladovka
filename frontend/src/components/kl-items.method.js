@@ -14,7 +14,7 @@ items.remote.mounted = function (component) {
 
 items.local.mounted = function (component) {
     for (let id in localStorage) {
-        if (id === 'user' || id === 'token') continue;
+        if (id === 'user' || id === 'token' || id === 'char') continue;
         let item = localStorage.getItem(id);
         component.addItem(JSON.parse(item));
     }
@@ -29,4 +29,25 @@ items.remote.deleteItem = function (component, id, index) {
 items.local.deleteItem = function (component, id, index) {
     localStorage.removeItem(id);
     component.items.splice(index, 1);
+};
+
+items.remote.charAndItems = async function (component, char) {
+    localStorage.removeItem('char');
+    component.$store.setChar(char);
+    if (component.items.length) {
+        let items = [];
+        for (let id in localStorage) {
+            if (id === 'user' || id === 'token') continue;
+            let item = localStorage.getItem(id);
+            items.push(JSON.parse(item));
+        }
+        await component.$http.post(urlJoin(API.ITEMS, 'collections'), items);
+        for (let id in localStorage) {
+            if (id === 'user' || id === 'token') continue;
+            localStorage.removeItem(id);
+        }
+        component.items = [];
+    }
+    items.remote.mounted(component);
+    component.$store.setSignIn(false);
 };

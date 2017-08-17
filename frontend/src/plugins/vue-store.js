@@ -1,3 +1,5 @@
+import { clone } from 'domain/utility';
+
 let store = {
     state: {
         char: {
@@ -17,10 +19,16 @@ let store = {
         this.state.signOut = newValue;
     },
     setChar(newValue) {
-        this.state.char = newValue;
+        this.state.char = clone(newValue);
     },
     clearChar() {
-        this.state.char = {};
+        this.state.char = {
+            _id: undefined,
+            atkSpd: 0,
+            dmg: 0,
+            critChance: 0,
+            critDmg: 0
+        };
     }
 };
 export default {

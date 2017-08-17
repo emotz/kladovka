@@ -1,6 +1,5 @@
 import API from 'api.json';
 import urlJoin from 'url-join';
-import { clone } from 'domain/utility';
 import { checkChar } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
 import { renderValidationError } from '../services/render';
@@ -23,7 +22,7 @@ char.remote.replaceChar = function (component) {
                     toastr.error(component.$t('errors.default'));
             });
     } else {
-        component.$http.put(urlJoin(API.CHARS, component._id), char)
+        component.$http.put(urlJoin(API.CHARS, char._id), char)
             .then(response => {
                 component.$store.setChar(char);
             })
@@ -54,12 +53,12 @@ char.local.replaceChar = function (component) {
 
 char.remote.mounted = function (component) {
     component.$http.get(API.CHARS).then(response => {
-        component.char = clone(response.body.char);
+        component.$store.setChar(response.body);
     }).catch(err => toastr.error(component.$t('errors.default')));
 };
 
 char.local.mounted = function (component) {
     let char = localStorage.getItem('char');
     if (char != null)
-        component.char = JSON.parse(char);
+        component.$store.setChar(JSON.parse(char));
 };

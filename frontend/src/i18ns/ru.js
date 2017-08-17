@@ -26,7 +26,7 @@ export default {
         "spear": "копьё",
         "sword": "меч",
         "axe": "топор",
-        "fistWeapon": "кистевое оужие",
+        "fistWeapon": "кистевое оружие",
         "flail": "кистень",
         "mightyWeapon": "мощное оружие",
         "ceremonialKnife": "церемониальный нож"
@@ -47,7 +47,7 @@ export default {
     },
     deleteAll: {
         title: "Удалить все предметы",
-        content: "Вы увеверны что хотите удалить все предметы из Kladovka?",
+        content: "Вы уверены что хотите удалить все предметы из Kladovka?",
         buttonCancel: "Отмена",
         buttonOk: "Удалить",
     },

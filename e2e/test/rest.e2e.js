@@ -204,4 +204,49 @@ describe('e2e tests', function () {
             assert(false);
         });
     });
+
+    describe('for chars', function () {
+
+        beforeEach(async function () {
+            await axios.delete("http://localhost:8080/api/chars", {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+        });
+
+        it('should add char', async function () {
+            let char = {
+                dmg: 10,
+                atkSpd: 2,
+                critChance: 30,
+                critDmg: 50
+            };
+            let res = await axios.post("http://localhost:8080/api/chars", char, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            assert(res.status === 201);
+        });
+
+        it('should update existing char', async function () {
+            let char = {
+                dmg: 10,
+                atkSpd: 2,
+                critChance: 30,
+                critDmg: 50
+            };
+            let resPost = await axios.post("http://localhost:8080/api/chars", char, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            let id = resPost.data.added_id;
+            char.dmg = 100500;
+            let resPut = await axios.put(urlJoin("http://localhost:8080/api/chars", id), char, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            assert(resPut.status === 204);
+            let resGet = await axios.get("http://localhost:8080/api/chars", {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            assert(resGet.data.dmg === 100500);
+        });
+
+    });
 });

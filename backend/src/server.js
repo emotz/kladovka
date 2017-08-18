@@ -53,6 +53,36 @@ app.post(API.ITEMS, async function (req, res, next) {
     })(req, res, next);
 });
 
+app.post(urlJoin(API.ITEMS, 'collections'), async function (req, res, next) {
+    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+        if (err)
+            next(err);
+        else if (user === false) {
+            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
+            res.status(401).send(resBody);
+        }
+        else if (user === null) {
+            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
+            res.status(401).send(resBody);
+        }
+        else {
+            let collection = req.body;
+            let validationResult = validation.checkCollection(collection);
+            if (validationResult.isValid) {
+                validationResult.collection.map(item => {
+                    item.user_id = user._id;
+                    return item;
+                });
+                let inserted_count = await klad.addItemsInKladovka(COLLECTIONS.ITEMS, validationResult.collection);
+                res.status(201).send({ inserted_count });
+            } else {
+                let resBody = errors.makeValidationError(validationResult.errors);
+                res.status(400).send(resBody);
+            }
+        }
+    })(req, res, next);
+});
+
 app.get(API.ITEMS, async function (req, res, next) {
     return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
         if (err)
@@ -132,36 +162,6 @@ app.delete(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
     })(req, res, next);
 });
 
-app.post(urlJoin(API.ITEMS, 'collections'), async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let collection = req.body;
-            let validationResult = validation.checkCollection(collection);
-            if (validationResult.isValid) {
-                validationResult.collection.map(item => {
-                    item.user_id = user._id;
-                    return item;
-                });
-                let inserted_count = await klad.addItemsInKladovka(COLLECTIONS.ITEMS, validationResult.collection);
-                res.status(201).send({ inserted_count });
-            } else {
-                let resBody = errors.makeValidationError(validationResult.errors);
-                res.status(400).send(resBody);
-            }
-        }
-    })(req, res, next);
-});
-
 app.post(API.CHARS, async function (req, res, next) {
     return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
         if (err)
@@ -237,6 +237,25 @@ app.get(API.CHARS, async function (req, res, next) {
                 res.sendStatus(204);
             else
                 res.status(200).send(char);
+        }
+    })(req, res, next);
+});
+
+app.delete(API.CHARS, async function (req, res, next) {
+    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+        if (err)
+            next(err);
+        else if (user === false) {
+            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
+            res.status(401).send(resBody);
+        }
+        else if (user === null) {
+            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
+            res.status(401).send(resBody);
+        }
+        else {
+            let deleted_count = await klad.deleteAllByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
+            res.status(200).send({ deleted_count });
         }
     })(req, res, next);
 });

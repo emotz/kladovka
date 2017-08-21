@@ -25,8 +25,8 @@ export default {
 
         },
         dmgControl: function () {
-            /*  if (this.item.minDmg < 1) this.item.minDmg = 1;
-             if (this.item.minDmg > this.item.maxDmg) this.item.maxDmg = this.item.minDmg; */
+             if (this.item.minDmg < 1) this.item.minDmg = 1;
+             if (this.item.minDmg > this.item.maxDmg) this.item.maxDmg = this.item.minDmg;
         },
         critChanceControl: function () {
             if (this.item.critChance < 0) this.item.critChance = 0;

@@ -1,6 +1,5 @@
 require('express-async-errors');
 const logger = require('./winston.js');
-const fs = require('fs');
 const CONFIG = require('../../config/config.json');
 const API = require('../../config/api.json');
 const express = require('express');
@@ -12,15 +11,11 @@ const errors = require('../../domain/src/errors');
 const validation = require('../../domain/src/validation');
 let app = express();
 
-if (!fs.existsSync(__dirname + '/../../logs'))
-    fs.mkdirSync('../../logs');
-
 const Collections = {
     Items: 'items',
     Chars: 'chars'
 };
 let db;
-
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));

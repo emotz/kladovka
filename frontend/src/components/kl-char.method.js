@@ -2,7 +2,7 @@ import API from 'api.json';
 import urlJoin from 'url-join';
 import { checkChar } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
-import { renderValidationError } from '../services/render';
+import { translateError } from '../services/render';
 import { isAuthenticated } from '../services/auth';
 
 export function callMethod(component, cb) {
@@ -32,10 +32,12 @@ remote.replaceChar = function (component) {
                 })
                 .catch(err => {
                     if (err.status === 400 && err.body.code === 1) {
-                        let renderedErrors = renderValidationError(err.body.errors);
-                        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
-                    } else
-                        toastr.error(component.$t('errors.default'));
+                        err.body.errors.forEach(error =>
+                            toastr.error(translateError(this, error)));
+                    } else if (err.status === 404)
+                        toastr.error(this.$t('errors.notFound'));
+                    else
+                        toastr.error(this.$t('errors.default'));
                 });
         } else {
             component.$http.put(urlJoin(API.CHARS, char._id), char)
@@ -44,18 +46,18 @@ remote.replaceChar = function (component) {
                 })
                 .catch(err => {
                     if (err.status === 400 && err.body.code === 1) {
-                        let renderedErrors = renderValidationError(err.body.errors);
-                        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+                        err.body.errors.forEach(error =>
+                            toastr.error(translateError(this, error)));
                     } else if (err.status === 404)
-                        toastr.error(component.$t('errors.notFound'));
+                        toastr.error(this.$t('errors.notFound'));
                     else
-                        toastr.error(component.$t('errors.default'));
+                        toastr.error(this.$t('errors.default'));
                 });
         }
     } else {
         let res = makeValidationError(validationResult.errors);
-        let renderedErrors = renderValidationError(res.errors);
-        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+        res.errors.forEach(error =>
+            toastr.error(translateError(this, error)));
     }
 };
 
@@ -67,8 +69,8 @@ local.replaceChar = function (component) {
         component.$store.setChar(char);
     } else {
         let res = makeValidationError(validationResult.errors);
-        let renderedErrors = renderValidationError(res.errors);
-        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+        res.errors.forEach(error =>
+            toastr.error(translateError(this, error)));
     }
 };
 

@@ -1,35 +1,22 @@
-import i18n from '../plugins/i18n';
-export function renderValidationError(errors) {
-    let res = [];
-    let count = 0;
-    errors.forEach(error => {
-        let id = error.id,
-            props = {};
-        if (id === 'mustBeLessThan') {
-            props = {
-                minDmg: i18n.t('item.' + error.properties[0]),
-                maxDmg: i18n.t('item.' + error.properties[1])
-            };
-            count = 2;
-        }
-        else {
-            props.allProps = error.properties
-                .map(prop => {
-                    count++;
-                    return i18n.t('item.' + prop);
-                })
-                .join(', ');
-        }
-        res.push({ id, props, count });
-    });
-    return res;
+export function translateError(component, error) {
+    if (error.id === 'mustBeLessThan') {
+        let translatedProps = {
+            minDmg: component.$t('item.' + error.properties[0]),
+            maxDmg: component.$t('item.' + error.properties[1])
+        };
+        return component.$t('errors.' + error.id, translatedProps);
+    } else {
+        let single = (Object.keys(error.properties).length > 1) ? false : true;
+        let translatedProps = error.properties.map(prop => component.$t('item.' + prop)).join(', ');
+        return translatedProps + ' ' + component.$tc('errors.' + error.id, single);
+    }
 }
 
-export function transTypeList(typeList) {
+export function translateTypeList(component, typeList) {
     return typeList.map(function (prop) {
         return {
             value: prop,
-            trans: i18n.t('types.' + prop)
+            trans: component.$t('types.' + prop)
         };
     });
 }

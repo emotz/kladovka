@@ -34,6 +34,7 @@ function makeAuthorizationError(errors) {
 }
 
 module.exports = {
+    ERROR_CODES,
     makeValidationError,
     makeVerificationError,
     makeAuthenticationError,

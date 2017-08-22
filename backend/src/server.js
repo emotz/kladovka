@@ -26,240 +26,122 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 app.use(passport.initialize());
 
-app.post(API.ITEMS, async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
+function authMiddle(req, res, next) {
+    passport.authenticate('jwt', handleAuth)(req, res, next);
+
+    function handleAuth(err, user, info) {
+        if (err) return next(err);
+        if (user === false && err === null) {
+            return next({
+                code: errors.ERROR_CODES.AUTHORIZATION
+            });
         }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let item = req.body;
-            let validationResult = validation.checkItem(item);
-            if (validationResult.isValid) {
-                validationResult.item.user_id = user._id;
-                let added_id = await klad.addInKladovka(COLLECTIONS.ITEMS, validationResult.item);
-                res.header('Location', urlJoin(API.ITEMS, added_id));
-                res.status(201).send({ added_id });
-            } else {
-                let resBody = errors.makeValidationError(validationResult.errors);
-                res.status(400).send(resBody);
-            }
-        }
-    })(req, res, next);
+        req.user = user;
+        return next();
+    }
+}
+
+app.post(API.ITEMS, authMiddle, async function (req, res, next) {
+    const user = req.user;
+    let item = req.body;
+    let validationResult = validation.checkItem(item);
+    if (validationResult.isValid) {
+        validationResult.item.user_id = user._id;
+        let added_id = await klad.addInKladovka(COLLECTIONS.ITEMS, validationResult.item);
+        res.header('Location', urlJoin(API.ITEMS, added_id));
+        res.status(201).send({ added_id });
+    } else {
+        let resBody = errors.makeValidationError(validationResult.errors);
+        res.status(400).send(resBody);
+    }
 });
 
-
-app.post(API["ITEMS-COLLECTION"], async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let collection = req.body;
-            let validationResult = validation.checkCollection(collection);
-            if (validationResult.isValid) {
-                validationResult.collection.map(item => {
-                    item.user_id = user._id;
-                    return item;
-                });
-                let inserted_count = await klad.addItemsInKladovka(COLLECTIONS.ITEMS, validationResult.collection);
-                res.status(201).send({ inserted_count });
-            } else {
-                let resBody = errors.makeValidationError(validationResult.errors);
-                res.status(400).send(resBody);
-            }
-        }
-    })(req, res, next);
+app.post(API["ITEMS-COLLECTION"], authMiddle, async function (req, res, next) {
+    const user = req.user;
+    let collection = req.body;
+    let validationResult = validation.checkCollection(collection);
+    if (validationResult.isValid) {
+        validationResult.collection.map(item => {
+            item.user_id = user._id;
+            return item;
+        });
+        let inserted_count = await klad.addItemsInKladovka(COLLECTIONS.ITEMS, validationResult.collection);
+        res.status(201).send({ inserted_count });
+    } else {
+        let resBody = errors.makeValidationError(validationResult.errors);
+        res.status(400).send(resBody);
+    }
 });
 
-app.get(API.ITEMS, async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let all = await klad.getAllByPropFromKladovka(COLLECTIONS.ITEMS, 'user_id', user._id);
-            res.status(200).send(all);
-        }
-    })(req, res, next);
+app.get(API.ITEMS, authMiddle, async function (req, res, next) {
+    const user = req.user;
+    let all = await klad.getAllByPropFromKladovka(COLLECTIONS.ITEMS, 'user_id', user._id);
+    res.status(200).send(all);
 });
 
-app.get(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let item = await klad.getFromKladovka(COLLECTIONS.ITEMS, req.params.id);
-            if (item === null)
-                res.sendStatus(404);
-            else
-                res.status(200).send(item);
-        }
-    })(req, res, next);
+app.get(urlJoin(API.ITEMS, ':id'), authMiddle, async function (req, res, next) {
+    let item = await klad.getFromKladovka(COLLECTIONS.ITEMS, req.params.id);
+    if (item === null)
+        res.sendStatus(404);
+    else
+        res.status(200).send(item);
 });
 
-app.delete(API.ITEMS, async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let deleted_count = await klad.deleteAllByPropFromKladovka(COLLECTIONS.ITEMS, 'user_id', user._id);
-            res.status(200).send({ deleted_count });
-        }
-    })(req, res, next);
+app.delete(API.ITEMS, authMiddle, async function (req, res, next) {
+    const user = req.user;
+    let deleted_count = await klad.deleteAllByPropFromKladovka(COLLECTIONS.ITEMS, 'user_id', user._id);
+    res.status(200).send({ deleted_count });
 });
 
-app.delete(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            await klad.deleteFromKladovka(COLLECTIONS.ITEMS, req.params.id);
+app.delete(urlJoin(API.ITEMS, ':id'), authMiddle, async function (req, res, next) {
+    await klad.deleteFromKladovka(COLLECTIONS.ITEMS, req.params.id);
+    res.sendStatus(204);
+});
+
+app.post(API.CHARS, authMiddle, async function (req, res, next) {
+    const user = req.user;
+    const char = req.body;
+    let validationResult = validation.checkChar(char);
+    if (validationResult.isValid) {
+        validationResult.char.user_id = user._id;
+        let added_id = await klad.addInKladovka(COLLECTIONS.CHARS, validationResult.char);
+        res.header('Location', urlJoin(API.CHARS, added_id));
+        res.status(201).send({ added_id });
+    } else {
+        let resBody = errors.makeValidationError(validationResult.errors);
+        res.status(400).send(resBody);
+    }
+});
+
+app.put(urlJoin(API.CHARS, ':id'), authMiddle, async function (req, res, next) {
+    const user = req.user;
+    const char = req.body;
+    let validationResult = validation.checkChar(char);
+    if (validationResult.isValid) {
+        validationResult.char.user_id = user._id;
+        if (await klad.replaceInKladovka(COLLECTIONS.CHARS, req.params.id, validationResult.char))
             res.sendStatus(204);
-        }
-    })(req, res, next);
+        else
+            res.sendStatus(404);
+    } else {
+        let resBody = errors.makeValidationError(validationResult.errors);
+        res.status(400).send(resBody);
+    }
 });
 
-app.post(API.CHARS, async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let char = req.body;
-            let validationResult = validation.checkChar(char);
-            if (validationResult.isValid) {
-                validationResult.char.user_id = user._id;
-                let added_id = await klad.addInKladovka(COLLECTIONS.CHARS, validationResult.char);
-                res.header('Location', urlJoin(API.CHARS, added_id));
-                res.status(201).send({ added_id });
-            } else {
-                let resBody = errors.makeValidationError(validationResult.errors);
-                res.status(400).send(resBody);
-            }
-        }
-    })(req, res, next);
+app.get(API.CHARS, authMiddle, async function (req, res, next) {
+    const user = req.user;
+    let char = await klad.getByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
+    if (char === null)
+        res.sendStatus(204);
+    else
+        res.status(200).send(char);
 });
 
-app.put(urlJoin(API.CHARS, ':id'), async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let char = req.body;
-            let validationResult = validation.checkChar(char);
-            if (validationResult.isValid) {
-                validationResult.char.user_id = user._id;
-                if (await klad.replaceInKladovka(COLLECTIONS.CHARS, req.params.id, validationResult.char))
-                    res.sendStatus(204);
-                else
-                    res.sendStatus(404);
-            } else {
-                let resBody = errors.makeValidationError(validationResult.errors);
-                res.status(400).send(resBody);
-            }
-        }
-    })(req, res, next);
-});
-
-app.get(API.CHARS, async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let char = await klad.getByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
-            if (char === null)
-                res.sendStatus(204);
-            else
-                res.status(200).send(char);
-        }
-    })(req, res, next);
-});
-
-app.delete(API.CHARS, async function (req, res, next) {
-    return passport.authenticate('jwt', async function (err, user) {
-        if (err)
-            next(err);
-        else if (user === false) {
-            let resBody = errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]);
-            res.status(401).send(resBody);
-        }
-        else if (user === null) {
-            let resBody = errors.makeAuthorizationError([{ id: "notFound", properties: ["_id"] }]);
-            res.status(401).send(resBody);
-        }
-        else {
-            let deleted_count = await klad.deleteAllByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
-            res.status(200).send({ deleted_count });
-        }
-    })(req, res, next);
+app.delete(API.CHARS, authMiddle, async function (req, res, next) {
+    const user = req.user;
+    let deleted_count = await klad.deleteAllByPropFromKladovka(COLLECTIONS.CHARS, 'user_id', user._id);
+    res.status(200).send({ deleted_count });
 });
 
 app.post(API.USERS, async function (req, res) {

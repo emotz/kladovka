@@ -17,10 +17,6 @@ const FIELDS = {
     NAME: 'name',
     PASSWORD: 'password'
 };
-/*
-passport.serializeUser(function(user, done) {
-    done(null, user);
-}); */
 
 passport.use(new LocalStrategy(
     {

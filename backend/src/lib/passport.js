@@ -42,7 +42,8 @@ passport.use(new LocalStrategy(
 passport.use(new JwtStrategy(
     {
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
-        secretOrKey: CONFIG.JWT_SECRET
+        secretOrKey: CONFIG.JWT_SECRET,
+        session: false
     },
     async function (payload, done) {
         let user,

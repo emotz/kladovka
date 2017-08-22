@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
 app.post(API.ITEMS, async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -54,7 +54,7 @@ app.post(API.ITEMS, async function (req, res, next) {
 });
 
 app.post(urlJoin(API.ITEMS, 'collections'), async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -84,7 +84,7 @@ app.post(urlJoin(API.ITEMS, 'collections'), async function (req, res, next) {
 });
 
 app.get(API.ITEMS, async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -103,7 +103,7 @@ app.get(API.ITEMS, async function (req, res, next) {
 });
 
 app.get(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -125,7 +125,7 @@ app.get(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
 });
 
 app.delete(API.ITEMS, async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -144,7 +144,7 @@ app.delete(API.ITEMS, async function (req, res, next) {
 });
 
 app.delete(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -163,7 +163,7 @@ app.delete(urlJoin(API.ITEMS, ':id'), async function (req, res, next) {
 });
 
 app.post(API.CHARS, async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -191,7 +191,7 @@ app.post(API.CHARS, async function (req, res, next) {
 });
 
 app.put(urlJoin(API.CHARS, ':id'), async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -220,7 +220,7 @@ app.put(urlJoin(API.CHARS, ':id'), async function (req, res, next) {
 });
 
 app.get(API.CHARS, async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {
@@ -242,7 +242,7 @@ app.get(API.CHARS, async function (req, res, next) {
 });
 
 app.delete(API.CHARS, async function (req, res, next) {
-    return passport.authenticate('jwt', { session: 'false' }, async function (err, user) {
+    return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
         else if (user === false) {

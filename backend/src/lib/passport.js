@@ -6,18 +6,29 @@ const CONFIG = require('../../../config/config.json');
 const klad = require('../../../domain/src/main');
 const User = require('../../../domain/src/User');
 
+const COLLECTIONS = {
+    ITEMS: 'items',
+    CHARS: 'chars',
+    USERS: 'users'
+};
+
+const FIELDS = {
+    EMAIL: 'email',
+    NAME: 'name',
+    PASSWORD: 'password'
+};
 
 passport.use(new LocalStrategy(
     {
-        usernameField: 'email',
-        passwordField: 'password',
+        usernameField: FIELDS.EMAIL,
+        passwordField: FIELDS.PASSWORD,
         session: false
     },
     async function (email, password, done) {
         let user,
             err = null;
         try {
-            user = await klad.getByPropFromKladovka('users', 'email', email);
+            user = await klad.getByPropFromKladovka(COLLECTIONS.USERS, FIELDS.EMAIL, email);
             //typeof user._id == object
             if (!user || !User.comparePasswords(user, password))
                 user = false;
@@ -37,7 +48,7 @@ passport.use(new JwtStrategy(
         let user,
             err = null;
         try {
-            user = await klad.getFromKladovka('users', payload._id);
+            user = await klad.getFromKladovka(COLLECTIONS.USERS, payload._id);
             if (user !== null)
                 user._id = user._id.toString();
             //typeof payload._id  === string

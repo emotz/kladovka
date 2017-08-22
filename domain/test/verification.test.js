@@ -13,19 +13,23 @@ describe('verification unit test', function () {
         return klad.clearKladovka('users');
     });
 
-    describe('for email', function () {
+    describe('for user', function () {
 
         it('должен пройти верификацию, если в коллекции нет такого email', async function () {
-            let email = 'userEmail';
-            let verificationResult = await verification.checkEmail(email);
+            let user = {
+                email: 'userEmail'
+            };
+            let verificationResult = await verification.checkSignUp(user);
             assert(verificationResult.isVerified === true);
         });
 
         it('если в коллекции есть такой email, то верификация не пройдена, нет email, есть ошибка ', async function () {
-            let email = 'userEmail';
-            await klad.addInKladovka('users', { email });
-            let verificationResult = await verification.checkEmail(email);
-            assert(verificationResult.email === undefined);
+            let user = {
+                email: 'userEmail'
+            };
+            await klad.addInKladovka('users', user);
+            let verificationResult = await verification.checkSignUp(user);
+            assert(verificationResult.user === undefined);
             assert(verificationResult.isVerified === false);
             assert(verificationResult.errors.length === 1);
         });

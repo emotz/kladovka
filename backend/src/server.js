@@ -54,11 +54,6 @@ app.post(API.ITEMS, async function (req, res, next) {
     })(req, res, next);
 });
 
-/* app.post('/api/test', passport.authenticate('jwt'), async function (req, res) {
-    console.log(req.user);
-    console.log(req.body);
-    res.send(req.body);
-}); */
 
 app.post(API["ITEMS-COLLECTION"], async function (req, res, next) {
     return passport.authenticate('jwt', async function (err, user) {
@@ -271,7 +266,7 @@ app.post(API.USERS, async function (req, res) {
     let user = req.body;
     let validationResult = await validation.checkSignUp(user);
     if (validationResult.isValid) {
-        let verificationResult = await verification.checkEmail(user.email);
+        let verificationResult = await verification.checkSignUp(user);
         if (verificationResult.isVerified) {
             let readyUser = User.readyToSave(validationResult.user);
             let added_id = await klad.addInKladovka(COLLECTIONS.USERS, readyUser);
@@ -319,7 +314,6 @@ app.post(API.TOKENS, async function (req, res, next) {
 
 
 app.use(function (err, req, res, next) {
-    console.log(err);
     res.sendStatus(500);
 });
 

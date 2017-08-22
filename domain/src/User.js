@@ -5,17 +5,20 @@ function readyToSave(user) {
         email: user.email,
         name: user.name,
         created: Date.now(),
-        token: Date.now()
     };
     res.salt = crypto.randomBytes(128).toString('base64');
-    res.passwordHash = crypto.pbkdf2Sync(user.password, res.salt, 1, 128, 'sha1').toString('hex');
+    res.passwordHash = generateHash(user.password, res.salt);
     return res;
 }
 
 function comparePasswords(user, password) {
     if(!user.passwordHash || !password) return false;
-    return crypto.pbkdf2Sync(password, user.salt, 1, 128, 'sha1').toString('hex') === user.passwordHash;
+    return generateHash(password, user.salt) === user.passwordHash;
 }
+
+function generateHash(password, salt) {
+    return crypto.pbkdf2Sync(password, salt, 1, 128, 'sha1').toString('hex');
+  }
 
 module.exports = {
     readyToSave,

@@ -17,6 +17,10 @@ const FIELDS = {
     NAME: 'name',
     PASSWORD: 'password'
 };
+/*
+passport.serializeUser(function(user, done) {
+    done(null, user);
+}); */
 
 passport.use(new LocalStrategy(
     {
@@ -29,7 +33,6 @@ passport.use(new LocalStrategy(
             err = null;
         try {
             user = await klad.getByPropFromKladovka(COLLECTIONS.USERS, FIELDS.EMAIL, email);
-            //typeof user._id == object
             if (!user || !User.comparePasswords(user, password))
                 user = false;
         } catch (err) {
@@ -50,8 +53,6 @@ passport.use(new JwtStrategy(
             err = null;
         try {
             user = await klad.getFromKladovka(COLLECTIONS.USERS, payload._id);
-            //typeof payload._id  === string
-            //typeof user._id  === object
         } catch (err) {
             return done(err);
         }

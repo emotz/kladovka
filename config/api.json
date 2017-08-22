@@ -1,5 +1,6 @@
 {
     "ITEMS": "/api/items",
+    "ITEMS-COLLECTION": "/api/items-collection",
     "CHARS": "/api/chars",
     "USERS": "/api/users",
     "TOKENS": "/api/tokens"

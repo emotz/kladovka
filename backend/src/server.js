@@ -24,6 +24,7 @@ const COLLECTIONS = {
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
+app.use(passport.initialize());
 
 app.post(API.ITEMS, async function (req, res, next) {
     return passport.authenticate('jwt', async function (err, user) {
@@ -53,7 +54,13 @@ app.post(API.ITEMS, async function (req, res, next) {
     })(req, res, next);
 });
 
-app.post(urlJoin(API.ITEMS, 'collections'), async function (req, res, next) {
+/* app.post('/api/test', passport.authenticate('jwt'), async function (req, res) {
+    console.log(req.user);
+    console.log(req.body);
+    res.send(req.body);
+}); */
+
+app.post(API["ITEMS-COLLECTION"], async function (req, res, next) {
     return passport.authenticate('jwt', async function (err, user) {
         if (err)
             next(err);
@@ -297,7 +304,6 @@ app.post(API.TOKENS, async function (req, res, next) {
                     user: user.name,
                     email: user.email
                 };
-                //typeof payload._id === object
                 let token = jwt.sign(payload, CONFIG.JWT_SECRET);
                 res.status(200).send({
                     user: user.name,
@@ -311,7 +317,9 @@ app.post(API.TOKENS, async function (req, res, next) {
     }
 });
 
+
 app.use(function (err, req, res, next) {
+    console.log(err);
     res.sendStatus(500);
 });
 

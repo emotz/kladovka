@@ -41,7 +41,7 @@ items.remote.charAndItems = async function (component, char) {
             let item = localStorage.getItem(id);
             items.push(JSON.parse(item));
         }
-        await component.$http.post(urlJoin(API.ITEMS, 'collections'), items);
+        await component.$http.post(API["ITEMS-COLLECTION"], items);
         for (let id in localStorage) {
             if (id === 'user' || id === 'token') continue;
             localStorage.removeItem(id);

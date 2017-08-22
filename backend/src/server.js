@@ -32,11 +32,8 @@ function authMiddle(req, res, next) {
 
     function handleAuth(err, user, info) {
         if (err) return next(err);
-        if (user === false && err === null) {
-            return next({
-                code: ERROR_CODES.AUTHORIZATION
-            });
-        }
+        if (user === false && err === null)
+            return next(errors.makeAuthorizationError());
         req.user = user;
         return next();
     }
@@ -48,7 +45,7 @@ app.post(API.ITEMS, authMiddle, async function (req, res, next) {
     let validationResult = validation.checkItem(item);
     if (validationResult.isValid) {
         validationResult.item.user_id = user._id;
-        let added_id = await klad.addInKladovka(COLLECTIONS.ITEMS, validationResult.item);
+        let added_id = await klad.addToKladovka(COLLECTIONS.ITEMS, validationResult.item);
         res.header('Location', urlJoin(API.ITEMS, added_id));
         res.status(201).send({ added_id });
     } else
@@ -101,7 +98,7 @@ app.post(API.CHARS, authMiddle, async function (req, res, next) {
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {
         validationResult.char.user_id = user._id;
-        let added_id = await klad.addInKladovka(COLLECTIONS.CHARS, validationResult.char);
+        let added_id = await klad.addToKladovka(COLLECTIONS.CHARS, validationResult.char);
         res.header('Location', urlJoin(API.CHARS, added_id));
         res.status(201).send({ added_id });
     } else
@@ -144,7 +141,7 @@ app.post(API.USERS, async function (req, res, next) {
         let verificationResult = await verification.checkSignUp(user);
         if (verificationResult.isVerified) {
             let readyUser = User.readyToSave(validationResult.user);
-            let added_id = await klad.addInKladovka(COLLECTIONS.USERS, readyUser);
+            let added_id = await klad.addToKladovka(COLLECTIONS.USERS, readyUser);
             res.header('Location', urlJoin(API.USERS, added_id));
             res.status(201).send({ added_id });
         } else

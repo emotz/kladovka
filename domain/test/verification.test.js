@@ -27,7 +27,7 @@ describe('verification unit test', function () {
             let user = {
                 email: 'userEmail'
             };
-            await klad.addInKladovka('users', user);
+            await klad.addToKladovka('users', user);
             let verificationResult = await verification.checkSignUp(user);
             assert(verificationResult.user === undefined);
             assert(verificationResult.isVerified === false);

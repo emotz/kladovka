@@ -24,7 +24,7 @@ function disconnect() {
  * @param {Item} item - Предмет, который будет уложен в кладовку
  * @returns {Promise.<String, Error>} Идентификатор предмета уложенного в кладовку
  */
-function addInKladovka(coll, item) {
+function addToKladovka(coll, item) {
     return database.add(coll, item);
 }
 
@@ -185,7 +185,7 @@ module.exports = {
     disconnect,
     getFromKladovka,
     getAllFromKladovka,
-    addInKladovka,
+    addToKladovka,
     addItemsInKladovka,
     deleteFromKladovka,
     deleteAllFromKladovka,

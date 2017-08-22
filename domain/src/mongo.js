@@ -57,6 +57,8 @@ async function getNotDeletedItemById(coll, id) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let item = await collection.findOne({ _id: ObjectID(id), deleted: undefined });
+    if (item !== null)
+        item._id = item._id.toString();
     return item;
 }
 

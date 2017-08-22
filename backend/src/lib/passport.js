@@ -50,8 +50,6 @@ passport.use(new JwtStrategy(
             err = null;
         try {
             user = await klad.getFromKladovka(COLLECTIONS.USERS, payload._id);
-            if (user !== null)
-                user._id = user._id.toString();
             //typeof payload._id  === string
             //typeof user._id  === object
         } catch (err) {

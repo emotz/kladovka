@@ -18,7 +18,7 @@ describe('verification unit test', function () {
         it('должен пройти верификацию, если в коллекции нет такого email', async function () {
             let email = 'userEmail';
             let verificationResult = await verification.checkEmail(email);
-            assert(verificationResult.isVerify === true);
+            assert(verificationResult.isVerified === true);
         });
 
         it('если в коллекции есть такой email, то верификация не пройдена, нет email, есть ошибка ', async function () {
@@ -26,7 +26,7 @@ describe('verification unit test', function () {
             await klad.addInKladovka('users', { email });
             let verificationResult = await verification.checkEmail(email);
             assert(verificationResult.email === undefined);
-            assert(verificationResult.isVerify === false);
+            assert(verificationResult.isVerified === false);
             assert(verificationResult.errors.length === 1);
         });
 

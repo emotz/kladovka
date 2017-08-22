@@ -9,12 +9,12 @@ async function checkEmail(email) {
             properties: ["email"]
         });
     }
-    let isVerify = !errors.length;
-    if (!isVerify)
+    let isVerified = !errors.length;
+    if (!isVerified)
         email = undefined;
     return {
         email,
-        isVerify,
+        isVerified,
         errors
     };
 }

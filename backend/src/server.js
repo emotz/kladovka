@@ -272,7 +272,7 @@ app.post(API.USERS, async function (req, res) {
     let validationResult = await validation.checkSignUp(user);
     if (validationResult.isValid) {
         let verificationResult = await verification.checkEmail(user.email);
-        if (verificationResult.isVerify) {
+        if (verificationResult.isVerified) {
             let readyUser = User.readyToSave(validationResult.user);
             let added_id = await klad.addInKladovka(COLLECTIONS.USERS, readyUser);
             res.header('Location', urlJoin(API.USERS, added_id));

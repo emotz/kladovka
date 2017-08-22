@@ -10,6 +10,7 @@ const urlJoin = require('url-join');
 const User = require('../../domain/src/User');
 const klad = require('../../domain/src/main');
 const errors = require('../../domain/src/errors');
+const ERROR_CODES = require('../../domain/src/errors').ERROR_CODES;
 const validation = require('../../domain/src/validation');
 const verification = require('../../domain/src/verification');
 const passport = require('./lib/passport');
@@ -33,7 +34,7 @@ function authMiddle(req, res, next) {
         if (err) return next(err);
         if (user === false && err === null) {
             return next({
-                code: errors.ERROR_CODES.AUTHORIZATION
+                code: ERROR_CODES.AUTHORIZATION
             });
         }
         req.user = user;
@@ -50,10 +51,8 @@ app.post(API.ITEMS, authMiddle, async function (req, res, next) {
         let added_id = await klad.addInKladovka(COLLECTIONS.ITEMS, validationResult.item);
         res.header('Location', urlJoin(API.ITEMS, added_id));
         res.status(201).send({ added_id });
-    } else {
-        let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send(resBody);
-    }
+    } else
+        return next(errors.makeValidationError(validationResult.errors));
 });
 
 app.post(API["ITEMS-COLLECTION"], authMiddle, async function (req, res, next) {
@@ -67,10 +66,8 @@ app.post(API["ITEMS-COLLECTION"], authMiddle, async function (req, res, next) {
         });
         let inserted_count = await klad.addItemsInKladovka(COLLECTIONS.ITEMS, validationResult.collection);
         res.status(201).send({ inserted_count });
-    } else {
-        let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send(resBody);
-    }
+    } else
+        return next(errors.makeValidationError(validationResult.errors));
 });
 
 app.get(API.ITEMS, authMiddle, async function (req, res, next) {
@@ -107,10 +104,8 @@ app.post(API.CHARS, authMiddle, async function (req, res, next) {
         let added_id = await klad.addInKladovka(COLLECTIONS.CHARS, validationResult.char);
         res.header('Location', urlJoin(API.CHARS, added_id));
         res.status(201).send({ added_id });
-    } else {
-        let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send(resBody);
-    }
+    } else
+        return next(errors.makeValidationError(validationResult.errors));
 });
 
 app.put(urlJoin(API.CHARS, ':id'), authMiddle, async function (req, res, next) {
@@ -123,10 +118,8 @@ app.put(urlJoin(API.CHARS, ':id'), authMiddle, async function (req, res, next) {
             res.sendStatus(204);
         else
             res.sendStatus(404);
-    } else {
-        let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send(resBody);
-    }
+    } else
+        return next(errors.makeValidationError(validationResult.errors));
 });
 
 app.get(API.CHARS, authMiddle, async function (req, res, next) {
@@ -144,7 +137,7 @@ app.delete(API.CHARS, authMiddle, async function (req, res, next) {
     res.status(200).send({ deleted_count });
 });
 
-app.post(API.USERS, async function (req, res) {
+app.post(API.USERS, async function (req, res, next) {
     let user = req.body;
     let validationResult = await validation.checkSignUp(user);
     if (validationResult.isValid) {
@@ -154,14 +147,11 @@ app.post(API.USERS, async function (req, res) {
             let added_id = await klad.addInKladovka(COLLECTIONS.USERS, readyUser);
             res.header('Location', urlJoin(API.USERS, added_id));
             res.status(201).send({ added_id });
-        } else {
-            let resBody = errors.makeVerificationError(verificationResult.errors);
-            res.status(400).send(resBody);
-        }
-    } else {
-        let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send(resBody);
-    }
+        } else
+            return next(errors.makeVerificationError(verificationResult.errors));
+
+    } else
+        return next(errors.makeValidationError(validationResult.errors));
 });
 
 app.post(API.TOKENS, async function (req, res, next) {
@@ -169,12 +159,9 @@ app.post(API.TOKENS, async function (req, res, next) {
     let validationResult = await validation.checkSignIn(user);
     if (validationResult.isValid) {
         passport.authenticate('local', function (err, user) {
-            if (err)
-                next(err);
-            else if (user === false) {
-                let resBody = errors.makeAuthenticationError([{ id: "emailOrPasswordInvalid", properties: ["email", "password"] }]);
-                res.status(400).send(resBody);
-            }
+            if (err) next(err);
+            else if (user === false)
+                next(errors.makeAuthenticationError([{ id: "emailOrPasswordInvalid", properties: ["email", "password"] }]));
             else {
                 let payload = {
                     _id: user._id,
@@ -188,15 +175,28 @@ app.post(API.TOKENS, async function (req, res, next) {
                 });
             }
         })(req, res, next);
-    } else {
-        let resBody = errors.makeValidationError(validationResult.errors);
-        res.status(400).send(resBody);
-    }
+    } else
+        return next(errors.makeValidationError(validationResult.errors));
 });
 
-
 app.use(function (err, req, res, next) {
-    res.sendStatus(500);
+    switch (err.code) {
+        case ERROR_CODES.VALIDATION:
+            res.status(400).send(err);
+            return;
+        case ERROR_CODES.VERIFICATION:
+            res.status(409).send(err);
+            return;
+        case ERROR_CODES.AUTHENTICATION:
+            res.status(400).send(err);
+            return;
+        case ERROR_CODES.AUTHORIZATION:
+            res.status(401).send(err);
+            return;
+        default:
+            res.sendStatus(500);
+            return;
+    }
 });
 
 app.listen(CONFIG.EXPRESS_PORT, async function () {

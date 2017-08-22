@@ -53,48 +53,21 @@ function checkCollection(collection) {
     let errors = [];
     if (!Array.isArray(collection)) {
         return {
-            collection: [],
+            collection: undefined,
             isValid: false,
             errors: [{ id: "notCollection", properties: [] }]
         };
     }
-    for (let idx in collection) {
-        collection[idx] = _.pick(collection[idx], ['type', 'minDmg', 'maxDmg', 'critChance', 'critDmg']);
-        let notNumbers = filterNotNumbers(collection[idx], ['minDmg', 'maxDmg', 'critChance', 'critDmg']);
-        if (notNumbers.length) {
-            errors.push({
-                id: "mustBeNumber",
-                properties: notNumbers
-            });
-        }
-        if (_.intersection(notNumbers, ['minDmg', 'maxDmg']).length === 0) {
-            if (collection[idx].minDmg > collection[idx].maxDmg) {
-                errors.push({
-                    id: "mustBeLessThan",
-                    properties: ["minDmg", "maxDmg"]
-                });
-            }
-        }
-        let notPositive = filterNotPositive(collection[idx], ['minDmg', 'maxDmg'], notNumbers);
-        if (notPositive.length) {
-            errors.push({
-                id: "mustBePositive",
-                properties: notPositive
-            });
-        }
-        let negative = filterNegative(collection[idx], ['critChance', 'critDmg'], notNumbers.concat(notPositive));
-        if (negative.length) {
-            errors.push({
-                id: "mustNotBeNegative",
-                properties: negative
-            });
-        }
-        if (!Item.types.some(type => type === collection[idx].type)) {
-            errors.push({
-                id: "notValidType",
-                properties: ["type"]
-            });
-        }
+    const itemCheckResults = collection.map(checkItem);
+    if (itemCheckResults.some(res => !res.isValid)) {
+        const failedIndices = itemCheckResults
+            .map((res, idx) => res.isValid ? undefined : idx)
+            .filter(idx => idx !== undefined);
+        errors.push({
+            id: "itemsNotValid",
+            properties: failedIndices,
+            data: itemCheckResults
+        });
     }
     let isValid = !errors.length;
     if (!isValid)
@@ -105,6 +78,24 @@ function checkCollection(collection) {
         errors
     };
 }
+let coll = [
+    {
+        "type": "mac",
+        "minDmg": 3,
+        "maxDmg": 25,
+        "critDmg": 0,
+        "critChance": 0
+    },
+    {
+        "type": "axe",
+        "minDmg": 1,
+        "maxDmg": 2,
+        "critDmg": 0,
+        "critChance": 0
+    }
+]
+
+console.log(checkCollection(coll).errors[0])
 
 // > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: -6})
 // {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}]}

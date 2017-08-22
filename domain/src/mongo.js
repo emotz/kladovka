@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 const mongo = mongodb.MongoClient;
 const ObjectID = mongodb.ObjectID;
 
-let db = {};
+let db = undefined;
 /**
  * Открывает соединение с сервером MongoDB
  * @param {String} url - Адрес сервера MongoDB

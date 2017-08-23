@@ -25,15 +25,18 @@ const COLLECTIONS = {
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
-app.use(passport.initialize());
 
 function authMiddle(req, res, next) {
     passport.authenticate('jwt', handleAuth)(req, res, next);
 
     function handleAuth(err, user, info) {
         if (err) return next(err);
-        if (user === false && err === null)
-            return next(errors.makeAuthorizationError());
+        if (user === false && err === null) {
+            if (info instanceof Error)
+                return next(errors.makeAuthorizationError([{ id: "invalidToken", properties: [] }]));
+            else if (info)
+                return next(info);
+        }
         req.user = user;
         return next();
     }
@@ -136,7 +139,7 @@ app.delete(API.CHARS, authMiddle, async function (req, res, next) {
 
 app.post(API.USERS, async function (req, res, next) {
     let user = req.body;
-    let validationResult = await validation.checkSignUp(user);
+    let validationResult = validation.checkSignUp(user);
     if (validationResult.isValid) {
         let verificationResult = await verification.checkSignUp(user);
         if (verificationResult.isVerified) {
@@ -152,28 +155,23 @@ app.post(API.USERS, async function (req, res, next) {
 });
 
 app.post(API.TOKENS, async function (req, res, next) {
-    let user = req.body;
-    let validationResult = await validation.checkSignIn(user);
-    if (validationResult.isValid) {
-        passport.authenticate('local', function (err, user) {
-            if (err) next(err);
-            else if (user === false)
-                next(errors.makeAuthenticationError([{ id: "emailOrPasswordInvalid", properties: ["email", "password"] }]));
-            else {
-                let payload = {
-                    _id: user._id,
-                    user: user.name,
-                    email: user.email
-                };
-                let token = jwt.sign(payload, CONFIG.JWT_SECRET);
-                res.status(200).send({
-                    user: user.name,
-                    accessToken: token
-                });
-            }
-        })(req, res, next);
-    } else
-        return next(errors.makeValidationError(validationResult.errors));
+    passport.authenticate('local', function (err, user, info) {
+        if (err) next(err);
+        else if (user === false)
+            next(errors.makeAuthenticationError([{ id: "emailOrPasswordInvalid", properties: ["email", "password"] }]));
+        else {
+            let payload = {
+                _id: user._id,
+                user: user.name,
+                email: user.email
+            };
+            let token = jwt.sign(payload, CONFIG.JWT_SECRET);
+            res.status(200).send({
+                user: user.name,
+                accessToken: token
+            });
+        }
+    })(req, res, next);
 });
 
 app.use(function (err, req, res, next) {

@@ -12,10 +12,10 @@ let token;
 
 describe('e2e tests', function () {
 
-    /* it('should add user', async function () {
+    it('should add user', async function () {
         let res = await axios.post("http://localhost:8080/api/users", { email, name, password });
         assert(res.status === 201);
-    }); */
+    });
 
     it('should get token', async function () {
         let res = await axios.post("http://localhost:8080/api/tokens", { email, password });
@@ -28,7 +28,7 @@ describe('e2e tests', function () {
             await axios.post("http://localhost:8080/api/users", { email, name, password });
         }
         catch (e) {
-            assert(e.response.status === 400);
+            assert(e.response.status === 409);
             assert(e.response.data.code === 2);
             expect(e.response.data.errors)
                 .to.have.deep.members([
@@ -148,7 +148,7 @@ describe('e2e tests', function () {
                 critDmg: 20,
                 critChance: 20
             }];
-            let res = await axios.post(urlJoin("http://localhost:8080/api/items", "collections"), collections, {
+            let res = await axios.post(urlJoin("http://localhost:8080/api/items-collection"), collections, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(res.data.inserted_count === 2);
@@ -168,7 +168,7 @@ describe('e2e tests', function () {
                 critDmg: 20,
                 critChance: 20
             }];
-            await axios.post(urlJoin("http://localhost:8080/api/items", "collections"), collections, {
+            await axios.post(urlJoin("http://localhost:8080/api/items-collection"), collections, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             let resGet = await axios.get("http://localhost:8080/api/items", {

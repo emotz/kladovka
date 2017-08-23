@@ -5,6 +5,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const CONFIG = require('../../../config/config.json');
 const klad = require('../../../domain/src/main');
 const User = require('../../../domain/src/User');
+const errors = require('../../../domain/src/errors');
 
 const COLLECTIONS = {
     ITEMS: 'items',
@@ -46,13 +47,16 @@ passport.use(new JwtStrategy(
     },
     async function (payload, done) {
         let user,
+            info,
             err = null;
         try {
             user = await klad.getFromKladovka(COLLECTIONS.USERS, payload._id);
+            if (user === null)
+                info = errors.makeAuthorizationError([{ id: "idNotExists", properties: ["_id"] }]);
         } catch (err) {
             return done(err);
         }
-        return done(err, user);
+        return done(err, user, info);
     })
 );
 module.exports = passport;

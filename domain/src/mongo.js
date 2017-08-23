@@ -111,6 +111,12 @@ async function getNotDeletedItems(coll) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.find({ 'deleted': undefined }).toArray();
+    if (res.length) {
+        res.map(item => {
+            item._id = item._id.toString();
+            return item;
+        });
+    }
     return res;
 }
 
@@ -125,16 +131,15 @@ async function getAllNotDeletedItemsByProp(coll, prop, value) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.find({ deleted: undefined, [prop]: value }).toArray();
+    if (res.length) {
+        res.map(item => {
+            item._id = item._id.toString();
+            return item;
+        });
+    }
     return res;
 }
-/* async function test(){
-    await connect('mongodb://localhost:27017/kladovka');
- //let res = await getNotDeletedItems('items')
- let res = await getAllNotDeletedItemsByProp('items', 'user_id', '598b548e0db317106c2ba930')
- console.log(res);
- disconnect();
-}
-test() */
+
 /**
  * Получает объект по заданному свойству
  * @param {Srting} coll - Коллекция
@@ -146,6 +151,8 @@ async function getNotDeletedItemByProp(coll, prop, value) {
     if (db === undefined) throw new Error('нет базы данных');
     let collection = db.collection(coll);
     let res = await collection.findOne({ deleted: undefined, [prop]: value });
+    if (res !== null)
+        res._id = res._id.toString();
     return res;
 }
 

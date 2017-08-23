@@ -3,10 +3,24 @@ import { clone, guid12bytes } from 'domain/utility';
 import { checkItem } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
 import { renderValidationError } from '../services/render';
+import { isAuthenticated } from '../services/auth';
 
-export let addItem = { remote: {}, local: {} };
+export function callMethod(component, cb) {
+    let args = [];
+    for (let id in arguments) {
+        if (id == 1) continue;
+        args.push(arguments[id]);
+    }
+    if (isAuthenticated())
+        remote[cb].apply(undefined, args);
+    else
+        local[cb].apply(undefined, args);
+}
 
-addItem.remote.addItem = function (component) {
+let local = {},
+    remote = {};
+
+remote.addItem = function (component) {
     let item = clone(component.item);
     component.$http.post(API.ITEMS, item).then(response => {
         item._id = response.body.added_id;
@@ -20,7 +34,7 @@ addItem.remote.addItem = function (component) {
     });
 };
 
-addItem.local.addItem = function (component) {
+local.addItem = function (component) {
     let item = clone(component.item);
     let validationResult = checkItem(item);
     if (validationResult.isValid) {

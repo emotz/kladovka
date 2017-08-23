@@ -1,7 +1,7 @@
 import * as Item from 'domain/Item';
 import { transTypeList } from '../services/render';
 import { focus } from 'vue-focus';
-import { addItem } from './kl-add-item.method.js';
+import { callMethod } from './kl-add-item.method.js';
 
 export default {
     directives: { focus: focus },
@@ -21,10 +21,7 @@ export default {
     },
     methods: {
         addItem: function () {
-            if (localStorage.getItem('token'))
-                addItem.remote.addItem(this);
-            else
-                addItem.local.addItem(this);
+            callMethod(this, 'addItem');
         },
         dmgControl: function () {
             if (this.item.minDmg < 1) this.item.minDmg = 1;

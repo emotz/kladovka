@@ -1,4 +1,4 @@
-import { char } from './kl-char.method.js';
+import { callMethod } from './kl-char.method.js';
 
 export default {
     data: function () {
@@ -13,17 +13,11 @@ export default {
         };
     },
     mounted: function () {
-        if (localStorage.getItem('token'))
-            char.remote.mounted(this);
-        else
-            char.local.mounted(this);
+        callMethod(this, 'mounted');
     },
     methods: {
         replaceChar: function () {
-            if (localStorage.getItem('token'))
-                char.remote.replaceChar(this);
-            else
-                char.local.replaceChar(this);
+            callMethod(this, 'replaceChar');
         }
     },
     watch: {

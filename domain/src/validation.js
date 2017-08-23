@@ -78,24 +78,6 @@ function checkCollection(collection) {
         errors
     };
 }
-let coll = [
-    {
-        "type": "mac",
-        "minDmg": 3,
-        "maxDmg": 25,
-        "critDmg": 0,
-        "critChance": 0
-    },
-    {
-        "type": "axe",
-        "minDmg": 1,
-        "maxDmg": 2,
-        "critDmg": 0,
-        "critChance": 0
-    }
-]
-
-console.log(checkCollection(coll).errors[0])
 
 // > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: -6})
 // {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}]}

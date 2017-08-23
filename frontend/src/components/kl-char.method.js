@@ -3,10 +3,24 @@ import urlJoin from 'url-join';
 import { checkChar } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
 import { renderValidationError } from '../services/render';
+import { isAuthenticated } from '../services/auth';
 
-export let char = { remote: {}, local: {} };
+export function callMethod(component, cb) {
+    let args = [];
+    for (let id in arguments) {
+        if (id == 1) continue;
+        args.push(arguments[id]);
+    }
+    if (isAuthenticated())
+        remote[cb].apply(undefined, args);
+    else
+        local[cb].apply(undefined, args);
+}
 
-char.remote.replaceChar = function (component) {
+let local = {},
+    remote = {};
+
+remote.replaceChar = function (component) {
     let char = component.char;
     if (char._id === undefined) {
         component.$http.post(API.CHARS, char)
@@ -38,7 +52,7 @@ char.remote.replaceChar = function (component) {
     }
 };
 
-char.local.replaceChar = function (component) {
+local.replaceChar = function (component) {
     let char = component.char;
     let validationResult = checkChar(char);
     if (validationResult.isValid) {
@@ -51,13 +65,14 @@ char.local.replaceChar = function (component) {
     }
 };
 
-char.remote.mounted = function (component) {
+
+remote.mounted = function (component) {
     component.$http.get(API.CHARS).then(response => {
         component.$store.setChar(response.body);
     }).catch(err => toastr.error(component.$t('errors.default')));
 };
 
-char.local.mounted = function (component) {
+local.mounted = function (component) {
     let char = localStorage.getItem('char');
     if (char != null)
         component.$store.setChar(JSON.parse(char));

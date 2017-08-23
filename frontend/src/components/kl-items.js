@@ -5,7 +5,7 @@ import { renderValidationError } from '../services/render';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps, aps, totalDps } from 'domain/Item';
-import { items } from './kl-items.method.js';
+import { callMethod } from './kl-items.method.js';
 
 export default {
     data: function () {
@@ -20,17 +20,12 @@ export default {
         'kl-delete-all': klDeleteAll,
     },
     mounted: function () {
-        if (localStorage.getItem('token'))
-            items.remote.mounted(this);
-        else
-            items.local.mounted(this);
+        callMethod(this, 'mounted');
+
     },
     methods: {
         deleteItem: function (id, index) {
-            if (localStorage.getItem('token'))
-                items.remote.deleteItem(this, id, index);
-            else
-                items.local.deleteItem(this, id, index);
+            callMethod(this, 'deleteItem', id, index);
         },
         addItem: function (item) {
             item.aps = aps(item);
@@ -83,7 +78,7 @@ export default {
                         } else
                             char = resGetChar.body;
                     }
-                    await items.remote.charAndItems(this, char);
+                    await callMethod(this, 'charAndItems', char);
                 } catch (err) {
                     if (err.status === 400 && err.body.code === 1) {
                         let renderedErrors = renderValidationError(err.body.errors);

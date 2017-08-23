@@ -1,9 +1,22 @@
 import API from 'api.json';
 import urlJoin from 'url-join';
+import { isAuthenticated } from '../services/auth';
 
-export let items = { remote: {}, local: {} };
+export function callMethod(component, cb) {
+    let args = [];
+    for (let id in arguments) {
+        if (id == 1) continue;
+        args.push(arguments[id]);
+    }
+    if (isAuthenticated())
+        remote[cb].apply(undefined, args);
+    else
+        local[cb].apply(undefined, args);
+}
+let local = {},
+    remote = {};
 
-items.remote.mounted = function (component) {
+remote.mounted = function (component) {
     component.$http.get(API.ITEMS).then(response => {
         for (let i in response.body) {
             let item = response.body[i];
@@ -12,7 +25,7 @@ items.remote.mounted = function (component) {
     }).catch(err => toastr.error(component.$t('errors.default')));
 };
 
-items.local.mounted = function (component) {
+local.mounted = function (component) {
     for (let id in localStorage) {
         if (id === 'user' || id === 'token' || id === 'char') continue;
         let item = localStorage.getItem(id);
@@ -20,18 +33,18 @@ items.local.mounted = function (component) {
     }
 };
 
-items.remote.deleteItem = function (component, id, index) {
+remote.deleteItem = function (component, id, index) {
     component.$http.delete(urlJoin(API.ITEMS, id)).then(response => {
         component.items.splice(index, 1);
     }).catch(err => toastr.error(component.$t('errors.default')));
 };
 
-items.local.deleteItem = function (component, id, index) {
+local.deleteItem = function (component, id, index) {
     localStorage.removeItem(id);
     component.items.splice(index, 1);
 };
 
-items.remote.charAndItems = async function (component, char) {
+remote.charAndItems = async function (component, char) {
     localStorage.removeItem('char');
     component.$store.setChar(char);
     if (component.items.length) {
@@ -48,6 +61,6 @@ items.remote.charAndItems = async function (component, char) {
         }
         component.items = [];
     }
-    items.remote.mounted(component);
+    remote.mounted(component);
     component.$store.setSignIn(false);
 };

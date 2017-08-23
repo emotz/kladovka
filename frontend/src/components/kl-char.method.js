@@ -22,33 +22,40 @@ let local = {},
 
 remote.replaceChar = function (component) {
     let char = component.char;
-    if (char._id === undefined) {
-        component.$http.post(API.CHARS, char)
-            .then(response => {
-                char._id = response.body.added_id;
-                component.$store.setChar(char);
-            })
-            .catch(err => {
-                if (err.status === 400 && err.body.code === 1) {
-                    let renderedErrors = renderValidationError(err.body.errors);
-                    renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
-                } else
-                    toastr.error(component.$t('errors.default'));
-            });
+    let validationResult = checkChar(char);
+    if (validationResult.isValid) {
+        if (char._id === undefined) {
+            component.$http.post(API.CHARS, char)
+                .then(response => {
+                    char._id = response.body.added_id;
+                    component.$store.setChar(char);
+                })
+                .catch(err => {
+                    if (err.status === 400 && err.body.code === 1) {
+                        let renderedErrors = renderValidationError(err.body.errors);
+                        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+                    } else
+                        toastr.error(component.$t('errors.default'));
+                });
+        } else {
+            component.$http.put(urlJoin(API.CHARS, char._id), char)
+                .then(response => {
+                    component.$store.setChar(char);
+                })
+                .catch(err => {
+                    if (err.status === 400 && err.body.code === 1) {
+                        let renderedErrors = renderValidationError(err.body.errors);
+                        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+                    } else if (err.status === 404)
+                        toastr.error(component.$t('errors.notFound'));
+                    else
+                        toastr.error(component.$t('errors.default'));
+                });
+        }
     } else {
-        component.$http.put(urlJoin(API.CHARS, char._id), char)
-            .then(response => {
-                component.$store.setChar(char);
-            })
-            .catch(err => {
-                if (err.status === 400 && err.body.code === 1) {
-                    let renderedErrors = renderValidationError(err.body.errors);
-                    renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
-                } else if (err.status === 404)
-                    toastr.error(component.$t('errors.notFound'));
-                else
-                    toastr.error(component.$t('errors.default'));
-            });
+        let res = makeValidationError(validationResult.errors);
+        let renderedErrors = renderValidationError(res.errors);
+        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
     }
 };
 

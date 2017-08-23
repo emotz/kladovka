@@ -16,7 +16,7 @@ export default {
                 if (err.status === 400 && err.body.code === 1) {
                     let renderedErrors = renderValidationError(err.body.errors);
                     renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                } else if (err.status === 401 && err.body.code === 3) {
+                } else if (err.status === 400 && err.body.code === 3) {
                     let renderedErrors = renderValidationError(err.body.errors);
                     renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
                 } else

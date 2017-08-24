@@ -1,7 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 
-if (!fs.existsSync('../../../logs'))
-    fs.mkdirSync('../../../logs');
+if (!fs.existsSync(path.join(__dirname, '../../../logs'))) {
+    fs.mkdirSync(path.join(__dirname, '../../../logs'));
+}
 
 const winston = require('winston');
 var logger = new (winston.Logger)({
@@ -10,7 +12,7 @@ var logger = new (winston.Logger)({
             label: 'SERVER',
             showLevel: false,
         }),
-        new (winston.transports.File)({ filename: __dirname + '/../../../logs/server.log' })
+        new (winston.transports.File)({ filename: path.join(__dirname, '../../../logs', "server.log") })
     ]
 });
 

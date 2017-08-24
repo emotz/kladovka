@@ -4,4 +4,7 @@ services:
   main:
     volumes:
      - /usr/src/kladovka:/usr/src/kladovka
+  test-runner:
+    volumes:
+     - /usr/src/kladovka:/usr/src/kladovka
   mongo-server: {}

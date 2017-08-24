@@ -32,12 +32,52 @@ In root of Kladovka, you must create `config.json`, based on `config.json.exampl
 
 ## Build & Run
 
+### Docker Toolbox
+
+Any `docker-compose` replace with `docker-compose -f docker-compose.yml -f docker-compose.toolbox.yml`
+
 ### Docker
+
+To startup service with bash:
+
+```bat
+docker-compose run --rm main bash
+```
+
+To connect to service already "up"ed:
+
+```bat
+docker-compose exec main bash
+```
 
 To build image:
 
 ```bat
 docker-compose build
+```
+
+To run service:
+
+```bat
+docker-compose up
+```
+
+To run linter:
+
+```bat
+docker-compose run --rm main npm run lint
+```
+
+To run test:
+
+```bat
+docker-compose run --rm test-runner
+```
+
+To clean everything up:
+
+```bat
+docker-compose stop && docker-compose rm -f && docker-compose build
 ```
 
 ### Build distributable files

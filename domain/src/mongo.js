@@ -18,6 +18,7 @@ async function connect(url) {
  */
 function disconnect() {
     db.close();
+    db = undefined;
 }
 
 /**

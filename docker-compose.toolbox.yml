@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  main:
+    volumes:
+     - /usr/src/kladovka:/usr/src/kladovka
+  mongo-server: {}

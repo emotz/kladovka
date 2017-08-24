@@ -32,6 +32,14 @@ In root of Kladovka, you must create `config.json`, based on `config.json.exampl
 
 ## Build & Run
 
+### Docker
+
+To build image:
+
+```bat
+docker-compose build
+```
+
 ### Build distributable files
 
 ```bat

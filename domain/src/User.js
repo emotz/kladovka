@@ -12,13 +12,13 @@ function readyToSave(user) {
 }
 
 function comparePasswords(user, password) {
-    if(!user.passwordHash || !password) return false;
+    if (!user.passwordHash || !password) return false;
     return generateHash(password, user.salt) === user.passwordHash;
 }
 
 function generateHash(password, salt) {
     return crypto.pbkdf2Sync(password, salt, 1, 128, 'sha1').toString('hex');
-  }
+}
 
 module.exports = {
     readyToSave,

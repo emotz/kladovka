@@ -1,6 +1,5 @@
 require('express-async-errors');
 const logger = require('./lib/logger.js');
-const fs = require('fs');
 const CONFIG = require('../../config/config.json');
 const API = require('../../config/api.json');
 const express = require('express');

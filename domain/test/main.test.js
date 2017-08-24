@@ -22,13 +22,13 @@ describe('Тест для кладовки', function () {
     });
 
     it('сохраняет коллекцию предметов в кладовке', async function () {
-            let arr = [
-                { qwer: 123 },
-                { qwer: 666 }
-            ];
-            let count = await klad.addItemsInKladovka(coll, arr);
-            assert(count === 2);
-        });
+        let arr = [
+            { qwer: 123 },
+            { qwer: 666 }
+        ];
+        let count = await klad.addItemsInKladovka(coll, arr);
+        assert(count === 2);
+    });
 
     it('получает предмет из кладовки', async function () {
         let item = { type: 'axe', dps: 100 };

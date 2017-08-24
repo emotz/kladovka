@@ -70,16 +70,16 @@ export default {
         signOut: "Sign out",
         hello: "Hello, "
     },
-    signIn:{
-        title:"Sign in to Kladovka",
-        email:"Email address:",
+    signIn: {
+        title: "Sign in to Kladovka",
+        email: "Email address:",
         password: "Password:",
         buttonCancel: "Cancel",
         buttonOk: "Sign in",
     },
-    signUp:{
-        title:"Sign up for Kladovka",
-        email:"Email address:",
+    signUp: {
+        title: "Sign up for Kladovka",
+        email: "Email address:",
         name: "User name:",
         password: "Password:",
         buttonCancel: "Cancel",

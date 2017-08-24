@@ -5,7 +5,7 @@ import 'nprogress.css';
 import Vue from 'vue';
 import VueResourceNProgress from 'vue-resource-nprogress';
 import VueStore from './plugins/vue-store';
-import './plugins/auth&http';
+import './plugins/http';
 import app from './components/kl-main.vue';
 
 Vue.use(VueResourceNProgress);

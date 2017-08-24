@@ -73,16 +73,16 @@ export default {
         signOut: "Выйти",
         hello: "Прювет, "
     },
-    signIn:{
-        title:"Вход в Kladovka",
-        email:"Email адрес:",
+    signIn: {
+        title: "Вход в Kladovka",
+        email: "Email адрес:",
         password: "Пароль:",
         buttonCancel: "Отмена",
         buttonOk: "Войти",
     },
-    signUp:{
-        title:"Регистрация в Kladovka",
-        email:"Email адрес:",
+    signUp: {
+        title: "Регистрация в Kladovka",
+        email: "Email адрес:",
         name: "Имя:",
         password: "Пароль:",
         buttonCancel: "Отмена",

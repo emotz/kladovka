@@ -1,3 +1,8 @@
+const fs = require('fs');
+
+if (!fs.existsSync('../../../logs'))
+    fs.mkdirSync('../../../logs');
+
 const winston = require('winston');
 var logger = new (winston.Logger)({
     transports: [

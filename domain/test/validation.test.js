@@ -212,32 +212,9 @@ describe('validation unit test', function () {
             assert(validationResult.isValid === true);
         });
 
-        it('избыточные свойства обрезаются и предмет проходит валидацию', function () {
-            let collection = [
-                {
-                    enot: true,
-                    type: 'axe',
-                    minDmg: 2,
-                    maxDmg: 3,
-                    critChance: 20,
-                    critDmg: 60
-                }, {
-                    enot: false,
-                    type: 'mace',
-                    minDmg: 20,
-                    maxDmg: 30,
-                    critChance: 0,
-                    critDmg: 0
-                }
-            ];
-            let validationResult = validation.checkCollection(collection);
-            assert(validationResult.collection[0].enot === undefined);
-            assert(validationResult.collection[1].enot === undefined);
-            assert(validationResult.isValid === true);
-        });
 
         it('при ошибке валидации предмета, в результате нет предмета и есть ошибка', function () {
-             let collection = [
+            let collection = [
                 {
                     type: 'axe',
                     minDmg: 2,

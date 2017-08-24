@@ -1,5 +1,5 @@
 const assert = require('assert');
-const config = require('../../config.json');
+const CONFIG = require('../../config/config.json');
 const mongoDB = require('../src/mongo');
 const memoryDB = require('../src/memory');
 const coll = 'tests';
@@ -10,7 +10,7 @@ const coll = 'tests';
 
         let db;
         before(async function () {
-            db = await database.connect(config.db_url);
+            db = await database.connect(CONFIG.DB_URL);
         });
 
         beforeEach(async function () {

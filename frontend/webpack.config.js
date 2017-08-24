@@ -29,7 +29,8 @@ module.exports = {
             'bootstrap.css$': 'bootstrap/dist/css/bootstrap.min.css',
             'toastr.css$': 'toastr/build/toastr.min.css',
             'nprogress.css$': 'nprogress/nprogress.css',
-            'domain': path.resolve(__dirname, '../domain/src/')
+            'api.json$': path.join(__dirname, '../config/api.json'),
+            'domain': path.join(__dirname, '../domain/src/')
         },
     },
     plugins: [

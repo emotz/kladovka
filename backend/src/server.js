@@ -1,9 +1,11 @@
 require('express-async-errors');
 const logger = require('./winston.js');
-const config = require('../../config.json');
+const CONFIG = require('../../config/config.json');
+const API = require('../../config/api.json');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const urlJoin = require('url-join');
 const klad = require('../../domain/src/main');
 const errors = require('../../domain/src/errors');
 const validation = require('../../domain/src/validation');
@@ -15,16 +17,15 @@ const Collections = {
 };
 let db;
 
-
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../../frontend/dist')));
 
-app.post('/api/items', async function (req, res) {
+app.post(API.ITEMS, async function (req, res) {
     let item = req.body;
     let validationResult = validation.checkItem(item);
     if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, Collections.Items, validationResult.item);
-        res.header('Location', '/api/items/' + added_id);
+        res.header('Location', urlJoin(API.ITEMS, added_id));
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
@@ -32,12 +33,12 @@ app.post('/api/items', async function (req, res) {
     }
 });
 
-app.get('/api/items', async function (req, res) {
+app.get(API.ITEMS, async function (req, res) {
     let all = await klad.getAllFromKladovka(db, Collections.Items);
     res.status(200).send(all);
 });
 
-app.get('/api/items/:id', async function (req, res) {
+app.get(urlJoin(API.ITEMS, ':id'), async function (req, res) {
     let item = await klad.getFromKladovka(db, Collections.Items, req.params.id);
     if (item === null)
         res.sendStatus(404);
@@ -45,22 +46,22 @@ app.get('/api/items/:id', async function (req, res) {
         res.status(200).send(item);
 });
 
-app.delete('/api/items/', async function (req, res) {
+app.delete(API.ITEMS, async function (req, res) {
     let deleted_count = await klad.deleteAllFromKladovka(db, Collections.Items);
     res.status(200).send({ deleted_count });
 });
 
-app.delete('/api/items/:id', async function (req, res) {
+app.delete(urlJoin(API.ITEMS, ':id'), async function (req, res) {
     await klad.deleteFromKladovka(db, Collections.Items, req.params.id);
     res.sendStatus(204);
 });
 
-app.post('/api/chars', async function (req, res) {
+app.post(API.CHARS, async function (req, res) {
     let char = req.body;
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {
         let added_id = await klad.placeInKladovka(db, Collections.Chars, validationResult.char);
-        res.header('Location', '/api/chars/' + added_id);
+        res.header('Location', urlJoin(API.CHARS, added_id));
         res.status(201).send({ added_id });
     } else {
         let resBody = errors.makeValidationError(validationResult.errors);
@@ -68,7 +69,7 @@ app.post('/api/chars', async function (req, res) {
     }
 });
 
-app.put('/api/chars/:id', async function (req, res) {
+app.put(urlJoin(API.CHARS, ':id'), async function (req, res) {
     let char = req.body;
     let validationResult = validation.checkChar(char);
     if (validationResult.isValid) {
@@ -86,7 +87,7 @@ app.use(function (err, req, res, next) {
     res.sendStatus(500);
 });
 
-app.listen(config.express_port, async function () {
-    logger.info('Server run on port: ' + config.express_port);
-    db = await klad.connect(config.db_url);
+app.listen(CONFIG.EXPRESS_PORT, async function () {
+    logger.info('Server run on port: ' + CONFIG.EXPRESS_PORT);
+    db = await klad.connect(CONFIG.DB_URL);
 });

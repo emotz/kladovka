@@ -1,5 +1,5 @@
-const config = require('../../config.json');
-const database = require('./' + config.db);
+const CONFIG = require('../../config/config.json');
+const database = require('./' + CONFIG.DB);
 const Item = require('./Item');
 
 
@@ -55,7 +55,7 @@ function deleteAllFromKladovka(db, coll) {
 function clearKladovka(db, coll) {
     return database.clearCollection(db, coll);
 }
-function replaceInKladovka(db, coll, id, item){
+function replaceInKladovka(db, coll, id, item) {
     return database.replaceById(db, coll, id, item);
 }
 /**

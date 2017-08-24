@@ -1,10 +1,10 @@
-const ErrorCodes = {
-    Validation: 1
+const ERROR_CODES = {
+    VALIDATION: 1
 };
 
 function makeValidationError(errors) {
     return {
-        code: ErrorCodes.Validation,
+        code: ERROR_CODES.VALIDATION,
         errors
     };
 }

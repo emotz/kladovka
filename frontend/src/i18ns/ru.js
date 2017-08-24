@@ -26,7 +26,7 @@ export default {
         "spear": "копьё",
         "sword": "меч",
         "axe": "топор",
-        "fistWeapon": "кистевое оужие",
+        "fistWeapon": "кистевое оружие",
         "flail": "кистень",
         "mightyWeapon": "мощное оружие",
         "ceremonialKnife": "церемониальный нож"
@@ -47,7 +47,7 @@ export default {
     },
     deleteAll: {
         title: "Удалить все предметы",
-        content: "Вы увеверны что хотите удалить все предметы из Kladovka?",
+        content: "Вы уверены что хотите удалить все предметы из Kladovka?",
         buttonCancel: "Отмена",
         buttonOk: "Удалить",
     },
@@ -57,11 +57,35 @@ export default {
         mustBeLessThan: "{minDmg} должен быть меньше чем {maxDmg}",
         mustBePositive: "{allProps} должен быть положительным",
         notValidType: "{allProps} не правильный тип",
-        notFound: "Ресурс не найден"
+        notFound: "Ресурс не найден",
+        emailAlreadyExists: "Такой email уже существует",
+        invalidToken: "Неправильный токен",
+        emailOrPasswordInvalid: "Неправильный email или пароль"
     },
     sort: {
         title: "Сортировка по",
         dpsAsc: "увеличению увс",
         dpsDesc: "уменьшению увс"
+    },
+    header: {
+        signUp: "Зарегистрироваться",
+        signIn: "Войти",
+        signOut: "Выйти",
+        hello: "Прювет, "
+    },
+    signIn: {
+        title: "Вход в Kladovka",
+        email: "Email адрес:",
+        password: "Пароль:",
+        buttonCancel: "Отмена",
+        buttonOk: "Войти",
+    },
+    signUp: {
+        title: "Регистрация в Kladovka",
+        email: "Email адрес:",
+        name: "Имя:",
+        password: "Пароль:",
+        buttonCancel: "Отмена",
+        buttonOk: "Зарегистрироваться",
     }
 };

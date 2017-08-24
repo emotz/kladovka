@@ -49,6 +49,36 @@ function checkItem(item) {
     };
 }
 
+function checkCollection(collection) {
+    let errors = [];
+    if (!Array.isArray(collection)) {
+        return {
+            collection: undefined,
+            isValid: false,
+            errors: [{ id: "notCollection", properties: [] }]
+        };
+    }
+    const itemCheckResults = collection.map(checkItem);
+    if (itemCheckResults.some(res => !res.isValid)) {
+        const failedIndices = itemCheckResults
+            .map((res, idx) => res.isValid ? undefined : idx)
+            .filter(idx => idx !== undefined);
+        errors.push({
+            id: "itemsNotValid",
+            properties: failedIndices,
+            data: itemCheckResults
+        });
+    }
+    let isValid = !errors.length;
+    if (!isValid)
+        collection = undefined;
+    return {
+        collection,
+        isValid,
+        errors
+    };
+}
+
 // > checkChar({atkSpd:'asd', dmg: 3, critChance: 5, critDmg: -6})
 // {char: undefined, isValid: false, errors: [{id: "mustBeNumber", properties: ["atkSpd"]}]}
 function checkChar(char) {
@@ -66,6 +96,50 @@ function checkChar(char) {
         char = undefined;
     return {
         char,
+        isValid,
+        errors
+    };
+}
+
+// > checkSignUp({email: 'userEmail', name: 'userName', password: 'userPass'})
+// {isValid: true, errors: [], user : {email: 'userEmail', name: 'userName', password: 'userPass'}}
+function checkSignUp(user) {
+    user = _.pick(user, ['email', 'name', 'password']);
+    let errors = [];
+    let notString = filterNotString(user, ['email', 'name', 'password']);
+    if (notString.length) {
+        errors.push({
+            id: "mustBeString",
+            properties: notString
+        });
+    }
+    let isValid = !errors.length;
+    if (!isValid)
+        user = undefined;
+    return {
+        user,
+        isValid,
+        errors
+    };
+}
+
+// > checkSignIn({email: 'userEmail', name: 'userName', password: 'userPass'})
+// {isValid: true, errors: [], user : {email: 'userEmail', password: 'userPass'}}
+function checkSignIn(user) {
+    user = _.pick(user, ['email', 'password']);
+    let errors = [];
+    let notString = filterNotString(user, ['email', 'password']);
+    if (notString.length) {
+        errors.push({
+            id: "mustBeString",
+            properties: notString
+        });
+    }
+    let isValid = !errors.length;
+    if (!isValid)
+        user = undefined;
+    return {
+        user,
         isValid,
         errors
     };
@@ -91,7 +165,18 @@ function filterNegative(item, props, excludes) {
         .filter(prop => item[prop] < 0);
 }
 
+// > filterNotString({name:'user1', password:'', salt:2}, ['name', 'password', 'salt'])
+// ["password", "salt"]
+function filterNotString(item, props, excludes) {
+    return _
+        .difference(props, excludes || [])
+        .filter(prop => (typeof item[prop] !== 'string' || item[prop].length === 0));
+}
+
 module.exports = {
     checkItem,
-    checkChar
+    checkCollection,
+    checkChar,
+    checkSignUp,
+    checkSignIn
 };

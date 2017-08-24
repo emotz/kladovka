@@ -35,8 +35,29 @@ function clone(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
+// Генератор рандомных ID
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}
+function guid12bytes() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + s4();
+}
+
 module.exports = {
     random,
     filterObj,
-    clone
+    clone,
+    guid,
+    guid12bytes
 };

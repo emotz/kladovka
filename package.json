@@ -1,6 +1,6 @@
 {
   "name": "kladovka",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "clean": "rimraf frontend/dist",
     "dev": "cd backend/src && node server.js",
     "test": "npm run test-unit && npm run test-e2e",
-    "test-e2e": "cd e2e && wdio",
+    "test-e2e": "cd e2e/test && mocha rest.e2e.js",
     "test-unit": "cd domain && mocha",
     "watch": "cd frontend && webpack --watch",
     "lint": "eslint . --format unix",
@@ -50,6 +50,9 @@
     "lodash": "^4.17.4",
     "mongodb": "^2.2.26",
     "nprogress": "^0.2.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0",
     "toastr": "^2.1.2",
     "url-join": "^2.0.2",
     "vue": "^2.3.3",

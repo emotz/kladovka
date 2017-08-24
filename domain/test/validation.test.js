@@ -190,6 +190,52 @@ describe('validation unit test', function () {
         });
     });
 
+    describe('for items collection', function () {
+
+        it('предмет проходит валидацию', function () {
+            let collection = [
+                {
+                    type: 'axe',
+                    minDmg: 2,
+                    maxDmg: 3,
+                    critChance: 20,
+                    critDmg: 60
+                }, {
+                    type: 'mace',
+                    minDmg: 20,
+                    maxDmg: 30,
+                    critChance: 0,
+                    critDmg: 0
+                }
+            ];
+            let validationResult = validation.checkCollection(collection);
+            assert(validationResult.isValid === true);
+        });
+
+
+        it('при ошибке валидации предмета, в результате нет предмета и есть ошибка', function () {
+            let collection = [
+                {
+                    type: 'axe',
+                    minDmg: 2,
+                    maxDmg: 3,
+                    critChance: 20,
+                }, {
+                    type: 'mace',
+                    minDmg: 20,
+                    maxDmg: 30,
+                    critChance: 0,
+                    critDmg: 0
+                }
+            ];
+            let validationResult = validation.checkCollection(collection);
+            assert(validationResult.collection === undefined);
+            assert(validationResult.isValid === false);
+            assert(validationResult.errors.length === 1);
+        });
+
+    });
+
     describe('for char', function () {
 
         //property testing come soon..
@@ -256,6 +302,64 @@ describe('validation unit test', function () {
                         }
                     ]);
             });
+        });
+    });
+
+
+    describe('for user', function () {
+
+        it('должен зарегистрировать пользователя', function () {
+            let user = {
+                email: 'userEmail',
+                name: 'userName',
+                password: 'userPass'
+            };
+            let validationResult = validation.checkSignUp(user);
+            assert(validationResult.isValid === true);
+        });
+
+        it('должен обрезать лишние свойства и зарегистрировать пользователя', function () {
+            let user = {
+                email: 'userEmail',
+                name: 'userName',
+                password: 'userPass',
+                enot: true
+            };
+            let validationResult = validation.checkSignUp(user);
+            assert(validationResult.isValid === true);
+            assert(validationResult.user.enot === undefined);
+        });
+
+        it('при ошибке валидации пользователя, в результате нет пользователя и есть ошибка', function () {
+            let user = {
+                email: 'userEmail',
+                name: 'userName',
+                password: 123,
+            };
+            let validationResult = validation.checkSignUp(user);
+            assert(validationResult.isValid === false);
+            assert(validationResult.user === undefined);
+            assert(validationResult.errors.length === 1);
+        });
+
+
+        describe('errors', function () {
+
+            it('#mustBeString: [name, password]', function () {
+                let user = {
+                    email: 'userEmail',
+                    password: 123,
+                };
+                let validationResult = validation.checkSignUp(user);
+                expect(validationResult.errors)
+                    .to.have.deep.members([
+                        {
+                            id: "mustBeString",
+                            properties: ["name", "password"]
+                        }
+                    ]);
+            });
+
         });
     });
 });

@@ -1,5 +1,5 @@
 import API from 'api.json';
-import { renderValidationError } from '../services/render';
+import { translateError } from '../services/render';
 
 export default {
     data: function () {
@@ -13,12 +13,9 @@ export default {
             this.$http.post(API.TOKENS, { email: this.email, password: this.password }).then(response => {
                 this.$emit('signIn', response.body);
             }).catch(err => {
-                if (err.status === 400 && err.body.code === 1) {
-                    let renderedErrors = renderValidationError(err.body.errors);
-                    renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                } else if (err.status === 400 && err.body.code === 3) {
-                    let renderedErrors = renderValidationError(err.body.errors);
-                    renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                if (err.status === 400 && (err.body.code === 1 || err.body.code === 3)) {
+                    err.body.errors.forEach(error =>
+                        toastr.error(translateError(this, error)));
                 } else
                     toastr.error(this.$t('errors.default'));
             });

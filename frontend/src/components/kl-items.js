@@ -1,7 +1,7 @@
 import API from 'api.json';
 import urlJoin from 'url-join';
 import { clone } from 'domain/utility';
-import { renderValidationError } from '../services/render';
+import { translateError } from '../services/render';
 import klAddItem from './kl-add-item.vue';
 import klDeleteAll from './kl-delete-all.vue';
 import { dps, aps, totalDps } from 'domain/Item';
@@ -80,12 +80,9 @@ export default {
                     }
                     await callMethod(this, 'charAndItems', char);
                 } catch (err) {
-                    if (err.status === 400 && err.body.code === 1) {
-                        let renderedErrors = renderValidationError(err.body.errors);
-                        renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
-                    } else if (err.status === 401 && err.body.code === 3) {
-                        let renderedErrors = renderValidationError(err.body.errors);
-                        renderedErrors.forEach(error => toastr.error(this.$t('errors.' + error.id, error.props)));
+                    if (err.status === 400 && (err.body.code === 1 || err.body.code === 3)) {
+                        err.body.errors.forEach(error =>
+                            toastr.error(translateError(this, error)));
                     } else
                         toastr.error(this.$t('errors.default'));
                 }

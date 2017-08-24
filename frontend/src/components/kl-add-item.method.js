@@ -2,7 +2,7 @@ import API from 'api.json';
 import { clone, guid12bytes } from 'domain/utility';
 import { checkItem } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
-import { renderValidationError } from '../services/render';
+import { translateError } from '../services/render';
 import { isAuthenticated } from '../services/auth';
 
 export function callMethod(component, cb) {
@@ -29,15 +29,15 @@ remote.addItem = function (component) {
             component.$emit('addItem', item);
         }).catch(err => {
             if (err.status === 400 && err.body.code === 1) {
-                let renderedErrors = renderValidationError(err.body.errors);
-                renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+                err.body.errors.forEach(error =>
+                    toastr.error(translateError(this, error)));
             } else
-                toastr.error(component.$t('errors.default'));
+                toastr.error(this.$t('errors.default'));
         });
     } else {
         let res = makeValidationError(validationResult.errors);
-        let renderedErrors = renderValidationError(res.errors);
-        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+        res.errors.forEach(error =>
+            toastr.error(translateError(this, error)));
     }
 };
 
@@ -51,7 +51,7 @@ local.addItem = function (component) {
         component.$emit('addItem', item);
     } else {
         let res = makeValidationError(validationResult.errors);
-        let renderedErrors = renderValidationError(res.errors);
-        renderedErrors.forEach(error => toastr.error(component.$t('errors.' + error.id, error.props)));
+        res.errors.forEach(error =>
+            toastr.error(translateError(this, error)));
     }
 };

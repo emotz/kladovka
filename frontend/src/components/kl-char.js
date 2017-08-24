@@ -1,5 +1,4 @@
 import { callMethod } from './kl-char.method.js';
-
 export default {
     data: function () {
         return {

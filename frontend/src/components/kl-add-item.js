@@ -1,5 +1,5 @@
 import * as Item from 'domain/Item';
-import { transTypeList } from '../services/render';
+import { translateTypeList } from '../render';
 import { focus } from 'vue-focus';
 import { callMethod } from './kl-add-item.method.js';
 
@@ -9,7 +9,7 @@ export default {
     data: function () {
         return {
             focused: false,
-            typeList: transTypeList(Item.types),
+            typeList: translateTypeList(this, Item.types),
             item: {
                 type: Item.types[0],
                 minDmg: 1,
@@ -22,6 +22,7 @@ export default {
     methods: {
         addItem: function () {
             callMethod(this, 'addItem');
+
         },
         dmgControl: function () {
             if (this.item.minDmg < 1) this.item.minDmg = 1;

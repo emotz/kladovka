@@ -32,18 +32,22 @@
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.1",
+    "doctest": "^0.12.0",
     "file-loader": "^0.11.1",
     "rimraf": "^2.6.1",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "vue-loader": "^12.0.4",
     "vue-template-compiler": "^2.3.3",
-    "webpack": "^2.5.1"
+    "webpack": "^2.5.1",
+    "axios": "^0.16.2",
+    "chai": "^4.0.2",
+    "eslint": "^3.19.0",
+    "mocha": "^3.2.0"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
-    "doctest": "^0.12.0",
     "express": "^4.15.2",
     "express-async-errors": "^2.0.0",
     "jquery": "^3.2.1",
@@ -61,16 +65,5 @@
     "vue-resource": "^1.3.1",
     "vue-resource-nprogress": "^1.0.2",
     "winston": "^2.3.1"
-  },
-  "optionalDependencies": {
-    "axios": "^0.16.2",
-    "chai": "^4.0.2",
-    "eslint": "^3.19.0",
-    "eslint-plugin-webdriverio": "^1.0.1",
-    "mocha": "^3.2.0",
-    "wdio-mocha-framework": "^0.5.10",
-    "wdio-selenium-standalone-service": "0.0.8",
-    "wdio-spec-reporter": "^0.1.0",
-    "webdriverio": "^4.8.0"
   }
 }

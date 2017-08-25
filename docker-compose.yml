@@ -5,6 +5,7 @@ services:
     build:
      context: .
      dockerfile: Dockerfile
+    image: kladovka/main
     volumes:
      - .:/usr/src/kladovka
      - /usr/src/kladovka/node_modules
@@ -18,6 +19,7 @@ services:
     build:
      context: .
      dockerfile: Dockerfile
+    image: kladovka/main
     volumes:
      - .:/usr/src/kladovka
      - /usr/src/kladovka/node_modules

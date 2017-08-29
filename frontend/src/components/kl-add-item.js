@@ -1,5 +1,5 @@
 import * as Item from 'domain/Item';
-import { translateTypeList } from '../render';
+import { translateTypeList } from '../services/render';
 import { focus } from 'vue-focus';
 import { callMethod } from './kl-add-item.method.js';
 

@@ -32,10 +32,6 @@ In root of Kladovka, you must create `config.json`, based on `config.json.exampl
 
 ## Build & Run
 
-### Docker Toolbox
-
-Any `docker-compose` replace with `docker-compose -f docker-compose.yml -f docker-compose.toolbox.yml`
-
 ### Docker
 
 To startup service with bash:

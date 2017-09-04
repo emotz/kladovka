@@ -64,4 +64,41 @@ describe('e2e test', function () {
         page.refresh();
         page.waitForEmptyList();
     });
+
+    it('should recalculate the item dps for current character', function () {
+        page.addItem();
+        page.waitForNotEmptyList();
+        page.itemWithOutTotalDps();
+        let char = {
+            atkSpd: 54,
+            dmg: 3,
+            critChance: 5,
+            critDmg: 6
+        };
+        page.addCustomChar(char);
+        page.itemWithTotalDps();
+    });
+
+    it('should sort items by dps desc', function () {
+        let item1 = {
+            type: 'sword',
+            minDmg: 2,
+            maxDmg: 3,
+            critChance: 20,
+            critDmg: 60
+        };
+        page.addCustomItem(item1);
+        page.waitForNotEmptyList();
+        let item2 = {
+            type: 'mace',
+            minDmg: 20,
+            maxDmg: 30,
+            critChance: 20,
+            critDmg: 60
+        };
+        page.addCustomItem(item2);
+        page.waitForNotEmptyList();
+        page.sortByDpsDesc();
+        page.waitForLastItem(item1);
+    });
 });

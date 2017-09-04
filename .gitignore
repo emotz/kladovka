@@ -1,4 +1,5 @@
+/.vagrant
 /node_modules
 /frontend/dist
 /logs
-/config.json
+/config/config.json

@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-if (!fs.existsSync(path.join(__dirname, '../../../logs'))) {
+if (!fs.existsSync(path.join(__dirname, '../../../logs')))
     fs.mkdirSync(path.join(__dirname, '../../../logs'));
-}
 
 const winston = require('winston');
 var logger = new (winston.Logger)({

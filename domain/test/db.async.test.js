@@ -1,10 +1,12 @@
 const assert = require('assert');
 const CONFIG = require('../../config/config.json');
-const mongoDB = require('../src/mongo');
-const memoryDB = require('../src/memory');
 const coll = 'tests';
 
-[mongoDB, memoryDB].forEach(function (database, index) {
+const testsDb = CONFIG.TESTS_DB.map(function(database) {
+    return require('../src/' + database);
+}, this);
+
+testsDb.forEach(function (database, index) {
 
     describe('Тест БД ' + index, function () {
 

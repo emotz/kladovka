@@ -2,7 +2,7 @@ const assert = require('assert');
 const CONFIG = require('../../config/config.json');
 const coll = 'tests';
 
-const testsDb = CONFIG.TESTS_DB.map(function(database) {
+const testsDb = CONFIG.TESTS_DB.map(function (database) {
     return require('../src/' + database);
 }, this);
 

@@ -4,7 +4,8 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "lint": "eslint . --format unix"
+    "lint": "eslint . --format unix",
+    "start": "docker-compose build frontend && docker-compose build backend && docker-compose up --build backend frontend"
   },
   "repository": {
     "type": "git",

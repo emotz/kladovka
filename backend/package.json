@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "cd src && node server.js"
+        "start": "cd src && node server.js >> ../../logs/backend.log"
     },
     "devDependencies": {
         "axios": "^0.16.2",

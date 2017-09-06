@@ -2,111 +2,64 @@
 
 Optimizer of inventory for games
 
+## Docker
+
+Recommended way to run this app is via Docker-CE
+https://docs.docker.com/engine/installation/
+
+The workflow for developers should be like so:
+
+- `docker-compose up` in one terminal
+- in another terminal, `docker-compose exec dev bash`
+- execute all other commands from this readme inside docker container. First
+terminal (with `docker-compose up`) should display logs.
+
+If you need to clean everything, do `docker-compose stop && docker-compose rm -f`
+
 ## Install required modules
 
 ```bat
 npm install
+npm run deps
 ```
 
 ## Configuration
 
 In root of Kladovka, you must create `config.json`, based on `config.json.example`.
 
-```js
-{
-    // Kladovka - multilanguage!
-    // `default_language` can be "ru" or "en"
-    "default_language": "en",
-
-    // Kladovka can use mongoDB or memory database.
-    // `db` can be "mongo" or "memory"
-    "db": "mongo",
-
-    // `db_url` is the address for your database server
-    "db_url": "mongodb://localhost:27017/kladovka",
-
-    // `express_port` is the port that will listen Kladovka
-    "express_port": 8080
-}
-```
-
 ## Build & Run
 
-### Docker
+### Start
 
-To startup service with bash:
-
-```bat
-docker-compose run --rm main bash
-```
-
-To connect to service already "up"ed:
+To start both watching on frontend and backend:
 
 ```bat
-docker-compose exec main bash
+npm start
 ```
 
-To build image:
-
-```bat
-docker-compose build
-```
-
-To run service:
-
-```bat
-docker-compose up
-```
-
-To run linter:
-
-```bat
-docker-compose run --rm main npm run lint
-```
-
-To run test:
-
-```bat
-docker-compose run --rm test-runner
-```
-
-To clean everything up:
-
-```bat
-docker-compose stop && docker-compose rm -f && docker-compose build
-```
-
-### Build distributable files
-
-```bat
-npm run build
-```
-
-### Start server
-
-```bat
-npm run dev
-```
-
-After this two steps, open `http://localhost:8080` (8080 default express port in
+Now you can open `http://localhost:8080` (8080 default express port in
 `config.json.example`) in your browser and delight our application.
+
+To see other commands, do
+
+```bat
+npm run
+```
+
+There are also subproject specific commands:
+
+```bat
+cd frontend && npm run
+```
+
+etc.
 
 ### Run all tests
 
+*Attention*: Don't forget to `npm start` before testing.
+
 ```bat
 npm test
-```
-
-### Run unit tests
-
-```bat
-npm run test-unit
-```
-
-### Run e2e tests
-
-```bat
-npm run test-e2e
 ```
 
 ### Clean distributable files

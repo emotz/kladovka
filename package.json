@@ -5,7 +5,12 @@
   "main": "main.js",
   "scripts": {
     "lint": "eslint . --format unix",
-    "start": "docker-compose build frontend && docker-compose build backend && docker-compose up --build backend frontend"
+    "deps": "yarn install && cd frontend && yarn install --modules-folder ../node_modules && cd ../backend && yarn install --modules-folder ../node_modules && cd ../domain && yarn install --modules-folder ../node_modules && cd ../e2e && yarn install --modules-folder ../node_modules",
+    "start": "parallelshell 'npm run start:backend' 'npm run start:frontend'",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "test": "cd domain && npm test && cd ../e2e && npm start",
+    "clean": "cd frontend && npm clean"
   },
   "repository": {
     "type": "git",
@@ -25,5 +30,8 @@
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-plugin-webdriverio": "^1.0.1"
+  },
+  "dependencies": {
+    "parallelshell": "^3.0.1"
   }
 }

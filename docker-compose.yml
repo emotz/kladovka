@@ -1,32 +1,30 @@
 version: '2'
 
 services:
-  main:
+  frontend:
     build:
-     context: .
-     dockerfile: Dockerfile
-    image: kladovka/main
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    image: kladovka/frontend
     volumes:
-     - .:/usr/src/kladovka
-     - /usr/src/kladovka/node_modules
-    entrypoint: ["bash", "./wait-for-it.sh", "-t", "30", "mongo-server:27017", "--"]
-    command: ["npm", "run", "dev"]
+     - .:/src
+     - /src/frontend/node_modules
+     - /src/domain/node_modules
+    command: ["npm", "run", "start"]
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    image: kladovka/backend
+    volumes:
+     - .:/src
+     - /src/backend/node_modules
+     - /src/domain/node_modules
+    entrypoint: ["bash", "../wait-for-it.sh", "-t", "30", "mongo-server:27017", "--"]
+    command: ["npm", "run", "start"]
     ports:
      - 8080:8080 # main port
     depends_on:
      - mongo-server
-  test-runner:
-    build:
-     context: .
-     dockerfile: Dockerfile
-    image: kladovka/main
-    volumes:
-     - .:/usr/src/kladovka
-     - /usr/src/kladovka/node_modules
-    entrypoint: ["bash", "./wait-for-it.sh", "-t", "30", "main:8080", "--"]
-    command: ["npm", "run", "test"]
-    depends_on:
-     - main
   mongo-server:
     image: mongo
-

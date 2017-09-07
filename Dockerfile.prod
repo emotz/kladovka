@@ -1,0 +1,22 @@
+FROM node
+
+WORKDIR src/backend
+
+RUN cd .. && npm install yarn
+
+COPY config ../config
+
+COPY backend .
+RUN yarn install --modules-folder ../node_modules
+
+COPY domain ../domain
+RUN cd ../domain && yarn install --modules-folder ../node_modules
+
+COPY frontend ../tmp_frontend
+RUN cd ../tmp_frontend && yarn install --modules-folder ../node_modules
+RUN cd ../tmp_frontend && npm run build:prod
+RUN mkdir -p ../frontend/dist
+RUN cp -r ../tmp_frontend/dist ../frontend
+RUN rm -rf ../tmp_frontend
+
+CMD ["npm", "run","start:prod"]

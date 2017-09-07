@@ -4,7 +4,8 @@
         "backend/node_modules": true,
         "domain/node_modules": true,
         "e2e/node_modules": true,
-        "frontend/node_modules": true
+        "frontend/node_modules": true,
+        "v8-compile-cache-0": true
     },
     "typescript.format.insertSpaceAfterCommaDelimiter": true,
     "typescript.format.insertSpaceAfterConstructor": false,

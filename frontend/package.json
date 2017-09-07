@@ -1,6 +1,7 @@
 {
   "scripts": {
     "build": "webpack >> ../logs/frontend.log",
+    "build:prod": "webpack",
     "clean": "rimraf dist",
     "start": "webpack --watch >> ../logs/frontend.log"
   },

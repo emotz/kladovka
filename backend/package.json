@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "start": "cd src && node server.js >> ../../logs/backend.log"
+        "start": "cd src && node server.js >> ../../logs/backend.log",
+        "start:prod": "cd src && node server.js"
     },
     "dependencies": {
         "body-parser": "^1.17.1",

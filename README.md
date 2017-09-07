@@ -11,8 +11,7 @@ The workflow for developers should be like so:
 
 - `docker-compose up` in one terminal
 - in another terminal, `docker-compose exec dev bash`
-- execute all other commands from this readme inside docker container. First
-terminal (with `docker-compose up`) should display logs.
+- execute all other commands from this readme inside docker container. First terminal (with `docker-compose up`) should display logs.
 
 If you need to clean everything, do `docker-compose stop && docker-compose rm -f`
 

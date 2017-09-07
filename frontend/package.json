@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "build": "webpack",
-    "clean": "rimraf frontend/dist",
-    "start": "webpack --watch"
+    "build": "webpack >> ../logs/frontend.log",
+    "clean": "rimraf dist",
+    "start": "webpack --watch >> ../logs/frontend.log"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",

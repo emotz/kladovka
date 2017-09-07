@@ -1,6 +1,10 @@
 {
     "files.exclude": {
-        "node_modules": true
+        "node_modules": true,
+        "backend/node_modules": true,
+        "domain/node_modules": true,
+        "e2e/node_modules": true,
+        "frontend/node_modules": true
     },
     "typescript.format.insertSpaceAfterCommaDelimiter": true,
     "typescript.format.insertSpaceAfterConstructor": false,

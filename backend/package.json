@@ -2,10 +2,6 @@
     "scripts": {
         "start": "cd src && node server.js >> ../../logs/backend.log"
     },
-    "devDependencies": {
-        "axios": "^0.16.2",
-        "doctest": "^0.12.0"
-    },
     "dependencies": {
         "body-parser": "^1.17.1",
         "express": "^4.15.2",

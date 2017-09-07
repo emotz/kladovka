@@ -6,26 +6,27 @@ const urlJoin = require('url-join');
 const email = "testEmail";
 const name = "testName";
 const password = "testPassword";
-const badToken = 'bad token';
+const badToken = "bad token";
+const domainUrl = "http://dev:8080";
 let token;
 
 
 describe('e2e tests', function () {
 
     it('should add user', async function () {
-        let res = await axios.post("http://dev:8080/api/users", { email, name, password });
+        let res = await axios.post(urlJoin(domainUrl, "/api/users"), { email, name, password });
         assert(res.status === 201);
     });
 
     it('should get token', async function () {
-        let res = await axios.post("http://dev:8080/api/tokens", { email, password });
+        let res = await axios.post(urlJoin(domainUrl, "/api/tokens"), { email, password });
         assert(res.status === 200);
         token = res.data.accessToken;
     });
 
     it('should catch verification error: #emailAlreadyExists', async function () {
         try {
-            await axios.post("http://dev:8080/api/users", { email, name, password });
+            await axios.post(urlJoin(domainUrl, "/api/users"), { email, name, password });
         }
         catch (e) {
             assert(e.response.status === 409);
@@ -44,7 +45,7 @@ describe('e2e tests', function () {
 
     it('should catch authentication error: #emailOrPasswordInvalid', async function () {
         try {
-            await axios.post("http://dev:8080/api/tokens", { email, password: "oops" });
+            await axios.post(urlJoin(domainUrl, "/api/tokens"), { email, password: "oops" });
         } catch (e) {
             assert(e.response.status === 400);
             assert(e.response.data.code === 3);
@@ -68,7 +69,7 @@ describe('e2e tests', function () {
             critDmg: 0
         };
         try {
-            await axios.post("http://dev:8080/api/items", item, {
+            await axios.post(urlJoin(domainUrl, "/api/items"), item, {
                 headers: { 'Authorization': 'Bearer ' + badToken }
             });
         } catch (e) {
@@ -89,7 +90,7 @@ describe('e2e tests', function () {
     describe('for items', function () {
 
         beforeEach(async function () {
-            await axios.delete("http://dev:8080/api/items", {
+            await axios.delete(urlJoin(domainUrl, "/api/items"), {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
         });
@@ -102,7 +103,7 @@ describe('e2e tests', function () {
                 critDmg: 0
             };
             try {
-                await axios.post("http://dev:8080/api/items", item, {
+                await axios.post(urlJoin(domainUrl, "/api/items"), item, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
             } catch (e) {
@@ -128,7 +129,7 @@ describe('e2e tests', function () {
                 critDmg: 0,
                 critChance: 0
             };
-            let res = await axios.post("http://dev:8080/api/items", item, {
+            let res = await axios.post(urlJoin(domainUrl, "/api/items"), item, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(res.status === 201);
@@ -148,7 +149,7 @@ describe('e2e tests', function () {
                 critDmg: 20,
                 critChance: 20
             }];
-            let res = await axios.post(urlJoin("http://dev:8080/api/items-collection"), collections, {
+            let res = await axios.post(urlJoin(domainUrl, "/api/items-collection"), collections, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(res.data.inserted_count === 2);
@@ -168,10 +169,10 @@ describe('e2e tests', function () {
                 critDmg: 20,
                 critChance: 20
             }];
-            await axios.post(urlJoin("http://dev:8080/api/items-collection"), collections, {
+            await axios.post(urlJoin(domainUrl, "/api/items-collection"), collections, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
-            let resGet = await axios.get("http://dev:8080/api/items", {
+            let resGet = await axios.get(urlJoin(domainUrl, "/api/items"), {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(resGet.data.length === 2);
@@ -185,16 +186,16 @@ describe('e2e tests', function () {
                 critDmg: 0,
                 critChance: 0
             };
-            let resPost = await axios.post("http://dev:8080/api/items", item, {
+            let resPost = await axios.post(urlJoin(domainUrl, "/api/items"), item, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             let id = resPost.data.added_id;
-            let resDel = await axios.delete(urlJoin("http://dev:8080/api/items", id), {
+            let resDel = await axios.delete(urlJoin(urlJoin(domainUrl, "/api/items"), id), {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(resDel.status === 204);
             try {
-                await axios.get(urlJoin("http://dev:8080/api/items", id), {
+                await axios.get(urlJoin(urlJoin(domainUrl, "/api/items"), id), {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
             } catch (e) {
@@ -208,7 +209,7 @@ describe('e2e tests', function () {
     describe('for chars', function () {
 
         beforeEach(async function () {
-            await axios.delete("http://dev:8080/api/chars", {
+            await axios.delete(urlJoin(domainUrl, "/api/chars"), {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
         });
@@ -220,7 +221,7 @@ describe('e2e tests', function () {
                 critChance: 30,
                 critDmg: 50
             };
-            let res = await axios.post("http://dev:8080/api/chars", char, {
+            let res = await axios.post(urlJoin(domainUrl, "/api/chars"), char, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(res.status === 201);
@@ -233,16 +234,16 @@ describe('e2e tests', function () {
                 critChance: 30,
                 critDmg: 50
             };
-            let resPost = await axios.post("http://dev:8080/api/chars", char, {
+            let resPost = await axios.post(urlJoin(domainUrl, "/api/chars"), char, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             let id = resPost.data.added_id;
             char.dmg = 100500;
-            let resPut = await axios.put(urlJoin("http://dev:8080/api/chars", id), char, {
+            let resPut = await axios.put(urlJoin(urlJoin(domainUrl, "/api/chars"), id), char, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(resPut.status === 204);
-            let resGet = await axios.get("http://dev:8080/api/chars", {
+            let resGet = await axios.get(urlJoin(domainUrl, "/api/chars"), {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             assert(resGet.data.dmg === 100500);

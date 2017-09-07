@@ -10,7 +10,7 @@
     "start:backend": "cd backend && npm start",
     "start:frontend": "cd frontend && npm start",
     "test": "cd domain && npm test && cd ../e2e && npm start",
-    "clean": "cd frontend && npm clean"
+    "clean": "cd frontend && npm run clean"
   },
   "repository": {
     "type": "git",

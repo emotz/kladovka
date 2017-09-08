@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "lts/*"
+  - "8"
 git:
   depth: 1
 services:
@@ -13,10 +13,7 @@ before_install:
 install:
 - docker-compose up -d dev
 script:
-- docker-compose exec dev bash
-- cd domain && yarn install --modules-folder ../node_modules
-- npm test
-- exit
+- docker-compose exec dev bash -c "cd domain && yarn install --modules-folder ../node_modules && npm test"
 #branches:
 #  only:
 #  - master

@@ -2,7 +2,6 @@ sudo: required
 language: node_js
 node_js:
   - "lts/*"
-  - "6"
 git:
   depth: 1
 services:
@@ -12,7 +11,7 @@ before_install:
 - npm run lint
 - cp config/config.json.example config/config.json
 install:
-- docker-compose up dev
+- docker-compose up -d dev
 script:
 - docker-compose exec dev bash
 - cd domain && yarn install --modules-folder ../node_modules

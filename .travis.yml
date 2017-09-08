@@ -18,15 +18,14 @@ install:
 - docker-compose up -d dev
 script:
 # domain tests with memory db
-- cd config
 - jq '.DB="memory"' config.json > tmp.json && mv tmp.json config.json
 - jq '.TESTS_DB=["memory"]' config.json > tmp.json && mv tmp.json config.json
 - docker-compose exec dev bash -c "cd domain && yarn install --modules-folder ../node_modules && npm test"
 
 # domain tests with mongo db
-- cd config
 - jq '.DB="mongo"' config.json > tmp.json && mv tmp.json config.json
 - jq '.TESTS_DB=["mongo"]' config.json > tmp.json && mv tmp.json config.json
+- docker-compose up -d mongo-server
 - docker-compose exec dev bash -c "cd domain && yarn install --modules-folder ../node_modules && npm test"
 #branches:
 #  only:

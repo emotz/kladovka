@@ -20,11 +20,11 @@ script:
 - cd ../domain && yarn install --modules-folder ../node_modules && npm test
 
 - docker-compose up -d dev
+- docker-compose exec dev npm install -g mocha
+- docker-compose up -d mongo-server
 
 # db tests of domain for mongo db
-- jq '.TESTS_DB=["mongo"]' config.json > tmp.json && mv tmp.json config.json
-- docker-compose up -d mongo-server
-- docker-compose exec dev npm install -g mocha
+- cd ../config && jq '.TESTS_DB=["mongo"]' config.json > tmp.json && mv tmp.json config.json
 - docker-compose exec dev bash -c "cd domain/test && mocha db.async.test.js"
 
 - docker-compose exec dev bash -c "cd frontend && yarn install --modules-folder ../node_modules && npm run build"

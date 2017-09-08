@@ -23,10 +23,9 @@ script:
 - docker-compose exec dev bash -c "cd domain && yarn install --modules-folder ../node_modules && npm test"
 
 # domain tests with mongo db
-- jq '.DB="mongo"' config.json > tmp.json && mv tmp.json config.json
 - jq '.TESTS_DB=["mongo"]' config.json > tmp.json && mv tmp.json config.json
 - docker-compose up -d mongo-server
-- docker-compose exec dev bash -c "cd domain && yarn install --modules-folder ../node_modules && npm test"
+- docker-compose exec dev bash -c "cd domain/test && mocha db.async.test.js"
 #branches:
 #  only:
 #  - master

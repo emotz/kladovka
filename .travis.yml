@@ -9,7 +9,12 @@ services:
 before_install:
 - npm install
 - npm run lint
-- cp config/config.json.example config/config.json
+- sudo apt-get update
+- sudo apt-get -y install jq
+- cd config
+- cp config.json.example config.json
+- jq '.DB="memory"' config.json > tmp.json && cp tmp.json config.json && rm tmp.json
+- jq '.TESTS_DB=["memory"]' config.json > tmp.json && cp tmp.json config.json && rm tmp.json
 install:
 - docker-compose up -d dev
 script:

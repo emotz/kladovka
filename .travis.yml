@@ -1,26 +1,25 @@
 sudo: required
 language: node_js
 node_js:
-  - "8"
+- "8"
 git:
   depth: 1
 services:
 - docker
-before_install:
+install:
 - npm install
 - npm run lint
 - sudo apt-get update
 - sudo apt-get -y install jq
 - cd config
 - cp config.json.example config.json
-
-install:
-- docker-compose up -d dev
 script:
 # domain tests with memory db
 - jq '.DB="memory"' config.json > tmp.json && mv tmp.json config.json
 - jq '.TESTS_DB=["memory"]' config.json > tmp.json && mv tmp.json config.json
-- docker-compose exec dev bash -c "cd domain && yarn install --modules-folder ../node_modules && npm test"
+- cd ../domain && yarn install --modules-folder ../node_modules && npm test
+
+- docker-compose up -d dev
 
 # db tests of domain for mongo db
 - jq '.TESTS_DB=["mongo"]' config.json > tmp.json && mv tmp.json config.json

@@ -3,11 +3,21 @@ version: '2'
 services:
   dev:
     build: .
+    image: kladovka/dev
     volumes:
       - .:/src
       - /src/logs
     ports:
       - 8080:8080 #domain port
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: kladovka/prod
+    ports:
+      - 8080:8080 #domain port
+    depends_on:
+      - mongo-server
   mongo-server:
     image: mongo
   selenium:

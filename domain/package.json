@@ -1,6 +1,7 @@
 {
   "scripts": {
-      "test": "mocha"
+      "test": "mocha",
+      "test:db": "cd test && mocha db.async.test.js"
   },
   "dependencies": {
     "chai": "^4.0.2",

@@ -1,0 +1,40 @@
+sudo: required
+language: node_js
+node_js:
+- "8"
+git:
+  depth: 1
+services:
+- docker
+install:
+- npm install
+- npm run lint
+- sudo apt-get update
+- sudo apt-get -y install jq
+- cd config
+- cp config.json.example config.json
+script:
+# domain tests with memory db
+- jq '.DB="memory"' config.json > tmp.json && mv tmp.json config.json
+- jq '.TESTS_DB=["memory"]' config.json > tmp.json && mv tmp.json config.json
+- cd ../domain && yarn install --modules-folder ../node_modules && npm test
+
+- docker-compose up -d dev
+- docker-compose up -d mongo-server
+
+# db tests of domain for mongo db
+- cd ../config && jq '.TESTS_DB=["mongo"]' config.json > tmp.json && mv tmp.json config.json
+- docker-compose exec dev bash -c "cd domain && npm run test:db"
+
+- docker-compose exec dev bash -c "cd frontend && yarn install --modules-folder ../node_modules && npm run build"
+- docker-compose exec -d dev bash -c "cd backend && yarn install --modules-folder ../node_modules && npm start"
+- docker-compose up -d selenium
+- docker-compose exec dev bash -c "cd e2e && yarn install --modules-folder ../node_modules && npm start"
+
+
+#branches:
+#  only:
+#  - master
+notifications:
+  slack:
+    secure: Wc2toiBwtrFzlcq1dfu7e+WDP5MbTL9IJTJcYGTVdwP5vjV4CsFSycPV6djGVwT7b6QxT0YzmYYGEfW5iSMRna+4Hftw88SVZyjBrH1Fv2mLpGYDenN3PDt8jus45/OMMdP2Tw6wd76/2sg9D19nlcroLbz6Krhr7sHMYShPWOXRWymrAp4zkaKZx5jdtO4IpPkigA2d/qZUVQtPl2oJvonyE8zbHnJaakXWeDalYt2rnzKYavNuDLq0hcV+EUBfIKWdnjNM7X7Be8zpApeoNMqj4TzRKTvI9DLh05i2xWfuvMsXI2ooECaWVslvZUUqxE/7EFzrHrIlgKsuZrw4b934Le+aXQWGGcdfOZm+4R5GxeddQ+yTk+yPDZ+jgmv+u/H4c0YIfZzHZ+++y6cGKCix72QpkpsAOYPUG4W54rQm6Qp85cwxlQX/VxAQncEgLGpuaVRys2LKFSgthz3XDGM4iCEhx9VRLqlINMSrX0KffUtUz3UWQhJHT1lGUQs92EVWlca95TbibXXd5jrIwrfMtFb47N09MkXuQvTJOMfdnGnsBAtx+MLZY0vBJGoQY10KjP7bsnsZl3jOvswRQq3cu1l2F2uupyKAabo4m8hHP/2q5Ck716pE/SRyYl2vKaWlz74d0Bjtclwx4Xtq7ae/i+Di/AchiHpthFonYdo=

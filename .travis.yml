@@ -47,5 +47,4 @@ deploy:
   provider: script
   script: cd ../ && chmod +x scripts/deploy.sh && scripts/deploy.sh
   on:
-#    branch: master
-    all_branches: true
+    branch: master

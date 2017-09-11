@@ -31,7 +31,7 @@ script:
 - cd ../domain && npm run test:db 
 
 - cd ../frontend && yarn install --modules-folder ../node_modules && npm run build 
-- cd ../backend && yarn install --modules-folder ../node_modules && npm start 
+- cd ../backend && yarn install --modules-folder ../node_modules && npm start &
 - cd ../e2e && yarn install --modules-folder ../node_modules && npm start 
 env:
   global:

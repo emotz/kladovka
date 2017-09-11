@@ -9,7 +9,6 @@ services:
 addons:
   apt:
     packages:
-    - google-chrome-stable
     - jq
 install:
 - yarn install

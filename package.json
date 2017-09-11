@@ -4,15 +4,13 @@
   "description": "Optimizer of inventory for games",
   "main": "main.js",
   "scripts": {
-    "build": "cd frontend && webpack",
-    "clean": "rimraf frontend/dist",
-    "dev": "cd backend/src && node server.js",
-    "test": "npm run test-unit && npm run test-e2e",
-    "test-e2e": "cd e2e/test && mocha rest.e2e.js",
-    "test-unit": "cd domain && mocha",
-    "watch": "cd frontend && webpack --watch",
     "lint": "eslint . --format unix",
-    "doctest": "doctest --module commonjs"
+    "deps": "yarn install && cd frontend && yarn install --modules-folder ../node_modules && cd ../backend && yarn install --modules-folder ../node_modules && cd ../domain && yarn install --modules-folder ../node_modules && cd ../e2e && yarn install --modules-folder ../node_modules",
+    "start": "parallelshell 'npm run start:backend' 'npm run start:frontend'",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "test": "cd domain && npm test && cd ../e2e && npm start",
+    "clean": "cd frontend && npm run clean"
   },
   "repository": {
     "type": "git",
@@ -30,41 +28,10 @@
   },
   "homepage": "https://github.com/emotz/kladovka#readme",
   "devDependencies": {
-    "axios": "^0.16.2",
-    "chai": "^4.0.2",
-    "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.28.1",
-    "doctest": "^0.12.0",
     "eslint": "^3.19.0",
-    "eslint-plugin-webdriverio": "^1.0.1",
-    "file-loader": "^0.11.1",
-    "mocha": "^3.2.0",
-    "rimraf": "^2.6.1",
-    "style-loader": "^0.17.0",
-    "url-loader": "^0.5.8",
-    "vue-loader": "^12.0.4",
-    "vue-template-compiler": "^2.3.3",
-    "webpack": "^2.5.1"
+    "eslint-plugin-webdriverio": "^1.0.1"
   },
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "bootstrap": "^3.3.7",
-    "express": "^4.15.2",
-    "express-async-errors": "^2.0.0",
-    "jquery": "^3.2.1",
-    "lodash": "^4.17.4",
-    "mongodb": "^2.2.26",
-    "nprogress": "^0.2.0",
-    "passport": "^0.3.2",
-    "passport-jwt": "^2.2.1",
-    "passport-local": "^1.0.0",
-    "toastr": "^2.1.2",
-    "url-join": "^2.0.2",
-    "vue": "^2.3.3",
-    "vue-focus": "^2.1.0",
-    "vue-i18n": "^7.0.3",
-    "vue-resource": "^1.3.1",
-    "vue-resource-nprogress": "^1.0.2",
-    "winston": "^2.3.1"
+    "parallelshell": "^3.0.1"
   }
 }

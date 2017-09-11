@@ -1,6 +1,8 @@
 /* eslint-env node*/
 exports.config = {
 
+    // host: 'selenium',
+    // port: 4444,
     //
     // ==================
     // Specify Test Files
@@ -45,7 +47,10 @@ exports.config = {
         // 5 instances get started at a time.
         maxInstances: 5,
         //
-        browserName: 'chrome'
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['--headless', '--disable-gpu', '--window-size=1280,800']
+        }
     }],
     //
     // ===================

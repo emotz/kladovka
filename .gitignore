@@ -1,5 +1,10 @@
 /.vagrant
 /node_modules
+/backend/node_modules
+/e2e/node_modules
+/domain/node_modules
+/frontend/node_modules
 /frontend/dist
 /logs
 /config/config.json
+/v8-compile-cache-0

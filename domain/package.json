@@ -1,0 +1,14 @@
+{
+  "scripts": {
+      "test": "mocha",
+      "test:db": "cd test && mocha db.async.test.js"
+  },
+  "dependencies": {
+    "chai": "^4.0.2",
+    "doctest": "^0.12.0",
+    "mocha": "^3.2.0",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.26",
+    "url-join": "^2.0.2"
+  }
+}

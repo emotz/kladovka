@@ -2,8 +2,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "chai": "^4.1.1",
-    "selenium-standalone": "^6.9.0",
     "wdio-mocha-framework": "^0.3.0",
+    "wdio-selenium-standalone-service": "^0.0.9",
     "wdio-spec-reporter": "^0.1.2",
     "webdriverio": "^4.6.2"
   },

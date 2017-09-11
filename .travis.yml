@@ -34,8 +34,9 @@ script:
 - cd ../backend && yarn install --modules-folder ../node_modules && sh -c "npm start &"
 - cd ../e2e && yarn install --modules-folder ../node_modules && npm start 
 cache:
+  yarn: true
   directories:
-    - node_modules
+  - node_modules
 env:
   global:
   - secure: MGrWTC6JY7JMDsx0Y6aWPxTBmgQVsHSu+SifNf06Bs7BT+lBUtYlbt5Sy1xGOGSH3HtXL+eqFAdVEv5GaScTnh4D5vh4Mk9hsAe963oVlicErstI/2LD8j5iMM3oDh/C9Z/yIE3mh9YmbIuCmsQ6nxPinT3F9Nc7VRmfxT2y7oCjkysTn1u1QgCGYNDl652tunWumkjsx1+WXDzSAX4LDJtk+up5MAUl+9mELrBAELRE7rvpAfl1okZHY4worMIwPrdHUKcKt2/LwYZICqV23TyUrhj+qZU0dgwc2VeJJNYdbmMq0AxQAt2/S3HeEsgNoziv7FWVeIHJI2q76Hw5MvDqb26Mv6WXibboGv/i5oAkOA3gybEGkTRIgPVI/Thtj4EjKsQI+7q3T2w74G2WTIkBRO/EZZ1WM+XvB62MxgrYws9/JhsYpW8BZa1TqdOkoC695YmmGhBkXqGfpvkT6KUmLexh+UgGPESolhgk9xpFJ3zqKcFpU2R1p/zhyQKd4sOT+9a38KpS+yt6XszTp5cQsoIMcTnCMWgua78WoQI5dIJD46nD53taFI59L+B6ZUbVZPD+ngwqzyG5kAY/chek7iPCSOXW3NL5Ln1Fbr/to3G/cHYzL7Y7Qqq8hpE2C3QZK5bWKZ2LJ2wS7cQLSerc81i6l5VShHEw7rqkZdo=

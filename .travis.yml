@@ -12,11 +12,11 @@ addons:
     - google-chrome
     packages:
     - google-chrome-stable
+    - jq
 install:
 - npm install
 - npm run lint
-- sudo apt-get update
-- sudo apt-get -y install jq
+- mkdir -p logs
 - cd config
 - cp config.json.example config.json
 script:

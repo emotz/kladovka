@@ -10,7 +10,14 @@ let db = undefined;
  * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
-    db = await mongo.connect(url);
+    do {
+        try {
+            db = await mongo.connect(url);
+        } catch (e) {
+            continue;
+        }
+    }
+    while (db === undefined);
 }
 
 /**

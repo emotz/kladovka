@@ -4,6 +4,7 @@ const CONFIG = require('../../config/config.json');
 const coll = 'items';
 
 describe('Тест для кладовки', function () {
+    this.timeout(CONFIG.TESTS_TIMEOUT);
 
     let db;
     before(async function () {

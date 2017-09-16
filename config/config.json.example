@@ -4,5 +4,6 @@
     "DB_URL": "mongodb://mongo-server:27017/kladovka",
     "EXPRESS_PORT": 8080,
     "JWT_SECRET": "enot",
-    "TESTS_DB": ["mongo", "memory"]
+    "TESTS_DB": ["mongo", "memory"],
+    "TESTS_TIMEOUT": 30000
 }

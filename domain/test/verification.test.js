@@ -4,6 +4,7 @@ const klad = require('../src/main');
 const verification = require('../src/verification');
 
 describe('verification unit test', function () {
+    this.timeout(CONFIG.TESTS_TIMEOUT);
 
     before(async function () {
         return klad.connect(CONFIG.DB_URL);

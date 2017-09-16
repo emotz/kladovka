@@ -10,14 +10,18 @@ let db = undefined;
  * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
-    do {
-        try {
-            db = await mongo.connect(url);
-        } catch (e) {
-            continue;
-        }
+    try {
+        db = await mongo.connect(url);
+    } catch (err) {
+        let intervalID = setInterval(async function () {
+            try {
+                db = await mongo.connect(url);
+                clearInterval(intervalID);
+            } catch (e) {
+                //waiting next call
+            }
+        }, 5000);
     }
-    while (db === undefined);
 }
 
 /**

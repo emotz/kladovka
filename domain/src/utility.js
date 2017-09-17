@@ -54,10 +54,15 @@ function guid12bytes() {
     return s4() + s4() + s4();
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 module.exports = {
     random,
     filterObj,
     clone,
     guid,
-    guid12bytes
+    guid12bytes,
+    sleep
 };

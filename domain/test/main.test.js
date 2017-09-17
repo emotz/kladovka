@@ -1,5 +1,4 @@
 const assert = require('assert');
-const ready = require('readyness');
 const klad = require('../src/main');
 const CONFIG = require('../../config/config.json');
 const coll = 'items';
@@ -7,9 +6,8 @@ const coll = 'items';
 describe('Тест для кладовки', function () {
     this.timeout(CONFIG.TESTS_TIMEOUT);
 
-    before(async function (done) {
-        await klad.connect(CONFIG.DB_URL);
-        ready.doWhen(done);
+    before(async function () {
+        return klad.connect(CONFIG.DB_URL);
     });
 
     beforeEach(async function () {

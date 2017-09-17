@@ -1,5 +1,4 @@
 const assert = require('assert');
-const ready = require('readyness');
 const CONFIG = require('../../config/config.json');
 const coll = 'tests';
 
@@ -11,9 +10,8 @@ testsDb.forEach(function (database, index) {
     describe('Тест БД ' + index, function () {
         this.timeout(CONFIG.TESTS_TIMEOUT);
 
-        before(function (done) {
-            database.connect(CONFIG.DB_URL);
-            ready.doWhen(done);
+        before(async function () {
+            return database.connect(CONFIG.DB_URL);
         });
 
         beforeEach(async function () {

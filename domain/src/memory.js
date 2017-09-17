@@ -1,15 +1,17 @@
 const utility = require('./utility');
 const database = require('./db.async');
+const eventEmitter = require('events');
 
 let db = {};
+let event = new eventEmitter();
 /**
  * Открывает соединение с сервером БД
  * @param {String} url - Адрес сервера БД
  * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
-    //много строчек кода работы с url
-    return database.initialize();
+    await database.initialize();
+    event.emit('connect');
 }
 
 /**
@@ -183,6 +185,7 @@ function selectFirstNotDeletedItem(dict) {
 }
 
 module.exports = {
+    event,
     connect,
     disconnect,
     add: addItem,

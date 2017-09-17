@@ -15,6 +15,7 @@ const verification = require('../../domain/src/verification');
 const passport = require('./lib/passport');
 const jwt = require('jsonwebtoken');
 let app = express();
+let ready = require('readyness');
 
 const COLLECTIONS = {
     ITEMS: 'items',
@@ -193,7 +194,9 @@ app.use(function (err, req, res, next) {
     }
 });
 
-app.listen((process.env.PORT || CONFIG.EXPRESS_PORT), async function () {
-    logger.info('Server run on port: ' + (process.env.PORT || CONFIG.EXPRESS_PORT));
-    await klad.connect(process.env.MONGODB_URI || CONFIG.DB_URL);
+klad.connect(process.env.MONGODB_URI || CONFIG.DB_URL);
+ready.doWhen(function () {
+    app.listen((process.env.PORT || CONFIG.EXPRESS_PORT), async function () {
+        logger.info('Server run on port: ' + (process.env.PORT || CONFIG.EXPRESS_PORT));
+    });
 });

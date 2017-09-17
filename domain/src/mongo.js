@@ -1,24 +1,30 @@
 const utility = require('./utility');
 const mongodb = require('mongodb');
+const ready = require('readyness');
 const mongo = mongodb.MongoClient;
 const ObjectID = mongodb.ObjectID;
 
 let db = undefined;
+let connectionChecked = ready.waitFor();
 /**
  * Открывает соединение с сервером MongoDB
  * @param {String} url - Адрес сервера MongoDB
  * @returns {Promise.<Object, Error>} БД
  */
+
 async function connect(url) {
     try {
         db = await mongo.connect(url);
+        connectionChecked();
     } catch (err) {
         let intervalID = setInterval(async function () {
             try {
                 db = await mongo.connect(url);
                 clearInterval(intervalID);
+                connectionChecked();
             } catch (e) {
-                //waiting next call
+                if (e.name !== 'MongoError')
+                    throw e;
             }
         }, 5000);
     }

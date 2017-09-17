@@ -1,14 +1,18 @@
 const CONFIG = require('../../config/config.json');
 const database = require('./' + CONFIG.DB);
 const Item = require('./Item');
+const ready = require('readyness');
 
+
+let connectionChecked = ready.waitFor('database');
 /**
  * Открывает соединение с сервером БД
  * @param {String} url - Адрес сервера БД
  * @returns {Promise.<Object, Error>} БД
  */
-function connect(url) {
-    return database.connect(url);
+async function connect(url) {
+    await database.connect(url);
+    connectionChecked();
 }
 
 /**

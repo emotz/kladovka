@@ -293,10 +293,6 @@ readable-stream@2.2.7:
     string_decoder "~1.0.0"
     util-deprecate "~1.0.1"
 
-readyness@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/readyness/-/readyness-0.1.0.tgz#0df60b49039d9fef9560607941e54a00e62f1658"
-
 require_optional@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/require_optional/-/require_optional-1.0.1.tgz#4cf35a4247f64ca3df8c2ef208cc494b1ca8fc2e"

@@ -9,7 +9,6 @@
     "mocha": "^3.2.0",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.26",
-    "readyness":"^0.1.0",
     "url-join": "^2.0.2"
   }
 }

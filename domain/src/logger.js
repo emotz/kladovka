@@ -6,7 +6,7 @@ if (!fs.existsSync(path.join(__dirname, '../../logs')))
 
 const winston = require('winston');
 
-let severLogger = new (winston.Logger)({
+let serverLogger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)({
             label: 'SERVER',
@@ -27,6 +27,6 @@ let databaseLogger = new (winston.Logger)({
 });
 
 module.exports = {
-    severLogger,
+    serverLogger,
     databaseLogger
 };

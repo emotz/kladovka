@@ -1,5 +1,5 @@
 const assert = require('assert');
-const CONFIG = require('../../config/config.json');
+const CONFIG = require('../../domain/src/config.js');
 const coll = 'tests';
 
 const testsDb = CONFIG.TESTS_DB.map(function (database) {

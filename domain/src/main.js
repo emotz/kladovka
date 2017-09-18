@@ -2,6 +2,7 @@ const CONFIG = require('../../config/config.json');
 const database = require('./' + CONFIG.DB);
 const Item = require('./Item');
 
+
 /**
  * Открывает соединение с сервером БД
  * @param {String} url - Адрес сервера БД

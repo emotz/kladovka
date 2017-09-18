@@ -8,7 +8,6 @@ let db = {};
  * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
-    //много строчек кода работы с url
     return database.initialize();
 }
 

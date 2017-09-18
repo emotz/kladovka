@@ -4,10 +4,10 @@ const CONFIG = require('../../config/config.json');
 const coll = 'items';
 
 describe('Тест для кладовки', function () {
+    this.timeout(CONFIG.TESTS_TIMEOUT);
 
-    let db;
     before(async function () {
-        db = await klad.connect(CONFIG.DB_URL);
+        return klad.connect(CONFIG.DB_URL);
     });
 
     beforeEach(async function () {
@@ -199,6 +199,6 @@ describe('Тест для кладовки', function () {
     });
 
     after(function () {
-        klad.disconnect(db);
+        klad.disconnect();
     });
 });

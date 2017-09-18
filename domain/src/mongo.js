@@ -1,16 +1,27 @@
 const utility = require('./utility');
+const databaseLogger = require('./logger').databaseLogger;
 const mongodb = require('mongodb');
 const mongo = mongodb.MongoClient;
 const ObjectID = mongodb.ObjectID;
 
 let db = undefined;
+
 /**
  * Открывает соединение с сервером MongoDB
  * @param {String} url - Адрес сервера MongoDB
  * @returns {Promise.<Object, Error>} БД
  */
 async function connect(url) {
-    db = await mongo.connect(url);
+    let ms = 2000;
+    do {
+        try {
+            db = await mongo.connect(url);
+            break;
+        } catch (e) {
+            databaseLogger.info(`Retrying connect to database after ${ms} ms`);
+            await utility.sleep(ms);
+        }
+    } while (db === undefined);
 }
 
 /**

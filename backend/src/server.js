@@ -1,11 +1,11 @@
 require('express-async-errors');
-const logger = require('./lib/logger.js');
 const CONFIG = require('../../config/config.json');
 const API = require('../../config/api.json');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const urlJoin = require('url-join');
+const serverLogger = require('../../domain/src/logger').serverLogger;
 const User = require('../../domain/src/User');
 const klad = require('../../domain/src/main');
 const errors = require('../../domain/src/errors');
@@ -193,7 +193,9 @@ app.use(function (err, req, res, next) {
     }
 });
 
-app.listen((process.env.PORT || CONFIG.EXPRESS_PORT), async function () {
-    logger.info('Server run on port: ' + (process.env.PORT || CONFIG.EXPRESS_PORT));
+(async function up() {
     await klad.connect(process.env.MONGODB_URI || CONFIG.DB_URL);
-});
+    app.listen((process.env.PORT || CONFIG.EXPRESS_PORT), async function () {
+        serverLogger.info('Server run on port: ' + (process.env.PORT || CONFIG.EXPRESS_PORT));
+    });
+})();

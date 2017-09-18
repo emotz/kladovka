@@ -7,9 +7,8 @@ const testsDb = CONFIG.TESTS_DB.map(function (database) {
 }, this);
 
 testsDb.forEach(function (database, index) {
-
     describe('Тест БД ' + index, function () {
-
+        this.timeout(CONFIG.TESTS_TIMEOUT);
 
         before(async function () {
             return database.connect(CONFIG.DB_URL);

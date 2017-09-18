@@ -7,6 +7,7 @@ services:
     volumes:
       - .:/src
       - /src/logs
+      - ./yarn-cache:/usr/local/share/.cache/yarn/v1
     ports:
       - 8080:8080 #domain port
   prod:

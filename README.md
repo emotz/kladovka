@@ -38,6 +38,9 @@ with same name but prefixed with `KL`.
 For example, if you want to redefine `DB_URL`, you need to set `KL_DB_URL` env
 variable.
 
+`TESTS_DB` accepts an array, so it has custom syntax when set via env:
+`KL_TESTS_DB=mongo,memory`.
+
 ## Build & Run
 
 ### Start

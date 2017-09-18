@@ -2,9 +2,8 @@ const config = require('../../config/config-default.json');
 
 for (const key in config) {
     const envValue = process.env["KL_" + key];
-    if (envValue !== undefined) {
+    if (envValue !== undefined)
         config[key] = parseEnvValue(key, envValue);
-    }
 }
 
 // > parseEnvValue("DB", "mongo")

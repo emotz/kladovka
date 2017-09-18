@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build": "webpack | tee -a ../logs/frontend.log",
+    "build": "webpack 2>&1 | tee -a ../logs/frontend.log",
     "build:prod": "webpack",
     "clean": "rimraf dist",
-    "start": "webpack --watch | ../scripts/logprefix.sh frontend | tee -a ../logs/frontend.log"
+    "start": "webpack --watch 2>&1 | ../scripts/logprefix.sh frontend | tee -a ../logs/frontend.log"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",

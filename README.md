@@ -15,6 +15,12 @@ The workflow for developers should be like so:
 
 If you need to clean everything, do `docker-compose stop && docker-compose rm -f`
 
+## Windows
+
+Start-up scripts are Linux-dependent so they won't work on Windows unless used within Docker.
+
+Nevertheless, the app itself should run fine on Windows if you install all dependencies by yourself and run the app with Win-compatible launch scripts (which are not present in the repo).
+
 ## Install required modules
 
 ```bat

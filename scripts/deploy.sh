@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 docker-compose build prod
 docker tag kladovka/prod registry.heroku.com/kladovka/web

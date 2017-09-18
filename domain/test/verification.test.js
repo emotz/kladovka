@@ -1,5 +1,5 @@
 const assert = require('assert');
-const CONFIG = require('../../config/config.json');
+const CONFIG = require('../../domain/src/config.js');
 const klad = require('../src/main');
 const verification = require('../src/verification');
 

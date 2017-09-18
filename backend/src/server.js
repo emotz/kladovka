@@ -1,5 +1,5 @@
 require('express-async-errors');
-const CONFIG = require('../../config/config.json');
+const CONFIG = require('../../domain/src/config.js');
 const API = require('../../config/api.json');
 const express = require('express');
 const bodyParser = require('body-parser');

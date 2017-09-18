@@ -30,7 +30,16 @@ npm run deps
 
 ## Configuration
 
-In root of Kladovka, you must create `config.json`, based on `config.json.example`.
+Default configuration values are located at `config/config-default.json`.
+
+If you want to override values in it, you need to define environment variable
+with same name but prefixed with `KL`.
+
+For example, if you want to redefine `DB_URL`, you need to set `KL_DB_URL` env
+variable.
+
+`TESTS_DB` accepts an array, so it has custom syntax when set via env:
+`KL_TESTS_DB=mongo,memory`.
 
 ## Build & Run
 
@@ -42,8 +51,9 @@ To start both watching on frontend and backend:
 npm start
 ```
 
-Now you can open `http://localhost:8080` (8080 default express port in
-`config.json.example`) in your browser and delight our application.
+Now you can open `http://localhost:8080` in your browser and delight our
+application (8080 is default express port, you can change it by setting
+`KL_EXPRESS_PORT` env variable and changing port in docker-compose.yml).
 
 To see other commands, do
 

@@ -1,4 +1,4 @@
-const CONFIG = require('../../config/config.json');
+const CONFIG = require('../../domain/src/config.js');
 const database = require('./' + CONFIG.DB);
 const Item = require('./Item');
 

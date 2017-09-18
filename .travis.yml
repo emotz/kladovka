@@ -11,13 +11,13 @@ install:
 - npm run lint
 script:
 # domain tests with memory db
-- cd ../domain && yarn install --modules-folder ../node_modules && KL_TESTS_DB=memory npm test
+- cd domain && yarn install --modules-folder ../node_modules && KL_DB=memory KL_TESTS_DB=memory npm test
 
 - docker-compose up -d dev
 - docker-compose up -d mongo-server
 
 # db tests of domain for mongo db
-- docker-compose exec dev bash -c "cd domain && KL_TESTS_DB=mongo npm run test:db"
+- docker-compose exec dev bash -c "cd domain && KL_DB=mongo KL_TESTS_DB=mongo npm run test:db"
 
 - docker-compose exec dev bash -c "cd frontend && yarn install --modules-folder ../node_modules && npm run build"
 - docker-compose exec -d dev bash -c "cd backend && yarn install --modules-folder ../node_modules && KL_DB=memory npm start"

@@ -83,7 +83,7 @@ describe('utility.js', function () {
             };
             const method = sut.createCallMethod(remote, local, pred);
 
-            const res = method(expectedContext, 'mymethod');
+            method(expectedContext, 'mymethod');
         });
     });
 });

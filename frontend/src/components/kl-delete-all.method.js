@@ -12,7 +12,6 @@ remote.deleteAll = function (component) {
 };
 
 local.deleteAll = function (component) {
-    console.log("component", component);
     for (let id in localStorage) {
         if (id === 'user' || id === 'token') continue;
         localStorage.removeItem(id);

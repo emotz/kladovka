@@ -36,6 +36,7 @@ notifications:
 branches:
   only:
   - master
+  - /^V\d+\.\d+$/
 deploy:
   skip_cleanup: true
   provider: script

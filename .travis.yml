@@ -9,7 +9,7 @@ services:
 install:
 - npm install
 - npm run lint
-- yarn config set cache-folder ./yarn-cache
+- yarn config set cache-folder yarn-cache
 script:
 # domain tests with memory db
 - cd domain && yarn install --modules-folder ../node_modules && KL_DB=memory KL_TESTS_DB=memory npm test
@@ -44,4 +44,4 @@ deploy:
   on:
 cache:
   directories:
-  - ./yarn-cache
+  - yarn-cache

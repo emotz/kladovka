@@ -6,8 +6,9 @@ services:
     image: kladovka/dev
     volumes:
       - .:/src
-      - /src/logs
       - ./yarn-cache:/usr/local/share/.cache/yarn/v1
+      - /src/yarn-cache
+      - /src/logs
     ports:
       - 8080:8080 #domain port
   prod:

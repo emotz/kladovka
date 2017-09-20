@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 /**
  * Создаёт случайное число в указанном диапазоне, включая границы диапазона
  * @param {Number} min - Минимальное значение
@@ -58,11 +60,22 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function createCallMethod(use, fallback, pred) {
+    return function (context, cb, ...args) {
+        const dict = pred(context, ...args) ? use : fallback;
+        if (!_.isFunction(dict[cb]))
+            throw new Error(`Can't find cb ${cb}`);
+
+        return dict[cb](context, ...args);
+    };
+}
+
 module.exports = {
     random,
     filterObj,
     clone,
     guid,
     guid12bytes,
-    sleep
+    sleep,
+    createCallMethod
 };

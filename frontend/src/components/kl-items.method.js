@@ -1,18 +1,8 @@
 import API from 'api.json';
 import urlJoin from 'url-join';
+import { createCallMethod } from 'domain/utility';
 import { isAuthenticated } from '../services/auth';
 
-export function callMethod(component, cb) {
-    let args = [];
-    for (let id in arguments) {
-        if (id == 1) continue;
-        args.push(arguments[id]);
-    }
-    if (isAuthenticated())
-        remote[cb].apply(undefined, args);
-    else
-        local[cb].apply(undefined, args);
-}
 let local = {},
     remote = {};
 
@@ -64,3 +54,6 @@ remote.charAndItems = async function (component, char) {
     remote.mounted(component);
     component.$store.setSignIn(false);
 };
+
+export const callMethod = createCallMethod(remote, local, () => isAuthenticated());
+

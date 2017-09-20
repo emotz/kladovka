@@ -42,6 +42,7 @@ deploy:
   provider: script
   script: cd ../ && chmod +x scripts/deploy.sh && scripts/deploy.sh
   on:
+    branch: master
 cache:
   directories:
   - yarn-cache

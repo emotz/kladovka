@@ -1,21 +1,9 @@
 import API from 'api.json';
-import { clone, guid12bytes } from 'domain/utility';
+import { clone, guid12bytes, createCallMethod } from 'domain/utility';
 import { checkItem } from 'domain/validation';
 import { makeValidationError } from 'domain/errors';
 import { translateError } from '../services/render';
 import { isAuthenticated } from '../services/auth';
-
-export function callMethod(component, cb) {
-    let args = [];
-    for (let id in arguments) {
-        if (id == 1) continue;
-        args.push(arguments[id]);
-    }
-    if (isAuthenticated())
-        remote[cb].apply(undefined, args);
-    else
-        local[cb].apply(undefined, args);
-}
 
 let local = {},
     remote = {};
@@ -55,3 +43,5 @@ local.addItem = function (component) {
             toastr.error(translateError(this, error)));
     }
 };
+
+export const callMethod = createCallMethod(remote, local, () => isAuthenticated());

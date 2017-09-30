@@ -1,7 +1,6 @@
 {
     "scripts": {
-        "start": "cd src && node server.js 2>&1 | ../../scripts/logprefix.sh backend | tee -a ../../logs/backend.log",
-        "start:prod": "cd src && node server.js"
+        "start": "sh ../scripts/launch.backend.sh"
     },
     "dependencies": {
         "body-parser": "^1.17.1",
